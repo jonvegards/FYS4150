@@ -1,0 +1,1 @@
+// Testfil i .cpp-stil for å sjå om giten er i form
