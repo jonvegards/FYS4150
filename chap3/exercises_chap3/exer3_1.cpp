@@ -78,5 +78,6 @@ void print_result(double *computed_derivative, double *step_length, double q){
 		fprintf(output_file, "%12.5E %12.5E \n", 
                  log10(step_length[i]),log10(fabs(computed_derivative[i]-atan(q))/atan(q)));
 	}
+	cout << "Duddelidu" << endl;
 	fclose (output_file);
 }

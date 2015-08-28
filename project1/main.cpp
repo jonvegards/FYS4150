@@ -76,11 +76,11 @@ void error( double *err, double *u, double *v, int n){
 
 void save_results( double *x, double *v, double *u, double *err, int n){
     FILE *output_file;
-    output_file = fopen("oppgave_b.txt", "w") ;
+    output_file = fopen("oppgave_b2.txt", "w") ;
     fprintf(output_file, "%s %s %s %s \n", "x", "v", "u", "error");
     int i;
     for (i=0; i<n; i++){
-        fprintf(output_file, "%12.5E %12.5E %12.5E %12.5E \n",
+        fprintf(output_file, "%12.5f %12.5f %12.5f %12.5f \n",
                  x[i], v[i], u[i], err[i] );
     }
     fclose (output_file);

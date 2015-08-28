@@ -3,16 +3,18 @@
 #include <math.h>   /* sine function */
 #include <cmath>    /* absolute value */
 #include <stdio.h>  /* printf function stdi = standard input output*/
-#include <matplotpp.h> /* plotting */
+#include <fstream>  /* to read/make files */
 #include <iostream>
 using namespace std;
 int main (int argc, char* argv[])
 {
   	double N, i, j, k, sum1, sum2;        /* declare variables 64 bits*/
   	//N = atof(argv[1]);  /* convert the text argv[1] to double */
-    int n, Q=5;
-    double hurra[Q], hurrb[Q];
-    int number [] = { 0, 1, 2, 3, 4 }; //, 5, 6, 7, 8, 9 };
+    int n, Q=10;
+    // Defining all necessary arrays
+    double hurra[Q], hurrb[Q], diff[Q];
+    int number[Q];
+
   	for (n=0; n<=Q; n++){
       N = pow(10,n);
       k = N;
@@ -24,23 +26,17 @@ int main (int argc, char* argv[])
       hurra[n] = sum1;
       hurrb[n] = sum2;
     }
-  	//printf("Sum up: %2.8f" ,sum1); /* Print result */
-    //cout << endl; 
-  	//printf("Sum up: %2.8f" ,sum2); /* Print result */
-  	//cout << endl;
-    double diff[Q];
+
+    // Making a file to send our data to
+    ofstream file("exercise2_2.dat");
+    file << "#x y" << endl;
+
     for (n=0; n<=Q; n++){
-      //cout << hurra[n] << endl;
-      //cout << hurrb[n] << endl;
       // Calculating the logarithm of the difference
+      number[n] = n;
       diff[n] = log( abs( (hurra[n]-hurrb[n])/hurrb[n] ) );
       cout << diff[n] << endl;
+      file << number[n] << ' ' << diff[n] << endl;
     }
-    double final = sum2 - sum1;
-    cout << final << endl;
-
-    // Plotting the results
-    plotxy()
-
   	return 0;           /* success execution of the program */
 }
