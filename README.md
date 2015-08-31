@@ -1,4 +1,4 @@
-# FYS4150
+# FYS4150 - JV edition
 
 This semester (autumn 2015) I'm taking a course on computational physics and here you'll find all
 of the files I produce during the course, either you like it or not.
