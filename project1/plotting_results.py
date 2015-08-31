@@ -12,7 +12,7 @@ u = []
 err = []
 
 # Opening file
-with open('oppgave_b2.txt') as oppgave_b:
+with open('oppgave_b_n_1000.txt') as oppgave_b:
 	next(oppgave_b)
 	for line in oppgave_b:
 		x.append(float(line.split()[0]))
@@ -25,11 +25,11 @@ with open('oppgave_b2.txt') as oppgave_b:
 plt.figure(1)
 plt.plot(x, err)
 plt.yscale('log')
-plt.xscale('log')
+#plt.xscale('log')
 
 plt.figure(2)
 plt.plot(x,u, 'r')
-plt.figure(3)
+
 plt.plot(x,v, 'b')
 
 plt.show()

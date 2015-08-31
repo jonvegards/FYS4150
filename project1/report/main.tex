@@ -1,0 +1,82 @@
+\documentclass[norsk, 12pt]{article}
+
+\usepackage[T1]{fontenc}    % Riktig fontencoding
+\usepackage[utf8]{inputenc} % Riktig tegnsett
+\usepackage{babel}          % Ordelingsregler, osv
+\usepackage{graphicx}       % Inkludere bilder
+\usepackage{booktabs}       % Ordentlige tabeller
+\usepackage{url}            % Skrive url-er
+\usepackage{textcomp}       % Den greske bokstaven micro i text-mode
+\usepackage{units}          % Skrive enheter riktig
+\usepackage{float}          % Figurer dukker opp der du ber om
+\usepackage{lipsum}         % Blindtekst
+\usepackage{amsmath}        % Mattestæsj
+\usepackage{listings}       % Kodetekst
+\usepackage[a4paper,margin=1.7in]{geometry}
+
+% JF i margen
+\makeatletter
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{-2cm}%
+{-\baselineskip}{0.5\baselineskip}{\bf\large}}
+\makeatother
+\newcommand{\jf}[1]{\subsubsection*{JF #1}\vspace*{-2\baselineskip}}
+
+% Skru av seksjonsnummerering
+\setcounter{secnumdepth}{-1}
+
+%, trim = 1cm 7cm 1cm 7cm % PDF-filer som bilde
+
+\begin{document}
+
+% Forside
+\begin{titlepage}
+\begin{center}
+
+\textsc{\Large FYS4150 - Computational Physics}\\[0.5cm]
+\rule{\linewidth}{0.5mm} \\[0.4cm]
+{ \huge \bfseries  PROJECT 1}\\[0.10cm]
+\rule{\linewidth}{0.5mm} \\[1.5cm]
+\textsc{\Large svc}\\[1.5cm]
+\textsc{}\\[1.5cm]
+
+% Av hvem?
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Henrik Sverre Limseth\\ \url{henrisli@uio.no} \\[0.8cm]
+    \end{center}
+\end{minipage}
+\bigskip \\
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Jon Vegard Sparre\\ \url{jonvsp@uio.no} \\[0.8cm]
+    \end{center}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Anne-Marthe Hovda\\ \url{annemmho@uio.no} \\[0.8cm]
+    \end{center}
+\end{minipage}
+
+\vfill
+
+% Dato nederst
+\large{Dato: \today}
+
+\end{center}
+\end{titlepage}
+
+\abstract{I denne laboppgaven ble vi bedre kjent med resonans i en LC-krets og AM-radio. Vi så på dens frekvensrespons, fant resonansfrekvensene og simulerte til slutt et båndstoppfilter.}
+
+\section*{Exercise a)}
+\section*{Exercise b)}
+\section*{Exercise c)}
+
+% Draft for table over maximum error for different values of n
+% n = 10: 		e = -5.95274
+% n = 100: 		e = -2.68747
+% n = 1000: 	e = -3.91861
+% n = 10000: 	e = -4.95071
+% n = 100000: 	e = -5.95274
+% For n = 1e6 we get segmentation fault. And why does the error increase with n? #lol
+\section*{Exercise d)}
+\end{document}

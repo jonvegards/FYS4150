@@ -48,8 +48,10 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../project1/main.cpp qrc_qml.cpp
+SOURCES       = ../project1/main.cpp \
+		../project1/lu_decomposition.cpp qrc_qml.cpp
 OBJECTS       = main.o \
+		lu_decomposition.o \
 		qrc_qml.o
 DIST          = ../project1/plotting_results.py \
 		../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
@@ -193,7 +195,8 @@ DIST          = ../project1/plotting_results.py \
 		../../../Qt/5.5/clang_64/mkspecs/features/exceptions.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/lex.prf \
-		../project1/project1.pro  ../project1/main.cpp
+		../project1/project1.pro  ../project1/main.cpp \
+		../project1/lu_decomposition.cpp
 QMAKE_TARGET  = project1
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = project1.app/Contents/MacOS/project1
@@ -564,7 +567,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../project1/qml.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../project1/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../project1/main.cpp ../project1/lu_decomposition.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -614,6 +617,9 @@ compiler_clean: compiler_rcc_clean
 
 main.o: ../project1/main.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../project1/main.cpp
+
+lu_decomposition.o: ../project1/lu_decomposition.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lu_decomposition.o ../project1/lu_decomposition.cpp
 
 qrc_qml.o: qrc_qml.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qml.o qrc_qml.cpp

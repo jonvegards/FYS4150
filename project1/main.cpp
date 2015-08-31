@@ -1,16 +1,21 @@
 // Project 1 main program
 #include <iostream>
 #include <cmath>
+#include <typeinfo>
+#include <algorithm>    // For printing max value in an array
+#include <armadillo>
+
 using namespace std;
 
-void exact( double * , double *, int );
+void exact( double *, double *, int );
 void error( double *, double *, double *, int );
 void save_results( double *, double *, double *, double*, int );
 
 int main()
 {
-    int n = 1000, i;
+    int n = 1000, i, j;
     double x[n], h, a[n], b[n], c[n], v[n], f[n], u_exact[n], err[n];
+    arma::mat A;
     double btemp, temp[n];
 
     h = 1 / (float(n)+1);
@@ -18,10 +23,21 @@ int main()
 
     for (i=1; i < n; i++){
         x[i] = i*h;
-        f[i] = 100*exp(-10*x[i]);
-        c[i] = -1/(h*h);
-        a[i] = -1/(h*h);
-        b[i] = 2/(h*h);
+        f[i] = h*h*100*exp(-10*x[i]);
+        c[i] = -1.;
+        a[i] = -1.;
+        b[i] = 2.;
+        for (j=1; j<n; j++){
+                if (i==j){
+                    A(i,j) = b[i];
+                }
+                if (i-j == 1){
+                    A(i,j) = c[i];
+                }
+                else{
+                    A(i,j) = 0.;
+                }
+        }
     }
     a[0] = c[n] = 0;
 
@@ -48,14 +64,13 @@ int main()
     // Computing the error
     error(err, u_exact, v, n);
 
-    // Writing resultsto file
+    // Writing results to file
     save_results( x, v, u_exact, err, n);
 
-    /*
-    for (i=0; i < n; i++){
-        cout << "Numerical: "<< v[i] << " Exact: "<< u_exact[i] << endl;
-        cout << v[i] - u_exact[i] << endl;
-    } */
+    // Playing zone for Armadillo LU
+    arma::mat P,L,U;
+    arma::lu(L, U, P, A);
+
     return 0;
 }
 
@@ -68,15 +83,22 @@ void exact( double *x, double *u_exact, int n){
 
 void error( double *err, double *u, double *v, int n){
     int i;
+    double max;
+    err[0] = 0;
     for (i=1; i<n; i++){
         err[i] = log10( fabs( (v[i] - u[i]) / u[i] ) );
-        //cout << err[i] << endl;
+        if (fabs(err[i]) > fabs(err[i-1])){
+            max = err[i];
+        }
     }
+    cout << max << endl;                                    // Printing max value
+    //double max = *max_element(err, err + n);            // This doesn't work properly.
+    //cout << max << endl;
 }
 
 void save_results( double *x, double *v, double *u, double *err, int n){
     FILE *output_file;
-    output_file = fopen("oppgave_b2.txt", "w") ;
+    output_file = fopen("oppgave_b_n_1000.txt", "w") ;  // Is there a way to produce several output files with different names?
     fprintf(output_file, "%s %s %s %s \n", "x", "v", "u", "error");
     int i;
     for (i=0; i<n; i++){
@@ -84,13 +106,4 @@ void save_results( double *x, double *v, double *u, double *err, int n){
                  x[i], v[i], u[i], err[i] );
     }
     fclose (output_file);
-
-    /*
-    ofstream file("data.dat");
-    file << "#x y" << endl;
-    for(int i=0; i<10; i++){
-        file << i << ' ' << i*i << endl;
-    }
-    file.close(); */
-
 }
