@@ -1,44 +1,46 @@
-// Program for solving the equation set by LU-decomposition
+// Function for finding the LU decomposed matrix A
+
+#include "lu_decomposition.h"
+
 #include <iostream>
 #include <cmath>
-
+#include <typeinfo>
+#include <armadillo>
 
 using namespace std;
-//ludcmp(double a, int n, int indx, double &d);
-//lubksb(double a, int n, int indx, double w);
+using namespace arma;
+/*
+double lu_decomposition(double *a, double *b, double *c, double *x, int n){
+    int i, j;
+    mat A(n,n);
+    vec f(n);
+    double h = 1/(n+1);
 
-int main(){
-    /*int n = 1000, i, j, indx;
-    double x[n], h, A[n][n], b[n], c[n], v[n], f[n], u_exact[n], err[n], d;
-
-    h = 1 / (float(n)+1);
-    v[0] = 0; v[n] = 0;
-
-    // Creating matrix A
-
-    for (i=1; i < n; i++){
-        for (j=1; j < n; j++){
-            if (fabs(j-i) < 1){
-                A[i][j] = 2/(h*h);
-            }
-            if (fabs(j-i) == 1){
-                A[i][j] = -1/(h*h);
-            }
-            else{
-                A[i][j] = 0;
-            }
-
+    for (i=1; i <= n; i++){
+        c[i] = -1.;
+        a[i] = -1.;
+        b[i] = 2.;
+        f(i) = h*h*100*exp(-10*x[i]);
+        for (j=1; j<n; j++){
+                if (i==j){
+                    A(i,j) = b[i];
+                }
+                if (i-j == 1){
+                    A(i,j) = c[i];
+                }
+                else{
+                    A(i,j) = 0.;
+                }
         }
-        x[i] = i*h;
-        f[i] = 100*exp(-10*x[i]);
     }
 
-    // LU-decomposition function decomposes A.
-    //ludcmp( A, n, indx, &d);
+        // Playing zone for Armadillo LU
+        //mat P,L,U;
+        //lu(L, U, P, A);
 
+        vec y = solve(A,f);
 
-    // Finding the solution x.
-    //lubksb( A, n, indx, v);
-*/
+        // And how do I use the arma-package?
     return 0;
 }
+*/

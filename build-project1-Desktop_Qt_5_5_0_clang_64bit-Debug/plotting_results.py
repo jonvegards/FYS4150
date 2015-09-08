@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import matplotlib.pylab as plt
+from numpy import log
 
 # Script for plotting results from main.cpp
 
@@ -12,7 +13,7 @@ u = []
 err = []
 
 # Opening file
-with open('oppgave_b_n_100.txt') as oppgave_b:
+with open('oppgave_b_n_10000.txt') as oppgave_b:
 	next(oppgave_b)
 	for line in oppgave_b:
 		x.append(float(line.split()[0]))
@@ -23,13 +24,15 @@ with open('oppgave_b_n_100.txt') as oppgave_b:
 
 
 plt.figure(1)
-plt.plot(x, err)
+log, = plt.plot(x, err)
 plt.yscale('log')
-#plt.xscale('log')
+plt.legend([log], ['Error'])
+plt.title(r'Error plotted along $x$ for $n=10000$')
 
 plt.figure(2)
-plt.plot(x,u, 'r')
-
-plt.plot(x,v, 'b')
+ex,  = plt.plot(x,u, 'r', label='exact')
+num, = plt.plot(x,v, 'b', label='numerical')
+plt.legend([ex, num], ['Exact', 'Numerical'])
+plt.title(r'Results of calculation of $Ax = f$ for $n=10000$')
 
 plt.show()
