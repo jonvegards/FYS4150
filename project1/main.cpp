@@ -2,9 +2,10 @@
 #include <iostream>
 #include <cmath>
 #include <typeinfo>
-#include <algorithm>    // For printing max value in an array
+#include <time.h>
+#include <stdio.h>
 #include "armadillo"    // How do I compile with this included?
-#include "lu_decomposition.h"
+#include "arma_solve.h"
 
 using namespace std;
 using namespace arma;
@@ -15,9 +16,13 @@ void save_results( double *, double *, double *, double*, int );
 
 int main()
 {
-    int n = 10, i, j;
+    int n = 1000, i;
     double x[n+1], h, a[n+1], b[n+1], c[n+1], v[n+2], f[n+1], u_exact[n+1], err[n+1];
     double btemp, temp[n+1];
+
+    clock_t start , finish ; // declare start and final time start = clock () ;
+
+    start = clock();
 
     h = 1 / (float(n)+1);
     v[0] = 0; v[n] = 0; x[0] = 0; x[n+1] = 1;
@@ -57,46 +62,23 @@ int main()
     // Computing the error
     error(err, u_exact, v, n);
 
+    finish = clock();
+
+    printf ("Elapsed time numerical: %f seconds.\n", ( (float)( finish - start ) / CLOCKS_PER_SEC ));
+
+
     // Writing results to file
-    //save_results( x, v, u_exact, err, n);
+    save_results( x, v, u_exact, err, n);
 
-    // Solving the same problem by LU-decomposition
+    start = clock();
 
-    mat A(n,n, fill::zeros);
-    vec f2(n, fill::zeros);
-    vec x_mat(n, fill::zeros);
+    // Calling on arma_solve function to solve it by LU-decmp.
+    arma_solve(n, h, b, c);
 
-    for (i=1; i < n; i++){
-        x_mat(i) = i*h;
-        f2(i) = h*h*100*exp(-10*x_mat(i));
-        for (j=1; j<n; j++){
-            if (fabs(i-j) == 1){
-                A(i,j) = c[i];
-            }
-            if ( (i-j) < 0 + 1.0e-1 and (i-j) > 0 - 1.0e-1){
-                A(i,j) = b[i];
-            }
-        }
-    }
-    //A(0,0) = 2.;
-    //A(0,1) = -1.;
-    A(1,0) = -1.;
+    finish = clock();
 
-    cout << A << endl;
+    printf ("Elapsed time Armadillo: %f seconds.\n", ( (float)( finish - start ) / CLOCKS_PER_SEC ));
 
-    vec x2 = solve(A, f2);
-
-    ofstream myfile;
-    myfile.open ("arm_solve_10.txt");
-    myfile << "x_mat" << "     " << "x2" << endl;
-    for (i=0; i<n; i++){
-        myfile << x_mat(i) << "    " << x2(i) << endl;
-    }
-    myfile.close();
-
-    cout << "Success" << endl;
-
-    //cout << y << endl;
     return 0;
 }
 
@@ -122,7 +104,7 @@ void error( double *err, double *u, double *v, int n){
 
 void save_results( double *x, double *v, double *u, double *err, int n){
     FILE *output_file;
-    output_file = fopen("oppgave_b_n_100.txt", "w") ;  // Is there a way to produce several output files with different names?
+    output_file = fopen("oppgave_b_n_1000.txt" , "w") ;  // Is there a way to produce several output files with different names?
     fprintf(output_file, "   %s    %s    %s    %s \n", "x", "v_numerical", "u", "error");
     int i;
     for (i=0; i<=n+1; i++){
