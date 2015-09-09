@@ -18,7 +18,7 @@ void save_results_arma(mat , mat , int);
 
 int main()
 {
-    int n = 10000;
+    int n = 100;
     double x[n+1], h, a[n+1], b[n+1], c[n+1], v[n+2], f[n+1], u_exact[n+1], err[n+1];
     double temp[n+1];
     int i;
@@ -120,7 +120,7 @@ void error( double *err, double *u, double *v, int n){
 
 void save_results( double *x, double *v, double *u, double *err, int n){
     FILE *output_file;
-    output_file = fopen("oppgave_b_n_10000.txt" , "w") ;  // Is there a way to produce several output files with different names?
+    output_file = fopen("oppgave_b_n_100.txt" , "w") ;  // Is there a way to produce several output files with different names?
     fprintf(output_file, "   %s    %s    %s    %s \n", "x", "v_numerical", "u", "error");
     int i;
     for (i=0; i<=n+1; i++){
@@ -134,7 +134,7 @@ void save_results_arma(mat x_mat, mat x2, int n){
     int i;
 
     ofstream myfile;
-    myfile.open ("arm_solve_10000.txt");
+    myfile.open ("arm_solve_100.txt");
     myfile << "x_mat" << "     " << "x2" << endl;
     for (i=0; i<=n+1; i++){
         myfile << x_mat(i) << "    " << x2(i) << endl;
