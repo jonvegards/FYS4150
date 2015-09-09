@@ -49,9 +49,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../project1/main.cpp \
-		../project1/arma_solve.cpp 
+		../project1/arma_solve.cpp \
+		../project1/num_solve.cpp 
 OBJECTS       = main.o \
-		arma_solve.o
+		arma_solve.o \
+		num_solve.o
 DIST          = ../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -188,8 +190,10 @@ DIST          = ../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/exceptions.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/lex.prf \
-		../project1/project1.pro arma_solve.h ../project1/main.cpp \
-		../project1/arma_solve.cpp
+		../project1/project1.pro arma_solve.h \
+		num_solve.h ../project1/main.cpp \
+		../project1/arma_solve.cpp \
+		../project1/num_solve.cpp
 QMAKE_TARGET  = project1
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = project1
@@ -985,7 +989,8 @@ main.o: ../project1/main.cpp /usr/local/include/armadillo \
 		/usr/local/include/armadillo_bits/spglue_times_meat.hpp \
 		/usr/local/include/armadillo_bits/spglue_join_meat.hpp \
 		/usr/local/include/armadillo_bits/compiler_setup_post.hpp \
-		../project1/arma_solve.h
+		../project1/arma_solve.h \
+		../project1/num_solve.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../project1/main.cpp
 
 arma_solve.o: ../project1/arma_solve.cpp /usr/local/include/armadillo \
@@ -1423,6 +1428,9 @@ arma_solve.o: ../project1/arma_solve.cpp /usr/local/include/armadillo \
 		/usr/local/include/armadillo_bits/compiler_setup_post.hpp \
 		../project1/arma_solve.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o arma_solve.o ../project1/arma_solve.cpp
+
+num_solve.o: ../project1/num_solve.cpp ../project1/num_solve.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o num_solve.o ../project1/num_solve.cpp
 
 ####### Install
 

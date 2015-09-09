@@ -6,7 +6,9 @@
 #include <typeinfo>
 #include "armadillo"
 
-double arma_solve(int n, double h, double *b, double *c);
+using namespace arma;
+
+mat arma_solve(int, double, mat, mat);
 
 #endif // ARMA_SOLVE
 

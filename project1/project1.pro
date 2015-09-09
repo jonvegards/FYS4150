@@ -13,7 +13,8 @@ INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib -llapack -lblas -larmadillo
 
 SOURCES += main.cpp \
-    arma_solve.cpp
+    arma_solve.cpp \
+    num_solve.cpp
     #lu_decomposition.cpp
 
 RESOURCES += qml.qrc
@@ -25,4 +26,5 @@ include(deployment.pri)
 #    plotting_results.py
 
 HEADERS += \
-    arma_solve.h
+    arma_solve.h \
+    num_solve.h
