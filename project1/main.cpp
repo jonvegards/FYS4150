@@ -3,7 +3,7 @@
 #include <cmath>
 #include <typeinfo>
 #include <algorithm>    // For printing max value in an array
-#include <armadillo>    // How do I compile with this included?
+#include "armadillo"    // How do I compile with this included?
 #include "lu_decomposition.h"
 
 using namespace std;
@@ -21,7 +21,7 @@ int main()
 
     h = 1 / (float(n)+1);
     v[0] = 0; v[n] = 0; x[0] = 0; x[n+1] = 1;
-    u_exact[n+1] = 0; err[n+1] = 0;
+    u_exact[n] = 0; err[n+1] = 0;
 
     for (i=1; i <= n; i++){
         x[i] = i*h;
@@ -58,33 +58,45 @@ int main()
     error(err, u_exact, v, n);
 
     // Writing results to file
-    save_results( x, v, u_exact, err, n);
-    cout << n << endl;
+    //save_results( x, v, u_exact, err, n);
 
     // Solving the same problem by LU-decomposition
 
-    mat A(n,n);
-    vec f2(n);
+    mat A(n,n, fill::zeros);
+    vec f2(n, fill::zeros);
+    vec x_mat(n, fill::zeros);
 
     for (i=1; i < n; i++){
-        f2(i) = h*h*100*exp(-10*x[i]);
+        x_mat(i) = i*h;
+        f2(i) = h*h*100*exp(-10*x_mat(i));
         for (j=1; j<n; j++){
-                if (i==j){
-                    A(i,j) = b[i];
-                }
-                if (i-j == 1){
-                    A(i,j) = c[i];
-                }
-                else{
-                    A(i,j) = 0.;
-                }
+            if (fabs(i-j) == 1){
+                A(i,j) = c[i];
+            }
+            if ( (i-j) < 0 + 1.0e-1 and (i-j) > 0 - 1.0e-1){
+                A(i,j) = b[i];
+            }
         }
     }
+    //A(0,0) = 2.;
+    //A(0,1) = -1.;
+    A(1,0) = -1.;
 
-    vec y = solve(A,f2);
+    cout << A << endl;
 
-    cout << y << endl;
+    vec x2 = solve(A, f2);
 
+    ofstream myfile;
+    myfile.open ("arm_solve_10.txt");
+    myfile << "x_mat" << "     " << "x2" << endl;
+    for (i=0; i<n; i++){
+        myfile << x_mat(i) << "    " << x2(i) << endl;
+    }
+    myfile.close();
+
+    cout << "Success" << endl;
+
+    //cout << y << endl;
     return 0;
 }
 
@@ -105,13 +117,13 @@ void error( double *err, double *u, double *v, int n){
             max = err[i];
         }
     }
-    cout << max << endl;                                    // Printing max value
+    cout << "max error: " << max << endl;                                    // Printing max value
 }
 
 void save_results( double *x, double *v, double *u, double *err, int n){
     FILE *output_file;
-    output_file = fopen("oppgave_b_n_10.txt", "w") ;  // Is there a way to produce several output files with different names?
-    fprintf(output_file, "   %s    %s    %s    %s \n", "x", "v", "u", "error");
+    output_file = fopen("oppgave_b_n_100.txt", "w") ;  // Is there a way to produce several output files with different names?
+    fprintf(output_file, "   %s    %s    %s    %s \n", "x", "v_numerical", "u", "error");
     int i;
     for (i=0; i<=n+1; i++){
         fprintf(output_file, "%12.5f %12.5f %12.5f %12.5f \n",
