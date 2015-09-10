@@ -14,8 +14,8 @@ LIBS += -L/usr/local/lib -llapack -lblas -larmadillo
 
 SOURCES += main.cpp \
     arma_solve.cpp \
-    num_solve.cpp
-    #lu_decomposition.cpp
+    num_solve.cpp \
+    lu_decomposition.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,4 +27,5 @@ include(deployment.pri)
 
 HEADERS += \
     arma_solve.h \
-    num_solve.h
+    num_solve.h \
+    lu_decomposition.h

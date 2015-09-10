@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  10 SEP 2015 17:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  10 SEP 2015 21:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -8,8 +8,8 @@ LaTeX2e <2014/05/01>
 Babel <3.9k> and hyphenation patterns for 78 languages loaded.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-(/usr/local/texlive/2014/texmf-dist/tex/latex/base/size12.clo
-File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -250,15 +250,17 @@ Now handling font encoding U ...
 (/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2014/03/24 3.9k The Babel package
 
-(/usr/local/texlive/2014/texmf-dist/tex/generic/babel-norsk/norsk.ldf
-Language: norsk 2012/08/06 v2.0i Norsk support from the babel system
+(/usr/local/texlive/2014/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2012/08/20 v3.3p English support from the babel system
 
 (/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2014/03/24 3.9k Babel common definitions
 \babel@savecnt=\count87
 \U@D=\dimen103
 )
-Package babel Info: Making " an active character on input line 113.
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
 ))
 (/usr/local/texlive/2014/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
@@ -553,6 +555,9 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
+(/usr/local/texlive/2014/texmf-dist/tex/latex/oberdiek/listingsutf8.sty
+Package: listingsutf8 2011/11/10 v1.2 Allow UTF-8 in listings input (HO)
+
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count107
 \lst@gtempboxa=\box30
@@ -578,6 +583,36 @@ File: listings.cfg 2014/03/04 1.5c listings configuration
 ))
 Package: listings 2014/03/04 1.5c (Carsten Heinz)
 
+(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/stringenc.sty
+Package: stringenc 2011/12/02 v1.10 Convert strings between diff. encodings (HO
+)
+
+(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/pdfescape.sty
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+)))
+(/usr/local/texlive/2014/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks25
+\verbatim@line=\toks26
+\verbatim@in@stream=\read1
+)
 (/usr/local/texlive/2014/texmf-dist/tex/latex/subfigure/subfigure.sty
 Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigtopskip=\skip49
@@ -601,10 +636,6 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 (/usr/local/texlive/2014/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
 (/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
@@ -623,29 +654,29 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutheight=\dimen139
 \Gm@layouthoffset=\dimen140
 \Gm@layoutvoffset=\dimen141
-\Gm@dimlist=\toks25
+\Gm@dimlist=\toks27
 )
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 33.
  (/usr/local/texlive/2014/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    ... okay on input line 33.
 
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -654,26 +685,13 @@ LaTeX Font Info:    ... okay on input line 30.
 \scratchbox=\box32
 \nofMPsegments=\count123
 \nofMParguments=\count124
-\everyMPshowfont=\toks26
+\everyMPshowfont=\toks28
 \MPscratchCnt=\count125
 \MPscratchDim=\dimen143
 \MPnumerator=\count126
 \makeMPintoPDFobject=\count127
-\everyMPtoPDFconversion=\toks27
-) (/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/local/texlive/2014/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+\everyMPtoPDFconversion=\toks29
+) (/usr/local/texlive/2014/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/oberdiek/grfext.sty
@@ -714,23 +732,23 @@ e
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(122.85876pt, 351.79034pt, 122.85876pt)
-* v-part:(T,H,B)=(122.85876pt, 599.32932pt, 122.85876pt)
+* h-part:(L,W,R)=(86.72377pt, 424.06033pt, 86.72377pt)
+* v-part:(T,H,B)=(86.72377pt, 671.5993pt, 86.72377pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=351.79034pt
-* \textheight=599.32932pt
-* \oddsidemargin=50.58878pt
-* \evensidemargin=50.58878pt
-* \topmargin=13.58878pt
+* \textwidth=424.06033pt
+* \textheight=671.5993pt
+* \oddsidemargin=14.45378pt
+* \evensidemargin=14.45378pt
+* \topmargin=-22.54622pt
 * \headheight=12.0pt
 * \headsep=25.0pt
-* \topskip=12.0pt
+* \topskip=11.0pt
 * \footskip=30.0pt
-* \marginparwidth=44.0pt
+* \marginparwidth=59.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -740,86 +758,125 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 46.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 49.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 ) [1
 
-{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 4266) in paragraph at lines 89--89
-[]\T1/cmr/m/n/12 Tabell 1: Maxi-mum er-ror for dif-fe-rent $\OML/cmm/m/it/12 n$
- \T1/cmr/m/n/12 when using LU-
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1]
+Underfull \hbox (badness 10000) in paragraph at lines 163--165
+
  []
 
-<error_n_10.pdf, id=10, 578.16pt x 433.62pt>
+(/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2014/03/04 1.5c listings language file
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2014/03/04 1.5c listings language file
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
+)
+(../main.cpp [2]) <error_n_10.pdf, id=31, 578.16pt x 433.62pt>
 File: error_n_10.pdf Graphic file (type pdf)
- <use error_n_10.pdf>
-Package pdftex.def Info: error_n_10.pdf used on input line 95.
-(pdftex.def)             Requested size: 316.60916pt x 237.45294pt.
- [1]
-<error_n_100.pdf, id=27, 578.16pt x 433.62pt>
-File: error_n_100.pdf Graphic file (type pdf)
- <use error_n_100.pdf>
-Package pdftex.def Info: error_n_100.pdf used on input line 102.
-(pdftex.def)             Requested size: 351.79034pt x 263.83954pt.
 
-<error_n_1000.pdf, id=28, 578.16pt x 433.62pt>
+<use error_n_10.pdf>
+Package pdftex.def Info: error_n_10.pdf used on input line 189.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ <error_n_100.pdf, id=32, 578.16pt x 433.62pt>
+File: error_n_100.pdf Graphic file (type pdf)
+
+<use error_n_100.pdf>
+Package pdftex.def Info: error_n_100.pdf used on input line 196.
+(pdftex.def)             Requested size: 424.06033pt x 318.04192pt.
+ [3 <./error_n_10.pdf>]
+<error_n_1000.pdf, id=90, 578.16pt x 433.62pt>
 File: error_n_1000.pdf Graphic file (type pdf)
  <use error_n_1000.pdf>
-Package pdftex.def Info: error_n_1000.pdf used on input line 109.
-(pdftex.def)             Requested size: 316.60916pt x 237.45294pt.
- [2 <./error_n_10.pdf> <./error_n_100.pdf
-
-pdfTeX warning: pdflatex (file ./error_n_100.pdf): PDF inclusion: multiple pdfs
- with page group included in a single page
->] <error_n_10000.pdf, id=132, 578.16pt x 433.62pt>
+Package pdftex.def Info: error_n_1000.pdf used on input line 203.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ [4 <./error_n_100.pdf>] <error_n_10000.pdf, id=144, 578.16pt x 433.62pt>
 File: error_n_10000.pdf Graphic file (type pdf)
- <use error_n_10000.pdf>
-Package pdftex.def Info: error_n_10000.pdf used on input line 116.
-(pdftex.def)             Requested size: 316.60916pt x 237.45294pt.
 
-<error_n_100000.pdf, id=133, 578.16pt x 433.62pt>
+<use error_n_10000.pdf>
+Package pdftex.def Info: error_n_10000.pdf used on input line 210.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ <error_n_100000.pdf, id=145, 578.16pt x 433.62pt>
 File: error_n_100000.pdf Graphic file (type pdf)
- <use error_n_100000.pdf>
-Package pdftex.def Info: error_n_100000.pdf used on input line 123.
-(pdftex.def)             Requested size: 316.60916pt x 237.45294pt.
 
-[3 <./error_n_1000.pdf> <./error_n_10000.pdf
+<use error_n_100000.pdf>
+Package pdftex.def Info: error_n_100000.pdf used on input line 217.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ [5 <./error_n_1000.pdf> <./error_n_10000.pdf
 
 pdfTeX warning: pdflatex (file ./error_n_10000.pdf): PDF inclusion: multiple pd
 fs with page group included in a single page
->] [4 <./error_n_100000.pdf>] (./main.aux) ) 
+>] <d_n_10.pdf, id=247, 578.16pt x 433.62pt>
+File: d_n_10.pdf Graphic file (type pdf)
+ <use d_n_10.pdf>
+Package pdftex.def Info: d_n_10.pdf used on input line 226.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ [6 <./error_n_100000.pdf>] <d_n_100.pdf, id=303, 578.16pt x 433.62pt>
+File: d_n_100.pdf Graphic file (type pdf)
+ <use d_n_100.pdf>
+Package pdftex.def Info: d_n_100.pdf used on input line 233.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+
+<d_n_1000.pdf, id=304, 578.16pt x 433.62pt>
+File: d_n_1000.pdf Graphic file (type pdf)
+ <use d_n_1000.pdf>
+Package pdftex.def Info: d_n_1000.pdf used on input line 240.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ [7 <./d_n_10.pdf> <./d_n_100.pdf
+
+pdfTeX warning: pdflatex (file ./d_n_100.pdf): PDF inclusion: multiple pdfs wit
+h page group included in a single page
+>] <d_n_10000.pdf, id=417, 578.16pt x 433.62pt>
+File: d_n_10000.pdf Graphic file (type pdf)
+ <use d_n_10000.pdf>
+Package pdftex.def Info: d_n_10000.pdf used on input line 247.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ [8 <./d_n_1000.pdf> <./d_n_10000.pdf
+
+pdfTeX warning: pdflatex (file ./d_n_10000.pdf): PDF inclusion: multiple pdfs w
+ith page group included in a single page
+>] (../arma_solve.cpp [9]) (../lu_decomposition.cpp [10]) [11] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 5967 strings out of 493117
- 80483 string characters out of 6135432
- 241484 words of memory out of 5000000
- 9308 multiletter control sequences out of 15000+600000
- 18921 words of font info for 48 fonts, out of 8000000 for 9000
+ 6727 strings out of 493117
+ 89797 string characters out of 6135432
+ 361799 words of memory out of 5000000
+ 10023 multiletter control sequences out of 15000+600000
+ 23198 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,12n,32p,310b,426s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2014/texmf-dist
-/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2014/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2014/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2014/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2014/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pu
-blic/cm-super/sfbx1095.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publ
-ic/cm-super/sfbx1728.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public
-/cm-super/sfbx2488.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/c
-m-super/sfcc1728.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-
-super/sfrm0800.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-su
-per/sfrm1095.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-supe
-r/sfrm1200.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/
-sfrm1440.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sf
-tt1440.pfb>
-Output written on main.pdf (5 pages, 270997 bytes).
+ 38i,16n,61p,436b,1715s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/
+usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/us
+r/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr
+/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/l
+ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loca
+l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
+xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texli
+ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/
+2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
+014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/201
+4/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2014/
+texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2014/te
+xmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2014/texm
+f-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2014/texmf-
+dist/fonts/type1/public/cm-super/sfcc1440.pfb></usr/local/texlive/2014/texmf-di
+st/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2014/texmf-dist
+/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2014/texmf-dist/f
+onts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2014/texmf-dist/fon
+ts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2014/texmf-dist/fonts
+/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2014/texmf-dist/fonts/t
+ype1/public/cm-super/sftt1200.pfb>
+Output written on main.pdf (12 pages, 439185 bytes).
 PDF statistics:
- 344 PDF objects out of 1000 (max. 8388607)
- 132 compressed objects within 2 object streams
+ 611 PDF objects out of 1000 (max. 8388607)
+ 218 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

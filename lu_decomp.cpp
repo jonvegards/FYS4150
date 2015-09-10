@@ -1,7 +1,6 @@
 #include <iostream>
 #include <time.h>
 #include "armadillo"
-#include "lu_decomposition.h"
 
 using namespace std;
 using namespace arma;
@@ -10,13 +9,14 @@ using namespace arma;
 // Solving the same problem by LU-decomposition
 ////////////////////////////////////////////////
 
-mat lu_decomposition(int n, double h, mat x_mat, mat x3){
-    int i;
-    mat w, y, L_inv, U_inv;
+int main(int argc, char const *argv[]){
+    int n=atof(argv[1]), i;
+    mat w, y, L_inv, U_inv, x;
+    double h = 1 / (float(n)+1);;
 
     clock_t start , finish ; // declare start and final time start = clock () ;
+    start = clock();
 
-    // Initializing matrices for the calculations
     mat A = zeros<mat>(n+1,n+1);
 
     // Filling matrix A
@@ -25,6 +25,13 @@ mat lu_decomposition(int n, double h, mat x_mat, mat x3){
     A.diag(-1) += -1.;
 
     mat f2 = zeros<mat>(n+1,1);
+    mat x_mat = zeros<mat>(n+1,1);
+
+    for (i=1; i<=n; i++){
+        x_mat(i) = i*h;
+    }
+    x_mat.reshape(n+2,1);
+    x_mat(n+1) = 1.;
 
     for (i=1; i<=n; i++){
         f2(i) = h*h*100*exp(-10*x_mat(i));
@@ -33,12 +40,6 @@ mat lu_decomposition(int n, double h, mat x_mat, mat x3){
     w = f2;
 
     mat L,U,P;
-
-    // Doing the LU-decomposition and finding x
-    // as described in the lecture notes.
-
-    start = clock();
-
     lu(L,U,P,A);
 
     L_inv = inv(L);
@@ -47,21 +48,14 @@ mat lu_decomposition(int n, double h, mat x_mat, mat x3){
 
     U_inv = inv(U);
 
-    x3 = U_inv * y;
+    x = U_inv * y;
 
     finish = clock();
 
-    // Shifting the array one element
-    x3.reshape(n+3,1);
-    for (i=n; i>=0; i--){
-        x3(i+1) = x3(i);
-    }
+    //x.print();
 
-    x3(0) = 0.;
+    printf ("Elapsed time numerical: %5.9f seconds.\n", ( (float)( finish - start ) / CLOCKS_PER_SEC ));
 
-    printf ("Elapsed time LU-decomposition: %5.9f seconds.\n", ( (float)( finish - start ) / CLOCKS_PER_SEC ));
-
-    cout << "LU_decomp. success" << endl;
-    return x3;
+    cout << "Success" << endl;
+    return 0;
 }
-

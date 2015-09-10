@@ -1,16 +1,19 @@
 #include <iostream>
-#include "armadillo"    // How do I compile with this included?
+#include <time.h>
+#include "armadillo"
 #include "arma_solve.h"
 
 using namespace std;
 using namespace arma;
 
-/////////////////////////////////////////////////////////////////////////
-// Solving the same problem by LU-decomposition
-/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////
+// Solving the same problem with Armadillo
+////////////////////////////////////////////////
 
 mat arma_solve(int n, double h, mat x_mat, mat x2){
     int i;
+
+    clock_t start , finish ; // declare start and final time start = clock () ;
 
     mat A = zeros<mat>(n+1,n+1);
     mat f2 = zeros<mat>(n+1,1);
@@ -26,17 +29,21 @@ mat arma_solve(int n, double h, mat x_mat, mat x2){
 
     //cout << A << endl;
 
+    start = clock();
+
     x2 = solve(A, f2);
 
-    x2.reshape(n+3,1);
+    finish = clock();
+
+    printf ("Elapsed time Armadillo: %5.9f seconds.\n", ( (float( finish - start )) / CLOCKS_PER_SEC ));
 
     // Shifting the array one element
+    x2.reshape(n+3,1);
     for (i=n; i>=0; i--){
         x2(i+1) = x2(i);
     }
 
     x2(0) = 0.;
 
-    cout << "Success" << endl;
     return x2;
 }
