@@ -16,12 +16,12 @@ void exact( double *, double *, int );
 void error( double *, double *, double *, int );
 void save_results( double *, double *, double *, double*, int );
 void save_results_arma(mat, mat, int);
+void error_lu( double *, double *, mat , int);
 
 int main()
 {
-    int n = 10000;
+    int n = 100; // Program runs w/ n=10,100,1000,10000.
     double x[n+1], h, a[n+1], b[n+1], c[n+1], v[n+2], f[n+1], u_exact[n+1], err[n+1];
-    double temp[n+1];
     int i;
 
     /////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ int main()
     /////////////////////////////////////
     // Solving with our tridiagonal solver
 
-    //num_solve(n, a, b, c, v, f, temp);
+    num_solve(n, a, b, c, v, f);
 
     /////////////////////////////////////
     // Solving with Armadillo
@@ -86,7 +86,6 @@ int main()
     // Writing results to file
     //save_results( x, v, u_exact, err, n);
     //save_results_arma(x_mat, x2, n);
-
     return 0;
 }
 
@@ -101,8 +100,10 @@ void exact( double *x, double *u_exact, int n){
 void error( double *err, double *u, double *v, int n){
     int i;
     double max;
+    // Setting first element to 0.
     err[0] = 0;
     for (i=1; i<n; i++){
+        // Calc. error using the given formula
         err[i] = log10( fabs( (v[i] - u[i]) / u[i] ) );
         if (fabs(err[i]) > fabs(err[i-1])){    // Picking out max error
             max = err[i];
@@ -123,14 +124,13 @@ void save_results( double *x, double *v, double *u, double *err, int n){
     fclose (output_file);
 }
 
-void save_results_arma(mat x_mat, mat x2, int n){
+void save_results_arma(mat err2, mat x2, int n){
     int i;
-
     ofstream myfile;
     myfile.open ("arm_solve_10000.txt");
     myfile << "x_mat" << "     " << "x2" << endl;
-    for (i=0; i<=n+1; i++){
-        myfile << x_mat(i) << "    " << x2(i) << endl;
+    for (i=0; i<n+1; i++){
+        myfile << err2(i) << "    " << x2(i) << endl;
     }
     myfile.close();
 }

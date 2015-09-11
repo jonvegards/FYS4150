@@ -1,8 +1,10 @@
 # Fdb version 3
-["pdflatex"] 1441912211 "main.tex" "main.pdf" "main" 1441912212
-  "../arma_solve.cpp" 1441908809 1001 129c59ba682a622ec929be846ef763bf ""
-  "../lu_decomposition.cpp" 1441908817 1316 39464a472688129b38bc6bd32f0be54a ""
-  "../main.cpp" 1441909067 3511 664b05b6d3892ad74c71341b68bed1f3 ""
+["pdflatex"] 1441988346 "main.tex" "main.pdf" "main" 1441988347
+  "../arma_solve.cpp" 1441977255 1212 3afcd93c7b627b7f677737ff3d20ecd7 ""
+  "../lu_decomposition.cpp" 1441986868 1280 dfad281fd32074fe51da54465f1427a9 ""
+  "../main.cpp" 1441986845 3680 de09e5110e76564c019d755713eff398 ""
+  "../num_solve.cpp" 1441978627 1011 583fe2c265354e47b545e9d3675c01f3 ""
+  "../plotting_results.py" 1441980042 1451 09ab44813c78fd977664bf3cae8fde99 ""
   "/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/babel-english/english.ldf" 1367878877 6963 2e0cb3d93aa64508bdb0db58ae900d97 ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.def" 1395780385 49536 e1475dd245ff2196764ba5b91ac63714 ""
@@ -73,9 +75,9 @@
   "error_n_1000.pdf" 1441896414 20529 09cc429e912c5a391f9c4649d8ddc0cb ""
   "error_n_10000.pdf" 1441896408 20399 28eac1cfa91218a17a811a88e823f884 ""
   "error_n_100000.pdf" 1441896401 22450 7b20d493636642d0e35585ab1306a28f ""
-  "main.aux" 1441912212 2460 1d7484248f350b8be6833079a6b120f5 ""
-  "main.tex" 1441912210 9368 495f45bcbb871d31428f86c9bc46f60f ""
+  "main.aux" 1441988347 3108 3253293a5f4294e11c1b01e75b82f95a ""
+  "main.tex" 1441988346 15218 647d44b9e9c2b3b877772e25c31c1f7f ""
   (generated)
   "main.pdf"
-  "main.aux"
   "main.log"
+  "main.aux"

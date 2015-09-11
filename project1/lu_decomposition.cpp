@@ -41,13 +41,8 @@ mat lu_decomposition(int n, double h, mat x_mat, mat x3){
 
     lu(L,U,P,A);
 
-    L_inv = inv(L);
-
-    y = L_inv*w;
-
-    U_inv = inv(U);
-
-    x3 = U_inv * y;
+    y = solve(L, f2);
+    x3 = solve(U, y);
 
     finish = clock();
 

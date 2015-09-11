@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  10 SEP 2015 21:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  11 SEP 2015 18:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -758,17 +758,17 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 49.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 50.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 ) [1
 
-{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1]
-Underfull \hbox (badness 10000) in paragraph at lines 163--165
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 63--66
 
  []
 
-(/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
+[1] [2] (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2014/03/04 1.5c listings language file
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -777,106 +777,127 @@ File: lstlang1.sty 2014/03/04 1.5c listings language file
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
 )
-(../main.cpp [2]) <error_n_10.pdf, id=31, 578.16pt x 433.62pt>
+(../num_solve.cpp) [3]
+Underfull \hbox (badness 10000) in paragraph at lines 165--167
+
+ []
+
+(../main.cpp) <error_n_10.pdf, id=34, 578.16pt x 433.62pt>
 File: error_n_10.pdf Graphic file (type pdf)
 
 <use error_n_10.pdf>
-Package pdftex.def Info: error_n_10.pdf used on input line 189.
+Package pdftex.def Info: error_n_10.pdf used on input line 191.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- <error_n_100.pdf, id=32, 578.16pt x 433.62pt>
+ [4] <error_n_100.pdf, id=41, 578.16pt x 433.62pt>
 File: error_n_100.pdf Graphic file (type pdf)
 
 <use error_n_100.pdf>
-Package pdftex.def Info: error_n_100.pdf used on input line 196.
-(pdftex.def)             Requested size: 424.06033pt x 318.04192pt.
- [3 <./error_n_10.pdf>]
-<error_n_1000.pdf, id=90, 578.16pt x 433.62pt>
+Package pdftex.def Info: error_n_100.pdf used on input line 198.
+(pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
+ [5 <./error_n_10.pdf>]
+<error_n_1000.pdf, id=96, 578.16pt x 433.62pt>
 File: error_n_1000.pdf Graphic file (type pdf)
  <use error_n_1000.pdf>
-Package pdftex.def Info: error_n_1000.pdf used on input line 203.
+Package pdftex.def Info: error_n_1000.pdf used on input line 205.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- [4 <./error_n_100.pdf>] <error_n_10000.pdf, id=144, 578.16pt x 433.62pt>
+
+<error_n_10000.pdf, id=97, 578.16pt x 433.62pt>
 File: error_n_10000.pdf Graphic file (type pdf)
-
-<use error_n_10000.pdf>
-Package pdftex.def Info: error_n_10000.pdf used on input line 210.
+ <use error_n_10000.pdf>
+Package pdftex.def Info: error_n_10000.pdf used on input line 212.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- <error_n_100000.pdf, id=145, 578.16pt x 433.62pt>
+
+[6 <./error_n_100.pdf> <./error_n_1000.pdf
+
+pdfTeX warning: pdflatex (file ./error_n_1000.pdf): PDF inclusion: multiple pdf
+s with page group included in a single page
+>] <error_n_100000.pdf, id=201, 578.16pt x 433.62pt>
 File: error_n_100000.pdf Graphic file (type pdf)
-
-<use error_n_100000.pdf>
-Package pdftex.def Info: error_n_100000.pdf used on input line 217.
+ <use error_n_100000.pdf>
+Package pdftex.def Info: error_n_100000.pdf used on input line 219.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- [5 <./error_n_1000.pdf> <./error_n_10000.pdf
 
-pdfTeX warning: pdflatex (file ./error_n_10000.pdf): PDF inclusion: multiple pd
-fs with page group included in a single page
->] <d_n_10.pdf, id=247, 578.16pt x 433.62pt>
+[7 <./error_n_10000.pdf> <./error_n_100000.pdf
+
+pdfTeX warning: pdflatex (file ./error_n_100000.pdf): PDF inclusion: multiple p
+dfs with page group included in a single page
+>] (../arma_solve.cpp [8]) (../main.cpp
+Overfull \hbox (124.57768pt too wide) in paragraph at lines 27--28
+[][] 
+ []
+
+
+Overfull \hbox (124.57768pt too wide) in paragraph at lines 29--31
+[][] 
+ []
+
+[9] [10] [11]) <d_n_10.pdf, id=317, 578.16pt x 433.62pt>
 File: d_n_10.pdf Graphic file (type pdf)
  <use d_n_10.pdf>
-Package pdftex.def Info: d_n_10.pdf used on input line 226.
+Package pdftex.def Info: d_n_10.pdf used on input line 240.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- [6 <./error_n_100000.pdf>] <d_n_100.pdf, id=303, 578.16pt x 433.62pt>
+
+<d_n_100.pdf, id=318, 578.16pt x 433.62pt>
 File: d_n_100.pdf Graphic file (type pdf)
  <use d_n_100.pdf>
-Package pdftex.def Info: d_n_100.pdf used on input line 233.
+Package pdftex.def Info: d_n_100.pdf used on input line 247.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
-
-<d_n_1000.pdf, id=304, 578.16pt x 433.62pt>
+ [12 <./d_n_10.pdf>] <d_n_1000.pdf, id=377, 578.16pt x 433.62pt>
 File: d_n_1000.pdf Graphic file (type pdf)
  <use d_n_1000.pdf>
-Package pdftex.def Info: d_n_1000.pdf used on input line 240.
+Package pdftex.def Info: d_n_1000.pdf used on input line 254.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- [7 <./d_n_10.pdf> <./d_n_100.pdf
 
-pdfTeX warning: pdflatex (file ./d_n_100.pdf): PDF inclusion: multiple pdfs wit
-h page group included in a single page
->] <d_n_10000.pdf, id=417, 578.16pt x 433.62pt>
+<d_n_10000.pdf, id=378, 578.16pt x 433.62pt>
 File: d_n_10000.pdf Graphic file (type pdf)
  <use d_n_10000.pdf>
-Package pdftex.def Info: d_n_10000.pdf used on input line 247.
+Package pdftex.def Info: d_n_10000.pdf used on input line 261.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
- [8 <./d_n_1000.pdf> <./d_n_10000.pdf
+ [13 <./d_n_100.pdf> <./d_n_1000.pdf
 
-pdfTeX warning: pdflatex (file ./d_n_10000.pdf): PDF inclusion: multiple pdfs w
-ith page group included in a single page
->] (../arma_solve.cpp [9]) (../lu_decomposition.cpp [10]) [11] (./main.aux) ) 
+pdfTeX warning: pdflatex (file ./d_n_1000.pdf): PDF inclusion: multiple pdfs wi
+th page group included in a single page
+>] [14 <./d_n_10000.pdf>] (../lu_decomposition.cpp [15]) [16]
+(/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2014/03/04 1.5c listings language file
+)
+(../plotting_results.py [17]) [18] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 6727 strings out of 493117
- 89797 string characters out of 6135432
- 361799 words of memory out of 5000000
- 10023 multiletter control sequences out of 15000+600000
- 23198 words of font info for 56 fonts, out of 8000000 for 9000
+ 6955 strings out of 493117
+ 92293 string characters out of 6135432
+ 424816 words of memory out of 5000000
+ 10243 multiletter control sequences out of 15000+600000
+ 22032 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,16n,61p,436b,1715s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/
-usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/us
-r/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr
-/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/l
-ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/
-texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
-xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texli
-ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/
-2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
-014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/201
-4/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2014/
-texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2014/te
-xmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2014/texm
-f-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2014/texmf-
-dist/fonts/type1/public/cm-super/sfcc1440.pfb></usr/local/texlive/2014/texmf-di
-st/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2014/texmf-dist
-/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2014/texmf-dist/f
-onts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2014/texmf-dist/fon
-ts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2014/texmf-dist/fonts
-/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2014/texmf-dist/fonts/t
-ype1/public/cm-super/sftt1200.pfb>
-Output written on main.pdf (12 pages, 439185 bytes).
+ 38i,16n,61p,1014b,1750s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2014/texmf
+-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2014/texmf-
+dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2014/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2014/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2014/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2014/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2014/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pu
+blic/cm-super/sfbx1000.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publ
+ic/cm-super/sfbx1095.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public
+/cm-super/sfbx1440.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/c
+m-super/sfbx2074.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-
+super/sfcc1440.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-su
+per/sfrm0800.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-supe
+r/sfrm1000.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/
+sfrm1095.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sf
+rm1200.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfti
+1000.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sftt10
+00.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sftt1200
+.pfb>
+Output written on main.pdf (19 pages, 487337 bytes).
 PDF statistics:
- 611 PDF objects out of 1000 (max. 8388607)
- 218 compressed objects within 3 object streams
+ 636 PDF objects out of 1000 (max. 8388607)
+ 236 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

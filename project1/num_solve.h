@@ -4,6 +4,6 @@
 #include <iostream>
 #include <cmath>
 
-void num_solve(int, double *, double *, double *, double *, double *, double *);
+void num_solve(int, double *, double *, double *, double *, double *);
 
 #endif // NUM_SOLVE_H
