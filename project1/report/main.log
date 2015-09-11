@@ -1,8 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  11 SEP 2015 18:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  11 SEP 2015 18:26
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**main.tex -recorder
+**main.tex
 (./main.tex
 LaTeX2e <2014/05/01>
 Babel <3.9k> and hyphenation patterns for 78 languages loaded.
@@ -764,7 +765,12 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 ) [1
 
 {/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 63--66
+Underfull \hbox (badness 10000) in paragraph at lines 63--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--68
 
  []
 
@@ -778,7 +784,7 @@ File: lstlang1.sty 2014/03/04 1.5c listings language file
 File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
 )
 (../num_solve.cpp) [3]
-Underfull \hbox (badness 10000) in paragraph at lines 165--167
+Underfull \hbox (badness 10000) in paragraph at lines 167--169
 
  []
 
@@ -786,41 +792,41 @@ Underfull \hbox (badness 10000) in paragraph at lines 165--167
 File: error_n_10.pdf Graphic file (type pdf)
 
 <use error_n_10.pdf>
-Package pdftex.def Info: error_n_10.pdf used on input line 191.
+Package pdftex.def Info: error_n_10.pdf used on input line 193.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
  [4] <error_n_100.pdf, id=41, 578.16pt x 433.62pt>
 File: error_n_100.pdf Graphic file (type pdf)
 
 <use error_n_100.pdf>
-Package pdftex.def Info: error_n_100.pdf used on input line 198.
+Package pdftex.def Info: error_n_100.pdf used on input line 200.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
  [5 <./error_n_10.pdf>]
 <error_n_1000.pdf, id=96, 578.16pt x 433.62pt>
 File: error_n_1000.pdf Graphic file (type pdf)
  <use error_n_1000.pdf>
-Package pdftex.def Info: error_n_1000.pdf used on input line 205.
+Package pdftex.def Info: error_n_1000.pdf used on input line 207.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
 
 <error_n_10000.pdf, id=97, 578.16pt x 433.62pt>
 File: error_n_10000.pdf Graphic file (type pdf)
  <use error_n_10000.pdf>
-Package pdftex.def Info: error_n_10000.pdf used on input line 212.
+Package pdftex.def Info: error_n_10000.pdf used on input line 214.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
 
 [6 <./error_n_100.pdf> <./error_n_1000.pdf
 
-pdfTeX warning: pdflatex (file ./error_n_1000.pdf): PDF inclusion: multiple pdf
-s with page group included in a single page
+pdfTeX warning: /usr/texbin/pdflatex (file ./error_n_1000.pdf): PDF inclusion: 
+multiple pdfs with page group included in a single page
 >] <error_n_100000.pdf, id=201, 578.16pt x 433.62pt>
 File: error_n_100000.pdf Graphic file (type pdf)
  <use error_n_100000.pdf>
-Package pdftex.def Info: error_n_100000.pdf used on input line 219.
+Package pdftex.def Info: error_n_100000.pdf used on input line 221.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
 
 [7 <./error_n_10000.pdf> <./error_n_100000.pdf
 
-pdfTeX warning: pdflatex (file ./error_n_100000.pdf): PDF inclusion: multiple p
-dfs with page group included in a single page
+pdfTeX warning: /usr/texbin/pdflatex (file ./error_n_100000.pdf): PDF inclusion
+: multiple pdfs with page group included in a single page
 >] (../arma_solve.cpp [8]) (../main.cpp
 Overfull \hbox (124.57768pt too wide) in paragraph at lines 27--28
 [][] 
@@ -834,29 +840,29 @@ Overfull \hbox (124.57768pt too wide) in paragraph at lines 29--31
 [9] [10] [11]) <d_n_10.pdf, id=317, 578.16pt x 433.62pt>
 File: d_n_10.pdf Graphic file (type pdf)
  <use d_n_10.pdf>
-Package pdftex.def Info: d_n_10.pdf used on input line 240.
+Package pdftex.def Info: d_n_10.pdf used on input line 242.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
 
 <d_n_100.pdf, id=318, 578.16pt x 433.62pt>
 File: d_n_100.pdf Graphic file (type pdf)
  <use d_n_100.pdf>
-Package pdftex.def Info: d_n_100.pdf used on input line 247.
+Package pdftex.def Info: d_n_100.pdf used on input line 249.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
  [12 <./d_n_10.pdf>] <d_n_1000.pdf, id=377, 578.16pt x 433.62pt>
 File: d_n_1000.pdf Graphic file (type pdf)
  <use d_n_1000.pdf>
-Package pdftex.def Info: d_n_1000.pdf used on input line 254.
+Package pdftex.def Info: d_n_1000.pdf used on input line 256.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
 
 <d_n_10000.pdf, id=378, 578.16pt x 433.62pt>
 File: d_n_10000.pdf Graphic file (type pdf)
  <use d_n_10000.pdf>
-Package pdftex.def Info: d_n_10000.pdf used on input line 261.
+Package pdftex.def Info: d_n_10000.pdf used on input line 263.
 (pdftex.def)             Requested size: 381.6517pt x 286.2364pt.
  [13 <./d_n_100.pdf> <./d_n_1000.pdf
 
-pdfTeX warning: pdflatex (file ./d_n_1000.pdf): PDF inclusion: multiple pdfs wi
-th page group included in a single page
+pdfTeX warning: /usr/texbin/pdflatex (file ./d_n_1000.pdf): PDF inclusion: mult
+iple pdfs with page group included in a single page
 >] [14 <./d_n_10000.pdf>] (../lu_decomposition.cpp [15]) [16]
 (/usr/local/texlive/2014/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2014/03/04 1.5c listings language file
@@ -869,7 +875,7 @@ Here is how much of TeX's memory you used:
  10243 multiletter control sequences out of 15000+600000
  22032 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,16n,61p,1014b,1750s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,16n,61p,1004b,1750s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf
 -dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2014/texmf-
 dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2014/texmf-di
@@ -894,7 +900,7 @@ rm1200.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfti
 1000.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sftt10
 00.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sftt1200
 .pfb>
-Output written on main.pdf (19 pages, 487337 bytes).
+Output written on main.pdf (19 pages, 490786 bytes).
 PDF statistics:
  636 PDF objects out of 1000 (max. 8388607)
  236 compressed objects within 3 object streams
