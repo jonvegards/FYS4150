@@ -5,7 +5,7 @@ using namespace std;
 using namespace arma;
 
 void findMaximumElementOnNonDiagonal(mat &, int &, int &, double &, int);
-void minOfT1andT2(double &, double &, double &);
+void minOfT1andT2(double &, double &, double &, double &, double &);
 
 int main()
 {
@@ -62,10 +62,8 @@ int main()
         temp_sqrt = sqrt( 1 + tau*tau );
         t1 = tau + temp_sqrt; // There should be a minus sign here, right?
         t2 = tau - temp_sqrt; // But then it doesn't workkkkk :---(
-        minOfT1andT2(t1,t2,t); // min of t1 vs. t2
+        minOfT1andT2(t1,t2,t, c, s); // min of t1 vs. t2
         cout << t <<"  " << t1 <<"  " << t2 << endl;
-        c = 1 / sqrt( 1 + t*t);
-        s = c*t;
         S.diag() += 1.;
         S(k,k) = c;
         S(l,l) = c;
@@ -99,12 +97,14 @@ void findMaximumElementOnNonDiagonal(mat &A, int &k, int &l, double &max_A, int 
     }
 }
 
-void minOfT1andT2(double &t1, double &t2, double &t){
+void minOfT1andT2(double &t1, double &t2, double &t, double &c, double &s){
     if(fabs(t1) < fabs(t2)){
         t = t1;
     }
     else{
         t = t2;
     }
+    c = 1 / sqrt( 1 + t*t);
+    s = c*t;
 }
 
