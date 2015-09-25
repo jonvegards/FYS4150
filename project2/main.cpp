@@ -13,10 +13,11 @@ void JacobiRotation(int, double rho_max, mat A);
 
 int main()
 {
+    cout.precision(16); // Setting how many digits the program should print
     //======================================================
     // Defining n and calling on the rotation-function
     //======================================================
-    int n = 50;
+    int n = 200;
     double rho_max = 5.2;
 
     //======================================================
@@ -48,14 +49,20 @@ int main()
     A.diag(1) += e;
     A.diag(-1) += e;
 
+    mat A_armadillo = A;
+
     JacobiRotation(n, rho_max, A);
 
     //======================================================
     // Using Armadillo to solve the eigenvalue equation
     //======================================================
+    vec eigval = eig_sym( A_armadillo );
 
-
-
+    //======================================================
+    // Printing out results
+    //======================================================
+    cout << "Calculation by Armadillo:" << endl;
+    cout << "lambda0: " << eigval(0) << "  lambda1: " << eigval(1) << "  lambda2: " << eigval(2) << endl;
 }
 
 void JacobiRotation(int n, double rho_max, mat A){
@@ -99,7 +106,8 @@ void JacobiRotation(int n, double rho_max, mat A){
     // Preparing results for printing
     //======================================================
     //R.print();
-    vec diagonalA = sort(A.diag()); // sort(A) reorder the elements so they lowest values come first
+    vec diagonalA(n);
+    diagonalA = sort(A.diag()); // sort(A) reorder the elements so they lowest values come first
 
     //======================================================
     // Printing out results
