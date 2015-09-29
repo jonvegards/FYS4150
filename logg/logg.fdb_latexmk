@@ -1,11 +1,11 @@
 # Fdb version 3
-["bibtex logg"] 1442649843 "logg.aux" "logg.bbl" "logg" 1442650460
-  "logg.aux" 1442650460 677 019ba9df63fe6963ce16a3cdef705c0c ""
+["bibtex logg"] 1442649843 "logg.aux" "logg.bbl" "logg" 1443547084
+  "logg.aux" 1443547084 677 019ba9df63fe6963ce16a3cdef705c0c ""
   "logg.bcf" 0 -1 0 ""
   (generated)
   "logg.bbl"
   "logg.blg"
-["pdflatex"] 1442650458 "logg.tex" "logg.pdf" "logg" 1442650460
+["pdflatex"] 1443547083 "logg.tex" "logg.pdf" "logg" 1443547084
   "/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/gettitlestring.sty" 1303254447 8237 52810bdb4db2270e717422560a104aea ""
@@ -86,12 +86,12 @@
   "/usr/local/texlive/2014/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
   "/usr/local/texlive/2014/texmf-dist/tex/latex/xifthen/xifthen.sty" 1240073024 5650 b146a211772e4cfd4ca29af3aac8c3fc ""
   "/usr/local/texlive/2014/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1400019268 4934 883d3037a740b7daa7022577730aa1f8 ""
-  "logg.aux" 1442650460 677 019ba9df63fe6963ce16a3cdef705c0c ""
+  "logg.aux" 1443547084 677 019ba9df63fe6963ce16a3cdef705c0c ""
   "logg.bbl" 1442649843 0 d41d8cd98f00b204e9800998ecf8427e "bibtex logg"
-  "logg.out" 1442650459 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "logg.tex" 1442650458 1916 469f33929f6bbd8b3291dd716590144a ""
+  "logg.out" 1443547083 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "logg.tex" 1443547034 4561 505df1309225a291fe9d863259655cb1 ""
   (generated)
   "logg.log"
-  "logg.aux"
   "logg.pdf"
   "logg.out"
+  "logg.aux"

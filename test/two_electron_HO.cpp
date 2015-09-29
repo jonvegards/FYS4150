@@ -6,14 +6,10 @@ using namespace std;
 using namespace arma;
 
 void findMaximumElementOnNonDiagonal(mat &, int &, int &, double &, int);
-void rotateAmatrix(double &, double &, int &, int &, int , mat &, mat &);
+void rotateAmatrix(double &, double &, int &, int &, int , mat &, mat &R);
 void findSinCos(mat &, int &, int &, double &, double &);
-void printMatlabMatrix(string name, mat &);
-void JacobiRotation(int, double , mat , uvec &, mat &R);
-void TwoElectronCase();
-void TautAnalyticalSolution(int , double , vec &);
-void CalculatingWithArmadillo(mat , vec);
-void SavingResultsToFile(string , string , string , vec , vec );
+void printMatlabMatrix(string name, mat &A);
+void JacobiRotation(int, double rho_max, mat A);
 
 int main()
 {
@@ -21,13 +17,14 @@ int main()
     //======================================================
     // Defining n and calling on the rotation-function
     //======================================================
-    int n = 100;
-    double rho_max = 5.;
+    int n = 3;
+    double rho_max = 5.2;
 
     //======================================================
     // Defining parameters, step length, ...
     //======================================================
     double e, h, h_temp;
+
     h = rho_max / (n+2);
     e = -1 / (h*h);
     h_temp = 2 / (h*h);
@@ -39,7 +36,7 @@ int main()
     for(int i=0; i<n+2; i++){
         rho(i) += h*i;
     }
-    rho(0) = 0;
+
     vec v = rho % rho; // % is the operator for inner product
 
     //======================================================
@@ -52,73 +49,23 @@ int main()
     A.diag(1) += e;
     A.diag(-1) += e;
 
-    mat A_armadillo = A; // Save matrix for using with Armadillo
+    mat A_armadillo = A;
 
-    //JacobiRotation(n, rho_max, A);
-
-    //======================================================
-    // Using Armadillo to solve the eigenvalue equation
-    //======================================================
-    // CalculatingWithArmadillo(Psi_armadillo);
-
-    //======================================================
-    // Making the potential vector for two electron case
-    //======================================================
-    double omega_r = .01;
-    vec TwoElectronPotential = omega_r*(rho % rho) + 1 / rho;
-
-    //======================================================
-    // Declaring matrix A w/elements for two electron case
-    //======================================================
-    mat Psi(n,n);
-    for(int i=0; i<n; i++){
-        Psi(i,i) = h_temp + TwoElectronPotential(i+1);
-    }
-    Psi.diag(1) += e;
-    Psi.diag(-1) += e;
-    mat Psi_armadillo = Psi;
-
-    uvec diagonalA;
-    mat R = eye<mat>(n,n);
-    JacobiRotation(n, rho_max, Psi, diagonalA, R);
+    JacobiRotation(n, rho_max, A);
 
     //======================================================
     // Using Armadillo to solve the eigenvalue equation
-    // with Coulomb-repulsion
     //======================================================
-//    CalculatingWithArmadillo(Psi_armadillo, rho);
-    mat eigvec;
-    vec eigval;
-    eig_sym(eigval, eigvec, Psi_armadillo);
+    //vec eigval = eig_sym( A_armadillo );
 
     //======================================================
-    // Printing out results from Armadillo-solver
+    // Printing out results
     //======================================================
-    SavingResultsToFile("psi_and_rho_armadillo.m", "psi", "rho", eigvec.col(0), rho);
-    cout << "Calculation by Armadillo:" << endl;
-    cout << "lambda0: " << eigval(0) << "  lambda1: " << eigval(1) << "  lambda2: " << eigval(2) << endl;
-
-    //======================================================
-    // Analytical solution
-    //======================================================
-    vec Psi_anal;
-    TautAnalyticalSolution(n, h, Psi_anal);
-    //Psi_anal.print();
-
-    //======================================================
-    // Saving results to file
-    //======================================================
-    // First our result from Jacobi's method
-    SavingResultsToFile("psi_and_rho.m", "psi", "rho", R.col(diagonalA(1)), rho);
-    // R.col(diagonalA(0)) is the eigenvector belonging to
-    // the lowest eigenvalue
-
-    // Analytical solution
-    SavingResultsToFile("psi_and_rho_anal.m", "psi", "rho", Psi_anal, rho);
-
+    //cout << "Calculation by Armadillo:" << endl;
+    //cout << "lambda0: " << eigval(0) << "  lambda1: " << eigval(1) << "  lambda2: " << eigval(2) << endl;
 }
 
-void JacobiRotation(int n, double rho_max, mat A, uvec &diagonalA, mat &R){
+void JacobiRotation(int n, double rho_max, mat A){
 
     //======================================================
     // Finding biggest element in A
@@ -138,12 +85,12 @@ void JacobiRotation(int n, double rho_max, mat A, uvec &diagonalA, mat &R){
     //======================================================
     // Printing A for checking with MATLAB
     //======================================================
-    //printMatlabMatrix("A", A);
+    printMatlabMatrix("A", A);
 
     //======================================================
     // Calculating the equation
     //======================================================
-    //mat R = eye<mat>(n,n);
+    mat R = eye<mat>(n,n);
     while( fabs(max_A) > epsilon && (double) iterations < max_number_iterations){
         double c=0, s=0;
         findSinCos(A, k, l, s, c);
@@ -155,19 +102,17 @@ void JacobiRotation(int n, double rho_max, mat A, uvec &diagonalA, mat &R){
     //======================================================
     // Preparing results for printing
     //======================================================
-    //vec diagonalA(n);
-    //diagonalA = (A.diag()); // sort(A) reorder the elements so the lowest values come first
-    diagonalA = sort_index(A.diag());
+    //R.print();
+    vec diagonalA(n);
+    diagonalA = sort(A.diag()); // sort(A) reorder the elements so they lowest values come first
 
     //======================================================
     // Printing out results
     //======================================================
-
     cout << "n: " << n << endl;
     cout << "rho_max: " << rho_max << endl;
     cout << "# of iterations: " << iterations << endl;
-    cout << "lambda0: " << A.diag()(diagonalA(0)) << "  lambda1: " << A.diag()(diagonalA(1)) << "  lambda2: " << A.diag()(diagonalA(2)) << endl;
-
+    cout << "lambda0: " << diagonalA(0) << "  lambda1: " << diagonalA(1) << "  lambda2: " << diagonalA(2) << endl;
 }
 
 void findMaximumElementOnNonDiagonal(mat &A, int &k, int &l, double &max_A, int n){
@@ -185,15 +130,18 @@ void findMaximumElementOnNonDiagonal(mat &A, int &k, int &l, double &max_A, int 
 }
 
 void findSinCos(mat &A, int &k, int &l, double &s, double &c){
-    double tau, t, temp_sqrt;
+    double tau, t, temp_sqrt, t1, t2;
 
     tau = -( A(l,l) - A(k,k) ) / ( 2 * A(k,l) );
     temp_sqrt = sqrt( 1 + tau*tau );
-    if(tau < 0){
-        t = tau + temp_sqrt;
+    t1 = tau + temp_sqrt;
+    t2 = tau - temp_sqrt;
+
+    if(fabs(t1) < fabs(t2)){
+        t = t1;
     }
     else{
-        t = tau - temp_sqrt;
+        t = t2;
     }
 
     c = 1 / sqrt( 1 + t*t);
@@ -236,76 +184,12 @@ void rotateAmatrix(double &s, double &c, int &k, int &l, int n, mat &A, mat &R){
 //======================================================
 void printMatlabMatrix(string name, mat &A) {
     cout << name << " = [";
-    for(int i=0; i<int(A.n_rows); i++) {
-        for(int j=0; j<int(A.n_cols); j++) {
+    for(int i=0; i<A.n_rows; i++) {
+        for(int j=0; j<A.n_cols; j++) {
             cout << A(i,j) << " ";
         }
         cout << "; ";
     }
     cout << "];" << endl;
     cout << "[U,V] = eig("<<name<<")" << endl;
-}
-
-void TautAnalyticalSolution(int n, double h, vec &Psi_anal){
-    //======================================================
-    // Calculating Taut's analytical solution
-    //======================================================
-    vec r(n+2);
-    vec phi(n+2);
-    int l=0;
-
-    for(int i=0; i<n+2; i++){
-        r(i) += i*h;
-    }
-
-    phi = (pow(r, (l+1)) % exp(- pow(r, 2) / (8*(l+1)) ) % ( 1 + r / (2*(l+1) ) )) / r;
-    phi(0) = r(0) = 0;
-
-    vec ksi = exp(-r%r);
-    Psi_anal = phi % ksi;
-
-//    cout << "r" << " = [";
-//    for(int j=0; j<int(r.n_rows); j++) {
-//            cout << r(j) << ", ";
-//    }
-//    cout << "]" << endl;
-//    cout << "phi" << " = [";
-//    for(int j=0; j<int(phi.n_rows); j++) {
-//            cout << Psi_anal(j) << ", ";
-//    }
-//    cout << "]" << endl;
-}
-
-void CalculatingWithArmadillo(mat A_armadillo, vec rho){
-//    mat eigvec;
-//    vec eigval;
-//    eig_sym(eigval, eigvec, A_armadillo);
-
-//    //======================================================
-//    // Printing out results
-//    //======================================================
-
-//    SavingResultsToFile("psi_and_rho.m", "psi", "rho", eigvec.col(2), rho);
-
-//    cout << "Calculation by Armadillo:" << endl;
-//    cout << "lambda0: " << eigval(0) << "  lambda1: " << eigval(1) << "  lambda2: " << eigval(2) << endl;
-}
-
-void SavingResultsToFile(string FileName, string namevec1, string namevec2, vec vec1, vec vec2){
-    ofstream myfile;
-    myfile.open (FileName);
-    myfile << namevec1 << "= [";
-    for (int i=0; i<int(vec1.n_rows); i++){
-        myfile << vec1(i) << ", ";
-    }
-    myfile << "];" << endl;
-
-    myfile << namevec2 << "= [";
-    for (int i=0; i<int(vec2.n_rows); i++){
-        myfile << vec2(i) << ", ";
-    }
-    myfile << "];" << endl;
-    myfile << "plot("<< namevec2 <<","<< namevec1 << ".*"<< namevec1 << ")" << endl;
-    myfile.close();
-    // Remember to not plot first and last element in rho-vector
 }

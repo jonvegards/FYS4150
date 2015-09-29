@@ -17,3 +17,13 @@ n: 150
 rho_max: 5.2
 # of iterations: 37276
 lambda0: 2.99963  lambda1: 6.99817  lambda2: 10.9956
+
+n: 200
+rho_max: 5.2
+# of iterations: 66654
+lambda0: 2.99979  lambda1: 6.99896  lambda2: 10.9975
+
+n: 250
+rho_max: 5.2
+# of iterations: 100000
+lambda0: 2.99987  lambda1: 6.99934  lambda2: 10.9984
