@@ -10,11 +10,11 @@ MAKEFILE      = Makefile
 
 ####### Compiler, tools and options
 
-CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
-CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain/usr/bin/clang
+CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain/usr/bin/clang++
 DEFINES       = -DARMA_NO_DEBUG
-CFLAGS        = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
+CFLAGS        = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I../project2 -I. -I/usr/local/include -I../../../Qt/5.5/clang_64/mkspecs/macx-clang
 QMAKE         = /Users/jonvegard/Qt/5.5/clang_64/bin/qmake
 DEL_FILE      = rm -f
@@ -34,11 +34,11 @@ TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = project21.0.0
 DISTDIR = /Users/jonvegard/github/FYS4150/build-project2-Desktop_Qt_5_5_0_clang_64bit-Debug/.tmp/project21.0.0
-LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -stdlib=libc++ -mmacosx-version-min=10.7
+LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain/usr/bin/clang++
+LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -stdlib=libc++ -mmacosx-version-min=10.7
 LIBS          = $(SUBLIBS) -L/usr/local/lib -llapack -lblas -larmadillo 
-AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
-RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
+AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain/usr/bin/ar cq
+RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.8.xctoolchain/usr/bin/ranlib -s
 SED           = sed
 STRIP         = 
 
@@ -192,7 +192,7 @@ TARGET        = project2
 QMAKE_COMP_QMAKE_OBJECTIVE_CFLAGS = -pipe \
 		-g \
 		-isysroot \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk \
 		-std=c++11 \
 		-stdlib=libc++ \
 		-mmacosx-version-min=10.7 \
@@ -609,6 +609,7 @@ main.o: ../project2/main.cpp /usr/local/include/armadillo \
 		/usr/local/include/armadillo_bits/subview_cube_bones.hpp \
 		/usr/local/include/armadillo_bits/diagview_bones.hpp \
 		/usr/local/include/armadillo_bits/subview_each_bones.hpp \
+		/usr/local/include/armadillo_bits/subview_cube_each_bones.hpp \
 		/usr/local/include/armadillo_bits/diskio_bones.hpp \
 		/usr/local/include/armadillo_bits/wall_clock_bones.hpp \
 		/usr/local/include/armadillo_bits/running_stat_bones.hpp \
@@ -885,6 +886,7 @@ main.o: ../project2/main.cpp /usr/local/include/armadillo \
 		/usr/local/include/armadillo_bits/subview_cube_meat.hpp \
 		/usr/local/include/armadillo_bits/diagview_meat.hpp \
 		/usr/local/include/armadillo_bits/subview_each_meat.hpp \
+		/usr/local/include/armadillo_bits/subview_cube_each_meat.hpp \
 		/usr/local/include/armadillo_bits/SpValProxy_meat.hpp \
 		/usr/local/include/armadillo_bits/SpMat_meat.hpp \
 		/usr/local/include/armadillo_bits/SpMat_iterators_meat.hpp \
