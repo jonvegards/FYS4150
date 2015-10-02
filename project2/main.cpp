@@ -14,13 +14,24 @@ void TwoElectronCase();
 void TautAnalyticalSolution(int , double , vec &);
 void SavingResultsToFile(string , string , string , vec , vec );
 
+//======================================================
+// This program calculates a matrix eigenvalue equation
+// by using Jacobi's method. It should work for every
+// (n x n)-matrix. The eigenvectors together with the
+// distance vector are written to files (almost) ready to
+// be run i MATLAB. The cases we're looking at here is
+// the Schrodinger eq. for a harmonic oscillator with one
+// and two electrons, the only difference is the potential
+// used. The analytical solution is also calculated.
+//======================================================
+
 int main()
 {
     cout.precision(6); // Setting how many digits the program should print
     //======================================================
     // Defining n and calling on the rotation-function
-    int n = 200;
-    double rho_max = 8.0;
+    int n = 500;
+    double rho_max = 18.0; // The smallest omega-values required big rho to get a stable solution
 
     //======================================================
     // Defining parameters, step length, ...
@@ -37,9 +48,9 @@ int main()
     }
     rho(0) = 0;
 
-    //======================================================
+    //============================================================================================================
     // Single electron case (SEC)
-    //======================================================
+    //============================================================================================================
     // The potential is rho^2
     vec v = rho % rho; // % is the operator for inner product
     mat A_SEC(n,n);
@@ -54,23 +65,23 @@ int main()
     mat R_SEC = eye<mat>(n,n);
 
     cout << "Single Electron Case" << endl;
-    JacobiRotation(n, rho_max, A_SEC, diagonalA_SEC, R_SEC);
+    //JacobiRotation(n, rho_max, A_SEC, diagonalA_SEC, R_SEC);
 
     //------------------------------------------------------
     // Using Armadillo to solve the eigenvalue equation
     //------------------------------------------------------
     mat eigvec1;
     vec eigval1;
-    eig_sym(eigval1, eigvec1, A_SEC_armadillo);
+    //eig_sym(eigval1, eigvec1, A_SEC_armadillo);
 
     // Printing out results from Armadillo-solver
     cout << "Calculation by Armadillo:" << endl;
-    cout << "lambda0: " << eigval1(0) << "  lambda1: " << eigval1(1) << "  lambda2: " << eigval1(2) << endl;
+    //cout << "lambda0: " << eigval1(0) << "  lambda1: " << eigval1(1) << "  lambda2: " << eigval1(2) << endl;
 
-    //======================================================
+    //============================================================================================================
     // Two electron case (TEC)
-    //======================================================
-    double omega_r = .5;
+    //============================================================================================================
+    double omega_r = 5;
     vec TwoElectronPotential = omega_r*(rho % rho) + 1 / rho;
     mat A_TEC(n,n);
     for(int i=0; i<n; i++){
@@ -84,7 +95,7 @@ int main()
 
     cout << " " << endl;
     cout << "Two electron case:" << endl;
-    JacobiRotation(n, rho_max, A_TEC, diagonalA_TEC, R_TEC);
+    //JacobiRotation(n, rho_max, A_TEC, diagonalA_TEC, R_TEC);
 
 
     //------------------------------------------------------
@@ -99,38 +110,32 @@ int main()
     cout << "Calculation by Armadillo:" << endl;
     cout << "lambda0: " << eigval2(0) << "  lambda1: " << eigval2(1) << "  lambda2: " << eigval2(2) << endl;
 
-    //======================================================
+    //============================================================================================================
     // Analytical solution
-    //======================================================
+    //============================================================================================================
     vec Psi_anal;
     //TautAnalyticalSolution(n, h, Psi_anal);
     //Psi_anal.print();
 
-    //======================================================
+    //============================================================================================================
     // Saving results to file
-    //======================================================
+    //============================================================================================================
     // First our result from Jacobi's method (TEC)
-    SavingResultsToFile("psi_and_rho_SEC1.m", "R", "rho", R_SEC.col(diagonalA_SEC(0)), rho);
-    SavingResultsToFile("psi_and_rho_SEC2.m", "R", "rho", R_SEC.col(diagonalA_SEC(1)), rho);
-    SavingResultsToFile("psi_and_rho_SEC3.m", "R", "rho", R_SEC.col(diagonalA_SEC(2)), rho);
-    SavingResultsToFile("psi_and_rho_SEC4.m", "R", "rho", R_SEC.col(diagonalA_SEC(3)), rho);
-    SavingResultsToFile("psi_and_rho_SEC5.m", "R", "rho", R_SEC.col(diagonalA_SEC(4)), rho);
+//    SavingResultsToFile("psi_and_rho_SEC1.m", "R", "rho", R_SEC.col(diagonalA_SEC(0)), rho);
     // First our result from Jacobi's method (TEC)
-    SavingResultsToFile("psi_and_rho_TEC1.m", "R", "rho", R_TEC.col(diagonalA_TEC(0)), rho);
-    SavingResultsToFile("psi_and_rho_TEC2.m", "R", "rho", R_TEC.col(diagonalA_TEC(1)), rho);
-    SavingResultsToFile("psi_and_rho_TEC3.m", "R", "rho", R_TEC.col(diagonalA_TEC(2)), rho);
-    SavingResultsToFile("psi_and_rho_TEC4.m", "R", "rho", R_TEC.col(diagonalA_TEC(3)), rho);
-    SavingResultsToFile("psi_and_rho_TEC5.m", "R", "rho", R_TEC.col(diagonalA_TEC(4)), rho);
+//    SavingResultsToFile("psi_and_rho_TEC1.m", "R", "rho", R_TEC.col(diagonalA_TEC(0)), rho);
+
     // R.col(diagonalA(0)) is the eigenvector belonging to
     // the lowest eigenvalue
-    // Remember to not plot first and last element in rho-vector
+    // Remember to not plot first and last element in rho-vector (boundary conditions)
 
     // Analytical solution
     //SavingResultsToFile("psi_and_rho_anal.m", "psi", "rho", Psi_anal, rho);
 
-    // Armadillo's solution
-    SavingResultsToFile("psi_and_rho_armadillo_SEC.m", "psi", "rho", eigvec1.col(0), rho);
-    SavingResultsToFile("psi_and_rho_armadillo_TEC.m", "psi", "rho", eigvec2.col(0), rho);
+    // Armadillo's solution SEC
+    //SavingResultsToFile("psi_and_rho_armadillo_SEC.m", "psi", "rho", eigvec1.col(0), rho);
+    // Armadillo's solution TEC
+    SavingResultsToFile("psi_and_rho_armadillo_TEC1.m", "psi", "rho", eigvec2.col(0), rho);
 }
 
 void JacobiRotation(int n, double rho_max, mat A, uvec &diagonalA, mat &R){
