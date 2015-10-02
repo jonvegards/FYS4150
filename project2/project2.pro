@@ -10,3 +10,5 @@ release {
 
 INCLUDEPATH += /usr/local/include
 LIBS += -L/usr/local/lib -llapack -lblas -larmadillo
+
+HEADERS +=

@@ -543,7 +543,7 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../myvectorclass/main.cpp 
+main.o: ../myvectorclass/main.cpp ../myvectorclass/vec3.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../myvectorclass/main.cpp
 
 vec3.o: ../myvectorclass/vec3.cpp ../myvectorclass/vec3.h

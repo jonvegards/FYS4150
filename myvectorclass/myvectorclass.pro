@@ -8,4 +8,3 @@ SOURCES += main.cpp \
 
 HEADERS += \
     vec3.h
-
