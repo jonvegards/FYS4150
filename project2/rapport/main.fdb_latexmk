@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1443801378 "main.tex" "main.pdf" "main" 1443801380
+["pdflatex"] 1443807620 "main.tex" "main.pdf" "main" 1443807621
   "/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/babel-english/english.ldf" 1367878877 6963 2e0cb3d93aa64508bdb0db58ae900d97 ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/babel-norsk/norsk.ldf" 1367878962 7454 81c33988aa9f2f7c4a604d2527fdb33c ""
@@ -138,12 +138,12 @@
   "/usr/local/texlive/2014/texmf-dist/tex/latex/units/units.sty" 1137111039 2134 65ad9fb19763b1681bea4cb389fe84f8 ""
   "/usr/local/texlive/2014/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/local/texlive/2014/texmf-dist/tex/latex/xcolor/xcolor.sty" 1169481954 55224 a43bab84e0ac5e6efcaf9a98bde73a94 ""
-  "main.aux" 1443801379 840 2e8cf20ba9ab74918022ec9ee333b3c2 ""
-  "main.out" 1443801379 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "main.tex" 1443801378 8296 d6c63a917ee93f203d94a85876a9cfe1 ""
+  "main.aux" 1443807621 840 2e8cf20ba9ab74918022ec9ee333b3c2 ""
+  "main.out" 1443807621 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "main.tex" 1443807619 10345 8b1f3cb5c07885cd650a96c492b388b2 ""
   "obligJV.sty" 1443797824 1756 a43179518a47874fb87be48910606c33 ""
   (generated)
-  "main.log"
-  "main.out"
   "main.pdf"
+  "main.out"
+  "main.log"
   "main.aux"

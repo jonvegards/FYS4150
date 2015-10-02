@@ -90,7 +90,46 @@ Vi ser at eneste forskjellen fra i stad er at vi har fått et ekstra potensialle
 
 \subsection*{Metode}
 Nå som vi har stablet på beina likningen vi skal løse, så kan vi ta en titt på den numeriske delen. Vi skal bruke trepunktsformelen for en annenderivert, som vi her kan skrive som
-$$ u'' = \frac{u(\rho + h) - 2u(\rho) + u(\rho - h)}{h^2} + \mathcal{O}(h^2) $$
+$$ u'' = \frac{u(\rho + h) - 2u(\rho) + u(\rho - h)}{h^2} + \mathcal{O}(h^2). $$
+Steglengden vår er $h$. For å diskretisere likninga så kan vi definere
+$$ h = \frac{\rho_{\text{max}} - \rho_{\text{min}}}{n_{\text{steg}}}, $$
+dette gir oss $\rho_i = \rho_{\text{min}} + ih$, for $i=0,1,\ldots,n_\text{steg}$. Vi kan så skrive SL på formen
+$$ -\frac{u_{i+1} - 2u_i + u_{i-1}}{h^2} + V_i u(\rho_i) = \lambda u(\rho_i), $$
+hvor $u_{i+1} = u(\rho_i + h)$ etc. Dette skriver vi som en tridiagonal matrise der diagonalelementene defineres til å være $d_i = (2/h^2) + V_i$ og elementene på diagonalene over og under hoveddiagonalen til $e_i = -1/h^2$. På matriseform blir dette
+\begin{align*}
+	\left(\begin{matrix}
+	d_1 & e_1 & 0 & \ldots & \ldots & 0 \\
+	e_1 & d_2 & e_2 & 0 & \ldots & 0 \\
+	0 & \ddots & \ddots & \ddots & \vdots & e_{n_{\text{steg}} - 1} \\
+	\vdots & \ddots & \ddots & \ddots & e_{n_{\text{steg}} - 1} & d_{n_{\text{steg}} - 1} \\
+	\end{matrix}\right)\left(
+	\begin{matrix}
+	u_1 \\ u_2 \\ \vdots \\ \vdots \\ u_{n_{\text{steg}}}
+	\end{matrix}\right)
+	&= \lambda\left(\begin{matrix}
+	u_1 \\ u_2 \\ \vdots \\ \vdots \\ u_{n_{\text{steg}}}
+	\end{matrix}\right).
+\end{align*}
+Dette likner veldig på den matrise likninga vi løste i prosjekt 1, men forskjellen nå er at vi har en egenverdilikning. Dette innebærer at når vi løser systemet så er det egenvektorene (i annen, slik vi pleier å gjøre med bølgefunksjoner) vi skal plotte mot avstandsvektorene vi lager. For ett-elektrontilfellet vil få et plott som viser hvor det er mest sannsynlig å finne elektronet, mens for to-elektrontilfellet vil få et plott som viser den mest sannsynlige avstanden mellom elektronene.
+
+Vi kan nå se på algoritmen vi skal bruke for å løse dette systemet. Den kalles \emph{Jacobis algoritme} og går ut på at man skal rotere matrisen $A$ til den er diagonal. En egenverdilikning med en diagonalmatrise på nødvendigvis ha egenverdiene på diagonalen, så grunnen til å løse den på denne måten her er ganske åpenbar. Vi roterer matrisa $A$ ved hjelp av en rotasjonsmatrise $S$,
+$$ B = S^T A S. $$ 
+hvor 
+\begin{equation*}
+S = \left(\begin{matrix}
+1 & 0 & \ldots & \ldots & \ldots & \ldots & \ldots & 0 \\
+0 & 1 & 0 & \ldots & \ldots & \ldots & \ldots & \vdots \\
+\vdots & 0 & 1 & 0 & \ldots & \ldots & \ldots & 0 \\
+\vdots & \ldots & 0 & \cos\theta & 0 & \ldots & 0 & \sin\theta \\
+\vdots & \vdots & \ldots & 0 & 1 & \ldots & \ldots & 0 \\
+\vdots & \vdots & \ldots & \ldots & \ldots & \ldots & 0 & \vdots \\
+\vdots & \vdots & \ldots & 0 & \ldots & 0 & 1 & 0 \\
+0 & 0 & \ldots & -\sin\theta & 0 & \ldots & 0 & \cos \theta \\
+\end{matrix}\right).
+\end{equation*}
+Denne matrisen gjør en rotasjon i et $n$-dimensjonalt Euklidsk rom. På komponentform har vi
+$$ S_{kk} = S_{ll} = \cos\theta,\quad s_{kl} = -s_{lk} = \sin\theta,\quad s_{ii} = 1,\quad i \neq k, i \neq k. $$
+Denne rotasjonsmatrisa vil kun endre på elementer i rad/kolonne og kolonne/rad $(k,l)$ i $A$, dette kan vi utnytte i algoritmen vår.
 
 \subsection*{Resultater}
 
@@ -99,29 +138,6 @@ $$ u'' = \frac{u(\rho + h) - 2u(\rho) + u(\rho - h)}{h^2} + \mathcal{O}(h^2) $$
 
 
 \end{document}
-
-\begin{align*}
-	Av &=
-	\left(\begin{matrix}
-		2 & -1 & 0 & 0 &\ldots & 0 \\	
-		-1 & 2 & -1 & 0 & \ldots & 0 \\
-		0 & \ddots & \ddots & \ddots & \ddots & \vdots \\
-		\vdots & \ddots & \ddots & \ddots & \ddots & 0 \\
-		\vdots & \ddots & \ddots & \ddots & \ddots & -1 \\
-		0 & \ldots & \ldots & 0 & -1 & 2 \\
-	\end{matrix}\right)\left(
-	\begin{matrix}
-		v_1 \\ \vdots\\ \vdots \\ \vdots \\ v_n 
-	\end{matrix} \right) \\
-	&= \left(\begin{matrix}
-		2v_1 & -v_2 & 0 & 0 &\ldots & 0 \\	
-		-v_1 & 2v_2 & -v_3 & 0 & \ldots & 0 \\
-		0 & \ddots & \ddots & \ddots & \ddots & \vdots \\
-		\vdots & \ddots & \ddots & \ddots & \ddots & 0 \\
-		\vdots & \ddots & \ddots & \ddots & \ddots & -v_n \\
-		0 & \ldots & \ldots & 0 & -v_{n-1} & 2v_n \\
-	\end{matrix}\right),
-\end{align*}
 
 \begin{table}[H]
   \centering
