@@ -1,6 +1,6 @@
 Single Electron Case
 n: 100
-# of iterations: 15875
+# of iterations: 15866
 rho_max: 12
 lambda0: 2.99567  lambda1: 6.97831  lambda2: 10.947
 Calculation by Armadillo:
@@ -11,7 +11,7 @@ n: 100
 # of iterations: 15796
 rho_max: 12
 omega_r: 1
-lambda0: 3.67484  lambda1: 7.69259  lambda2: 12.0878
+lambda0: 4.00099  lambda1: 8.01464  lambda2: 11.8258
 Calculation by Armadillo:
-lambda0: 3.86903  lambda1: 7.79515  lambda2: 11.7306
-Difference between Jacobi's method and Armadillo: 0.194189
+lambda0: 4.02714  lambda1: 7.96007  lambda2: 11.7224
+Difference between Jacobi's method and Armadillo: 0.0261486
