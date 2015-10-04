@@ -9,10 +9,12 @@ void findMaximumElementOnNonDiagonal(mat &, int &, int &, double &, int);
 void rotateAmatrix(double &, double &, int &, int &, int , mat &, mat &);
 void findSinCos(mat &, int &, int &, double &, double &);
 void printMatlabMatrix(string name, mat &);
-void JacobiRotation(int, mat & , uvec &, mat &);
+void JacobiRotation(int, mat & , uvec &, mat &, int &);
 void TwoElectronCase();
 void TautAnalyticalSolution(int , double , vec &);
 void SavingResultsToFile(string , string , string , vec , vec );
+void SavingParametersToFile(int, double, mat, uvec, mat, uvec, vec, vec, int, int, double);
+void MainCall();
 
 // Functions for testing the program
 void RunAllTests();
@@ -33,20 +35,37 @@ void EigenvalueTest();
 
 int main()
 {
-    cout.precision(6); // Setting how many digits the program should print
-    //======================================================
-    // Defining n and calling on the rotation-function
-    int n = 250;
+    //====================================================
+    // Calling on function to do the calculations,
+    // this must be commented out if you want to run
+    // RunAllTests();
+    MainCall();
+
+    //====================================================
+    // Running unit tests
+    //RunAllTests();
+
+    // Due to some memory problems we cannot run MainCall();
+    // and RunAllTests(); simultaneously. Why?
+}
+
+void MainCall(){
+    cout.precision(6); // Setting how many digits the program should print out
+    //------------------------------------------------------
+    int n = 100;
     double rho_max = 12.0; // The smallest omega-values required rho_max=18 to get a stable solution
+    // NB!: When using n=2 you must not print out the three lowest eigenvalues
+    // since it's only two eigenvalues.
 
-    //======================================================
-    // Defining parameters, step length, ...
-    double e, h, h_temp;
-    h = rho_max / (n+2);
-    e = -1 / (h*h);
-    h_temp = 2 / (h*h);
+    //------------------------------------------------------
+    double h = rho_max / (n+2); // Step length
+    double e = -1 / (h*h);      // Elements on upper/lower diagonal
+    double h_temp = 2 / (h*h);  // Temporary variable to save FLOPS
+    // Note that we use (n+2) steps in rho, this is because
+    // we have to omit the end points (since they are zero)
+    // when plugging the initial conditions into the matrix.
 
-    //======================================================
+    //------------------------------------------------------
     // Making the rho-vector
     vec rho(n+2);
     for(int i=0; i<n+2; i++){
@@ -57,25 +76,22 @@ int main()
     //============================================================================================================
     // Single electron case (SEC)
     //============================================================================================================
+
     // The potential is rho^2
     vec v = rho % rho; // % is the operator for inner product
-    mat A_SEC(n,n);
+    mat A_SEC = zeros<mat>(n,n);
+    // Filling matrix A_SEC on the diagonal with the potential terms and terms from three point-formula
     for(int i=0; i<n; i++){
         A_SEC(i,i) = h_temp + v(i+1);
     }
-    A_SEC.diag(1) += e;
+    A_SEC.diag(1) += e; // Filling the diaognals over and under the main diagonal
     A_SEC.diag(-1) += e;
 
     mat A_SEC_armadillo = A_SEC; // Save matrix for using with Armadillo
     uvec diagonalA_SEC;
     mat R_SEC = eye<mat>(n,n);
-
-//    cout << "Single Electron Case" << endl;
-//    JacobiRotation(n, A_SEC, diagonalA_SEC, R_SEC);
-
-//    cout << "n: " << n << endl;
-//    cout << "rho_max: " << rho_max << endl;
-//    cout << "lambda0: " << A.diag()(diagonalA(0)) << "  lambda1: " << A.diag()(diagonalA(1)) << "  lambda2: " << A.diag()(diagonalA(2)) << endl;
+    int iterations_SEC;
+    JacobiRotation(n, A_SEC, diagonalA_SEC, R_SEC, iterations_SEC);
 
     //------------------------------------------------------
     // Using Armadillo to solve the eigenvalue equation
@@ -83,15 +99,13 @@ int main()
     mat eigvec1;
     vec eigval1;
 
-//    eig_sym(eigval1, eigvec1, A_SEC_armadillo);
-
-//    cout << "Calculation by Armadillo:" << endl;
-//    cout << "lambda0: " << eigval1(0) << "  lambda1: " << eigval1(1) << "  lambda2: " << eigval1(2) << endl;
+    eig_sym(eigval1, eigvec1, A_SEC_armadillo);
 
     //============================================================================================================
     // Two electron case (TEC)
     //============================================================================================================
-    double omega_r = .25; // set this to 0.25 for checking with analytical sol.
+
+    double omega_r = 1; // set this to 0.25 for checking with analytical sol.
     vec TwoElectronPotential = omega_r*omega_r*(rho % rho) + 1 / rho;
     mat A_TEC(n,n);
     for(int i=0; i<n; i++){
@@ -102,84 +116,75 @@ int main()
     mat A_TEC_armadillo = A_TEC;
     uvec diagonalA_TEC;
     mat R_TEC = eye<mat>(n,n);
+    int iterations_TEC;
+    JacobiRotation(n, A_TEC, diagonalA_TEC, R_TEC, iterations_TEC);
 
-//    cout << " " << endl;
-    cout << "Two electron case:" << endl;
-    JacobiRotation(n, A_TEC, diagonalA_TEC, R_TEC);
-
-    cout << "n: " << n << endl;
-    cout << "rho_max: " << rho_max << endl;
-    cout << "lambda0: " << A_TEC.diag()(diagonalA_TEC(0)) << "  lambda1: " << A_TEC.diag()(diagonalA_TEC(1)) << "  lambda2: " << A_TEC.diag()(diagonalA_TEC(2)) << endl;
 
 
     //------------------------------------------------------
     // Using Armadillo to solve the eigenvalue equation
     // with Coulomb-repulsion
     //------------------------------------------------------
-//    mat eigvec2;
-//    vec eigval2;
 
-//    eig_sym(eigval2, eigvec2, A_TEC_armadillo);
+    mat eigvec2;
+    vec eigval2;
 
-//    cout << "Calculation by Armadillo:" << endl;
-//    cout << "lambda0: " << eigval2(0) << "  lambda1: " << eigval2(1) << "  lambda2: " << eigval2(2) << endl;
+    eig_sym(eigval2, eigvec2, A_TEC_armadillo);
 
     //============================================================================================================
     // Analytical solution
     //============================================================================================================
     vec Psi_anal;
     TautAnalyticalSolution(n, h, Psi_anal);
-    //Psi_anal.print();
 
     //============================================================================================================
     // Saving results to MATLAB-files
     //============================================================================================================
     // First our result from Jacobi's method TEC and SEC
-//    SavingResultsToFile("psi_and_rho_SEC.m", "R", "rho", R_SEC.col(diagonalA_SEC(0)), rho);
-
-    SavingResultsToFile("psi_and_rho_TEC1.m", "R", "rho", R_TEC.col(diagonalA_TEC(0)), rho);
+    SavingResultsToFile("psi_and_rho_SEC.m", "R", "rho", R_SEC.col(diagonalA_SEC(0)), rho);
+    SavingResultsToFile("psi_and_rho_TEC.m", "R", "rho", R_TEC.col(diagonalA_TEC(0)), rho);
 
     // R.col(diagonalA(0)) is the eigenvector belonging to
     // the lowest eigenvalue
-    // Remember to not plot first and last element in rho-vector (boundary conditions)
+    // Remember to not plot first and last element in rho-vector (due to boundary conditions)
 
     // Saving analytical solution
     SavingResultsToFile("psi_and_rho_anal.m", "psi", "rho", Psi_anal, rho);
 
     // Armadillo's solutions TEC and SEC
-    //SavingResultsToFile("psi_and_rho_armadillo_SEC.m", "psi", "rho", eigvec1.col(0), rho);
-    //SavingResultsToFile("psi_and_rho_armadillo_TEC.m", "psi", "rho", eigvec2.col(0), rho);
+    SavingResultsToFile("psi_and_rho_armadillo_SEC.m", "psi", "rho", eigvec1.col(0), rho);
+    SavingResultsToFile("psi_and_rho_armadillo_TEC.m", "psi", "rho", eigvec2.col(0), rho);
 
     //============================================================================================================
-    // Running unit tests
+    // Saving used parameters to file
     //============================================================================================================
-    //RunAllTests();
+    SavingParametersToFile(n, rho_max, A_TEC, diagonalA_TEC, A_SEC, diagonalA_SEC, eigval1, eigval2, iterations_SEC, iterations_TEC, omega_r);
+
 }
 
-void JacobiRotation(int n, mat &A, uvec &diagonalA, mat &R){
+void JacobiRotation(int n, mat &A, uvec &diagonalA, mat &R, int &iterations){
 
-    //======================================================
+    //------------------------------------------------------
     // Finding biggest element in A
-    //======================================================
+    //------------------------------------------------------
     int k,l;
     double max_A = 0;
     findMaximumElementOnNonDiagonal(A, k, l, max_A, n);
 
-    //======================================================
+    //------------------------------------------------------
     // Setting limits on the while-loop's duration and
     // accuracy
-    int iterations=0;
+    iterations=0;
     int max_number_iterations = pow(10,6);
-    double epsilon = pow(10,-8);
+    double epsilon = pow(10,-9);
 
-    //======================================================
+    //------------------------------------------------------
     // Printing A for checking with MATLAB
     //printMatlabMatrix("A", A);
 
-    //======================================================
+    //------------------------------------------------------
     // Calculating the equation
-    //mat R = eye<mat>(n,n);
-
+    
     while( fabs(max_A) > epsilon && (double) iterations < max_number_iterations){
         double c=0, s=0;
         findSinCos(A, k, l, s, c);
@@ -189,10 +194,9 @@ void JacobiRotation(int n, mat &A, uvec &diagonalA, mat &R){
 
     }
 
-    //======================================================
+    //------------------------------------------------------
     // Preparing results for printing
     diagonalA = sort_index(A.diag());
-    cout << "# of iterations: " << iterations << endl;
 }
 
 void findMaximumElementOnNonDiagonal(mat &A, int &k, int &l, double &max_A, int n){
@@ -283,12 +287,7 @@ void TautAnalyticalSolution(int n, double h, vec &Psi_anal){
     }
 
     r(0) = 0;
-    phi = pow(r, 1) % exp(- pow(r, 2) / (8*(l+1)) ) % ( 1 + r / (2*(l+1) ) );
-    //phi = exp(- pow(r, 2));
-    //phi(0) = r(0) = 0;
-
-    vec ksi = exp(-r%r);
-    Psi_anal = phi; //% ksi;
+    Psi_anal = pow(r, 1) % exp(- pow(r, 2) / (8*(l+1)) ) % ( 1 + r / (2*(l+1) ) );
 }
 
 void SavingResultsToFile(string FileName, string namevec1, string namevec2, vec vec1, vec vec2){
@@ -307,6 +306,29 @@ void SavingResultsToFile(string FileName, string namevec1, string namevec2, vec 
     myfile << "];" << endl;
     myfile << "plot("<< namevec2 <<","<< namevec1 << ".*"<< namevec1 << ")" << endl;
     myfile << "n=" << vec2.n_rows << endl;
+    myfile.close();
+}
+
+void SavingParametersToFile(int n, double rho_max, mat A_TEC, uvec diagonalA_TEC, mat A_SEC, uvec diagonalA_SEC, vec eigval1, vec eigval2, int iterations_SEC, int iterations_TEC, double omega_r){
+    ofstream myfile;
+    myfile.open ("MainProgramRunParameters.txt");
+    myfile << "Single Electron Case" << endl;
+    myfile << "n: " << n << endl;
+    myfile << "# of iterations: " << iterations_TEC << endl;
+    myfile << "rho_max: " << rho_max << endl;
+    myfile << "lambda0: " << A_SEC.diag()(diagonalA_SEC(0)) << "  lambda1: " << A_SEC.diag()(diagonalA_SEC(1)) << "  lambda2: " << A_SEC.diag()(diagonalA_SEC(2)) << endl;
+    myfile << "Calculation by Armadillo:" << endl;
+    myfile << "lambda0: " << eigval1(0) << "  lambda1: " << eigval1(1) << "  lambda2: " << eigval1(2) << endl;
+    myfile << " " << endl;
+    myfile << "Two electron case:" << endl;
+    myfile << "n: " << n << endl;
+    myfile << "# of iterations: " << iterations_SEC << endl;
+    myfile << "rho_max: " << rho_max << endl;
+    myfile << "omega_r: " << omega_r << endl;
+    myfile << "lambda0: " << A_TEC.diag()(diagonalA_TEC(0)) << "  lambda1: " << A_TEC.diag()(diagonalA_TEC(1)) << "  lambda2: " << A_TEC.diag()(diagonalA_TEC(2)) << endl;
+    myfile << "Calculation by Armadillo:" << endl;
+    myfile << "lambda0: " << eigval2(0) << "  lambda1: " << eigval2(1) << "  lambda2: " << eigval2(2) << endl;
+    myfile << "Difference between Jacobi's method and Armadillo: " << eigval2(0) - A_TEC.diag()(diagonalA_TEC(0)) << endl;
     myfile.close();
 }
 
@@ -330,11 +352,12 @@ void TwoByTwoMatrixTest(){
 
     mat R = eye<mat>(n,n);
     uvec diagonalA;
+    int iterations22;
 
     cout << "Testing function JacobiRotation with a (2x2)-matrix A =" << endl;
     A.print();
     cout << "After running the function A =" << endl;
-    JacobiRotation(n, A, diagonalA, R);
+    JacobiRotation(n, A, diagonalA, R, iterations22);
     cout << "A = " << endl;
     A.print();
 }
@@ -354,13 +377,6 @@ void MaxElementTest(){
     findMaximumElementOnNonDiagonal(A, k, l, max_A, n);
     cout << "Function found max element to be: " << A(k,l) << endl;
     cout << "The function searches only the upper triangular part, so it should give us max(A) = " << A(1,2) << endl;
-
-//    mat B(n,n);
-//    B(0,0) = 1;
-//    B(1,1) = 2;
-//    B.diag(1) += 1000;
-//    B.diag(-1) += 0.2;
-//    findMaximumElementOnNonDiagonal(B, o, p, max_A, n)
 }
 
 void EigenvalueTest(){
@@ -368,39 +384,41 @@ void EigenvalueTest(){
     // for quantum harmonic oscillator. Analytical eigenvalues are
     // lambda0 = 3, lambda1 = 7, lambda2 = 11.
 
-    int n = 200;
-    double rho_max = 5.0;
+    int nTest = 200;
+    double rho_maxTest = 5.0;
 
-    //======================================================
+    //------------------------------------------------------
     // Defining parameters, step length, ...
-    double e, h, h_temp;
-    h = rho_max / (n+2);
-    e = -1 / (h*h);
-    h_temp = 2 / (h*h);
 
-    //======================================================
+    double hTest = rho_maxTest / (nTest+2);
+    double eTest = -1 / (hTest*hTest);
+    double h_tempTest = 2 / (hTest*hTest);
+
+    //------------------------------------------------------
     // Making the rho-vector
-    vec rho(n+2);
-    for(int i=0; i<n+2; i++){
-        rho(i) += h*i;
+    vec rhoTest(nTest+2);
+    for(int i=0; i<nTest+2; i++){
+        rhoTest(i) += hTest*i;
     }
-    rho(0) = 0;
+    rhoTest(0) = 0;
 
     // The potential is rho^2
-    vec v = rho % rho; // % is the operator for inner product
-    mat A(n,n);
-    for(int i=0; i<n; i++){
-        A(i,i) = h_temp + v(i+1);
+    vec vTest = rhoTest % rhoTest;
+    mat ATest(nTest,nTest);
+    for(int i=0; i<nTest; i++){
+        ATest(i,i) = h_tempTest + vTest(i+1);
     }
-    A.diag(1) += e;
-    A.diag(-1) += e;
-
-    uvec diagonalA; // vector to contain eigenvalue-indices
-    mat R = eye<mat>(n,n); // matrix to contain eigenvectors
+    ATest.diag(1) += eTest;
+    ATest.diag(-1) += eTest;
+    int iterationsTest;
+    uvec diagonalATest; // vector to contain eigenvalue-indices
+    mat RTest = eye<mat>(nTest,nTest); // matrix to contain eigenvectors
     cout << "Checking if the program gives the correct eigenvalues" << endl;
     cout << "Analytical solutions: lambda0 = 3, lambda1 = 7, lambda2 = 11" << endl;
     cout << "The calculated solutions are: " << endl;
-    JacobiRotation(n, A, diagonalA, R);
-    cout << "# of mesh points n: " << n << endl;
-    cout << "lambda0: " << A.diag()(diagonalA(0)) << "  lambda1: " << A.diag()(diagonalA(1)) << "  lambda2: " << A.diag()(diagonalA(2)) << endl;
+    JacobiRotation(nTest, ATest, diagonalATest, RTest, iterationsTest);
+    cout << "# of mesh points n: " << nTest << endl;
+    cout << "# of iterations: " << iterationsTest << endl;
+    cout << diagonalATest(2) << endl;
+    cout << "lambda0: " << ATest.diag()(diagonalATest(0)) << "  lambda1: " << ATest.diag()(diagonalATest(1)) << "  lambda2: " << ATest.diag()(diagonalATest(2)) << endl;
 }
