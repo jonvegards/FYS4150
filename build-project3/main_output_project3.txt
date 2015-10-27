@@ -1,0 +1,53 @@
+Gauss-Legendre:
+Integral:   Relative error:     n: 
+0.129834        -0.326466        10 
+Elapsed time Gauss-Legendre: 0.194555  for n=10
+0.199475        0.034804        15 
+Elapsed time Gauss-Legendre: 1.87624  for n=15
+0.177065        -0.081449        20 
+Elapsed time Gauss-Legendre: 9.81776  for n=20
+0.189110        -0.018967        25 
+Elapsed time Gauss-Legendre: 38.4221  for n=25
+0.185796        -0.036158        30 
+Elapsed time Gauss-Legendre: 115.476  for n=30
+Gauss-Laguerre:
+Integral:   Relative error:     n: 
+0.181567        -0.058093        10 
+Elapsed time Gauss-Laguerre: 0.159511  for n=10
+0.195887        0.016192        15 
+Elapsed time Gauss-Laguerre: 1.76516  for n=15
+0.195636        0.014892        20 
+Elapsed time Gauss-Laguerre: 9.98286  for n=20
+0.195240        0.012837        25 
+Elapsed time Gauss-Laguerre: 38.1436  for n=25
+0.195070        0.011955        30 
+Elapsed time Gauss-Laguerre: 114.97  for n=30
+Brute force Monte Carlo: 
+Integral:     Variance:     Standard Deviation:      n: 
+0.093212      -0.008639      137.130958                   1000 
+Elapsed time brute force MC: 0.000306  for n=1000
+0.150396      -0.020895      67.442177                   10000 
+Elapsed time brute force MC: 0.003002  for n=10000
+0.222673      -0.033895      27.162678                   100000 
+Elapsed time brute force MC: 0.030057  for n=100000
+0.190191      -0.029470      8.009405                   1000000 
+Elapsed time brute force MC: 0.3038  for n=1000000
+0.179076      -0.018774      2.021568                   10000000 
+Elapsed time brute force MC: 3.13475  for n=10000000
+0.192754      -0.008768      0.436883                   100000000 
+Elapsed time brute force MC: 31.2377  for n=100000000
+Improved Monte Carlo: 
+Integral:     Variance:     Standard Deviation:      n: 
+0.181563      -0.008133      0.069448                1000 
+Elapsed time MC: 0.000333  for n=1000
+0.182732      -0.009248      0.023418                10000 
+Elapsed time MC: 0.002974  for n=10000
+0.194373      0.008164      0.006958                100000 
+Elapsed time MC: 0.028833  for n=100000
+0.192976      0.006328      0.001937                1000000 
+Elapsed time MC: 0.293207  for n=1000000
+0.192717      0.010578      0.000792                10000000 
+Elapsed time MC: 2.9413  for n=10000000
+0.192789      0.008894      0.000230                100000000 
+Elapsed time MC: 29.4754  for n=100000000
+Exact answer: 0.192766

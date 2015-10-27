@@ -8,10 +8,10 @@
 #include <cmath>
 #include "lib.h"
 #include "gauss-laguerre.cpp"
+#include "time.h"
 
 using namespace std;
 
-// Defining functions to be used in the program
 
 void StupidIntegrationMethod_aka_Gauss_Legendre(int);
 void ABitBetterIntegrationMethod_aka_Gauss_Laguerre(int);
@@ -28,43 +28,69 @@ double IntegrandMC_radial(double *);
 
 // This program use exampleprogram.cpp as a template
 int main(){
+    // main() calls on other functions in order to use
+    // the different integration methods; Gauss-Legendre,
+    // Gauss-Laguerre, brute force Monte Carlo and a
+    // improved Monte Carlo-method.
+
     double pi = 4*atan(1);
+    clock_t start, finish;
 
     int *n_gauss;
-    int m=5;
-    n_gauss = new int[m];
+    // Def. a list which contains no. of mesh points
+    // It's wise to choose sth. below 30, if not the program
+    // will be extremely slow.
+    int M=5;
+    n_gauss = new int[M];
     n_gauss[0] = 10; n_gauss[1]=15; n_gauss[2]=20; n_gauss[3] = 25; n_gauss[4] = 30;
     printf("Gauss-Legendre:\n");
     printf("Integral:   Relative error:     n: \n");
-    for(int i=0; i<m; i++){
-        //StupidIntegrationMethod_aka_Gauss_Legendre(n_gauss[i]);
+    for(int i=0; i<M; i++){
+        start = clock();
+        StupidIntegrationMethod_aka_Gauss_Legendre(n_gauss[i]);
+        finish = clock();
+        cout << "Elapsed time Gauss-Legendre: " << ((double) (finish-start)/CLOCKS_PER_SEC) << "  for n=" << n_gauss[i] << endl;
     }
     printf("Gauss-Laguerre:\n");
     printf("Integral:   Relative error:     n: \n");
-    for(int i=0; i<m; i++){
+    for(int i=0; i<M; i++){
+        start = clock();
         ABitBetterIntegrationMethod_aka_Gauss_Laguerre(n_gauss[i]);
+        finish = clock();
+        cout << "Elapsed time Gauss-Laguerre: " << ((double) (finish-start)/CLOCKS_PER_SEC) << "  for n=" << n_gauss[i] << endl;
     }
-    /*
+
+    // Part for Monte Carlo-methods
     int *n_MC;
+    // Def. a list which contains no. of mesh points
     int m=6;
     n_MC = new int[m];
     n_MC[0] = 1000; n_MC[1] = 10000; n_MC[2] = 100000; n_MC[3] = 1000000; n_MC[4] = 10000000; n_MC[5] = 100000000;
     printf("Brute force Monte Carlo: \n");
     printf("Integral:     Variance:     Standard Deviation:      n: \n");
     for(int i=0; i<m; i++){
+        start = clock();
         MonteCarloBruteForce(n_MC[i]);
+        finish = clock();
+        cout << "Elapsed time brute force MC: " << ((double) (finish-start)/CLOCKS_PER_SEC) << "  for n=" << n_MC[i] << endl;
     }
     printf("Improved Monte Carlo: \n");
     printf("Integral:     Variance:     Standard Deviation:      n: \n");
     for(int i=0; i<m; i++){
+        start = clock();
         MonteCarlo(n_MC[i]);
+        finish = clock();
+        cout << "Elapsed time MC: " << ((double) (finish-start)/CLOCKS_PER_SEC) << "  for n=" << n_MC[i] << endl;
     }
-    */
+
     cout << "Exact answer: " << 5*pi*pi / (16*16) << endl;
     return 0;
 }
 
 void StupidIntegrationMethod_aka_Gauss_Legendre(int n){
+    // Function for integrating with Gauss-Legendre
+    // when using cartesian coordinates
+
     double a = -2, b = 2;       // Integration limits
     double pi = 4*atan(1);
     double Exact = 5*pi*pi / (16*16);
@@ -82,7 +108,7 @@ void StupidIntegrationMethod_aka_Gauss_Legendre(int n){
     // the weights calculated by gauleg.
 
     double IntegralGaussLegendre = 0;
-
+    // One for-loop for every dimension in the integral
     for(int a=0; a<n; a++){
         for(int b=0; b<n; b++){
             for(int c=0; c<n; c++){
@@ -99,6 +125,8 @@ void StupidIntegrationMethod_aka_Gauss_Legendre(int n){
     printf("%f        %f        %d \n", IntegralGaussLegendre, (IntegralGaussLegendre - Exact)/Exact, n);
 }
 double Integrand(double x1, double y1, double z1, double x2, double y2, double z2){
+    // Function for calculating integrand value at a point (x1,x2,y1,y2,z1,z2)
+    // when using Gauss-Legendre and cartesian coordinates
     double alpha = 2.0;
     double ExponentialFactor1 = (-2*alpha*sqrt(x1*x1 + y1*y1 + z1*z1));
     double ExponentialFactor2 = (-2*alpha*sqrt(x2*x2 + y2*y2 + z2*z2));
@@ -112,6 +140,8 @@ double Integrand(double x1, double y1, double z1, double x2, double y2, double z
 }
 
 void ABitBetterIntegrationMethod_aka_Gauss_Laguerre(int n){
+    // Function for integrating with Gauss-Laguerre
+    // and Gauss-Legendre when using spherical coordinates
     double pi = atan(1)*4;
     double Exact = 5*pi*pi / (16*16);
     double theta_min=0, theta_max=pi, phi_min=0, phi_max=2*pi; // Integration limits
@@ -149,6 +179,8 @@ void ABitBetterIntegrationMethod_aka_Gauss_Laguerre(int n){
 }
 
 double IntegrandSphericalCoordinates(double r1, double r2, double theta1, double theta2, double phi1, double phi2){
+    // Function for calculating value of integrand at (r1,r2,theta1,theta2,phi1,phi2) when using Gauss-Laguerre
+    // and spherical coordinates.
     double alpha = 2;
     double ExponentialFactor = -(2*alpha - 1 )*(r1 + r2);
     double denominator = (r1*r1 + r2*r2 - 2*r1*r2*(cos(theta1)*cos(theta2) + sin(theta1)*sin(theta2)*(cos(phi1 - phi2))));
@@ -167,9 +199,6 @@ void MonteCarloBruteForce(int n){
     double length=3.;                               // Integration limit
     double JacobiDeterminant=pow((2*length),6);     // we'll integrate over a 6D-volume box with sides equal 'length'
 
-    //double inverse_period = 1./RAND_MAX;    // initialise the random number generator
-    //srand(time(NULL));                      // producing the seed
-
     // First for loop goes over every integration point
     for(int i=1; i<n; i++){
         // Second for-loop generates six random numbers to be used in integration
@@ -186,11 +215,11 @@ void MonteCarloBruteForce(int n){
     MCintsqr2   = JacobiDeterminant*MCintsqr2/((double) n);
     variance    = MCintsqr2 - MCint*MCint;
     double stdev = JacobiDeterminant*sqrt(fabs(variance)/n);
-    // Something goes wrong when taking the square root of the variance.
     printf("%f      %f      %f                   %d \n", MCint, variance,stdev,n);
 }
 
 double IntegrandMC(double *x){
+    // Calculating integrand when using brute force Monte Carlo
     double alpha = 2.0;
     double ExponentialFactor1 = (-2*alpha*sqrt(x[0]*x[0] + x[1]*x[1] + x[2]*x[2]));
     double ExponentialFactor2 = (-2*alpha*sqrt(x[3]*x[3] + x[4]*x[4] + x[5]*x[5]));
@@ -238,6 +267,8 @@ void MonteCarlo(int n){
 }
 
 double IntegrandMC_radial(double *x){
+    // Calculating integrand when using spherical coordinates and
+    // improved Monte Carlo
     double denominator = sqrt(x[0]*x[0] + x[1]*x[1] - 2*x[0]*x[1]*(cos(x[2])*cos(x[3]) + sin(x[2])*sin(x[3])*cos(x[4] - x[5]) ) );
     /*
      * x[0] = r1, x[1] = r2, x[2] = theta1, x[3] = theta2, x[4] = phi1, x[5] = phi2

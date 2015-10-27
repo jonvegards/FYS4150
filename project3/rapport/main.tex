@@ -17,7 +17,7 @@
 \usepackage{bbold,gillius}
 \allsectionsfont{\sffamily} % Sans serif på alle overskrifter
 %\renewcommand{\abstractname}{Executive Summary}
-\captionsetup{width=.8\textwidth, textfont={small,it},labelfont={small,sf}}
+\captionsetup{width=.5\textwidth, textfont={small,it},labelfont={small,sf}}
 \usepackage[sc,osf]{mathpazo} % Palatino
 
 
@@ -59,9 +59,9 @@
 
 \textsf{\Large FYS4150 - Computational Physics\\[0.5cm]
 \rule{\linewidth}{0.5mm} \\[0.4cm]
-{ \huge \bfseries  PROSJEKT 2}\\[0.10cm]
+{ \huge \bfseries  PROSJEKT 3}\\[0.10cm]
 \rule{\linewidth}{0.5mm} \\[1.5cm]
-{\Large Å løse Schrödingers likning for étt og to elektroner}}\\[1.5cm]
+{\Large Numerisk integrasjon, en odyssé om Gaussisk kvadratur og Monte Carlo}}\\[1.5cm]
 \textsc{}\\[1.5cm]
 
 % Av hvem?
@@ -86,9 +86,9 @@
 \end{center}
 \end{titlepage}
 
-\abstract{I dette prosjektet ser vi på numerisk integrasjon på tre (fire) måter. Vi starter med Gaussisk kvadratur (GK) i form av Gauss-Legendre og Gauss-Laguerre kombinert med Gauss-Legendre, deretter ser vi på rett fram-Monte Carlo og en litt forbedra Monte Carlo-metode.}
-
-Lenke til Jon Vegards GitHub-domene: \url{https://github.com/jonvegards/FYS4150}
+\abstract{I dette prosjektet ser vi på numerisk integrasjon på tre (fire) måter. Vi starter med Gaussisk kvadratur (GK) i form av Gauss-Legendre og Gauss-Laguerre kombinert med Gauss-Legendre, deretter ser vi på rett fram-Monte Carlo og en litt forbedra Monte Carlo-metode. Vi har vist at GK-metoder ikke er spesielt godt egna til integrering i mange dimensjoner da feilen skalerer med antall datapunkter $N$ opphøyd i antall dimensjoner, mens feilen for Monte Carlo-metoder skalerer feilen alltid som $1/\sqrt{N}$. Vi har også sett at Monte Carlo-metoder krever utregninger og dermed kortere tid for å oppnå høyere presisjon. Monte Carlo-metoder ga oss fire desimalers presisjon på et halv minutt, mens GK ga oss to desimalers presisjon på to minutter.}
+\\ \\
+Lenke til Jon Vegards GitHub-domene: \\ \url{https://github.com/jonvegards/FYS4150}
 
 \section*{Introduksjon}
 Numerisk integrasjon kan gjøres på mange måter, vi ser her nærmere på metoder som baserer seg på Gaussisk kvadratur og Monte Carlo-teknikker. Førstnevnte er den eldste metoden og ble utviklet før datamaskiner fantes, mens sistnevnte er en litt nyere metode som kom i første halvdel av 1900-tallet. Integralet som vi skal teste disse metodene på er,
@@ -99,7 +99,7 @@ Dette integralet har en analytisk løsning som er $5\pi^2/16^2$, så vi kan lett
 
 Gaussisk kvadratur er en integrasjonsmetode som baserer seg på å summere opp funksjonsverdier ganget med en vektfunksjon som vekter leddene i summen forskjellig. De forskjellige vektene blir bestemt av ortogonale polynomer som Legendre- eller Laguerre-polynomer. Vi ser nærmere på utledninga av dette i Teori-delen.
 
-Monte Carlo-metoder baserer også seg på summasjon av funksjonsverdier.
+Monte Carlo-metoder baserer også seg på summasjon av funksjonsverdier av uniformt tilfeldig genererte tall. Vi har her brukt en rett-fram-metode som integrerer integralet som det er i kartesiske koordinater i en seksdimensjonal hyperkube og en litt forbedret metode der vi bruker sfæriske koordinater og eksponentialfordelinga som sørger for at de genererte datapunktene passer bedre med integranden vår, det gjør at resultatet vil konvergere raskere mot den analytiske løsninga.
 
 \section*{Teori}
 For å skjønne hvordan integrasjonsmetodene virker så kan det lønne seg å se litt på utledninga av de. Som nevnt i introduksjonen så baserer GK seg på summasjon av funksjonsverdier som er vektet forskjellig. I metoder som Simpsons metode så vektes alle integrasjonspunkt likt, og det er ikke alltid like fornuftig. Hvis integranden vår ikke varierer mye over et større intervall, så vil metoder som den ovennevnte konvergere sakte og sørge for at vi bruker unødig mye regnekraft.
@@ -108,7 +108,7 @@ Vi kan derfor introdusere GK som kort og godt skrives,
 \begin{equation}
 	I = \int\limits_{a}^b f(x) \dx \approx \sum\limits_{i=1}^N \omega_i f(x_i).
 \end{equation}
-Hvor vi da har $\omega_i$ som vektene og $x_i$ er integrasjonspunktene. Det er flere måter å velge vektene på, i dette prosjektet ser vi først på Gauss-Legendre. Den bruker ortogonale polynomer i intervallet $x\in[-1,1]$ med vektfunksjonen $W(x) = 1$. Men for å komme dit må vi først se litt på hvilken rolle vektfunksjonen har. Det viser seg at et integrand som ikke er glatt i integrasjonsintervallet kan gjøres glatt ved å dra ut en vektfunksjon fra den, vi får,
+Hvor vi da har $\omega_i$ som vektene og $x_i$ er integrasjonspunktene. Det er flere måter å velge vektene på, i dette prosjektet ser vi først på Gauss-Legendre. Den bruker ortogonale polynomer i intervallet $x\in[-1,1]$ med vektfunksjonen $W(x) = 1$. Men for å komme dit må vi først se litt på hvilken rolle vektfunksjonen har. Det viser seg at en integrand som ikke er glatt i integrasjonsintervallet kan gjøres glatt ved å dra ut en vektfunksjon fra den, vi får,
 \begin{align}
 	I = \int\limits_{a}^b f(x) \dx = \int\limits_{a}^b W(x)g(x) \dx \approx \sum\limits_{i=1}^N \omega_i g(x_i). \label{kvadratur}
 \end{align}
@@ -119,45 +119,186 @@ Vi får av dette $2N$ likninger, $N$ for integreringspunktene og $N$ for vektene
 	P_{2N-1} (x) = L_N(x)P_{N-1}(x) + Q_{N-1}(x),
 \end{equation}
 hvor $L_N(x)$ er Legendre-polynomer av $N$-grad, og $P_{N-1}(x)$ og $Q_{N-1}(x)$ er polynomer av grad $N-1$ eller lavere. Vi forutsetter nå at integrasjonsintervallet er $[-1,1]$ siden Legendrepolynomer er definert i det intervallet, vi må altså huske på å endre variablene våre slik at integrasjonsgrensene passer med intervallet til Legendrepolynomene. Likninga ovenfor kan settes inn i integralet vårt og vi kan bruke ortogonalitetsegenskapene til Legendrepolynomene slik at vi får
+\begin{align*}
+	\int\limits_{-1}^1 P_{2N-1} (x) \dx &= \int\limits_{-1}^1L_N(x)P_{N-1}(x)+Q_{N-1}(x)\dx\\
+	&= \int\limits_{-1}^1  Q_{N-1}(x) \dx.
+\end{align*}
+Vi kan nå bruke at integrasjonspunktene $x_k$, for $K=0,\ldots,N-1$, er valgt slik at de også er nullpunktene til Legendre-polynomene,
+$$ P_{2N-1} (x_k) = Q_{N-1}(x_k). $$
+Dette kan vi bruke til å definere $Q_{N-1}$ på den måten hele integralet. Vi kan så skrive $Q_{N-1}$ som en sum Legendrepolynomer,
+$$ Q_{N-1}(x) = \sum\limits_{i=0}^{N-1} \alpha_iL_i(x). $$
+Ortogonalitetsegenskapene til Legendrepolynomene gir,
+\begin{equation} \int\limits_{-1}^1  Q_{N-1}(x) = \sum\limits_{i=0}^{N-1} \alpha_i \int\limits_{-1}^1  L_0(x)L_i(x) \dx = 2\alpha_0. \label{qint}\end{equation}
+Vi bruker så at $x_k$ er nullpunktene til Legendrepolynomene, vi får da,
+\begin{equation} Q_{N-1}(x_k) = \sum\limits_{i=0}^{N_1} \alpha_iL_{ik},\label{Q_sum} \end{equation}
+hvor $L_{ik} = L_i(x_k)$. Nå har vi fått en matrise $L$ som har som kolonnevektorer Legendrepolynomene $L_i(x_k)$ der $i$ er kolonnen og graden av Legendrepolynomet, mens $x_k$ er nullpunktet til Legendrepolynomet av $k$-te grad, diagonalen er med andre ord null. Kolonnene er også lineært uavhengig på grunn av ortogonaliteten til Legendrepolynomene, slik at vi har $L^{-1} L = \mb 1$. Vi ganger (\ref{Q_sum}) med $L^{-1}$ og får
+\begin{equation} (L^{-1})_{ki}Q_{N-1}(x_i) = \alpha_k. \label{alphak} \end{equation}
+Vi kan bruke (\ref{alphak}) til å finne $\alpha_0$ og sette det inn i (\ref{qint}),
+\begin{equation*} \int\limits_{-1}^1  Q_{N-1}(x) = 2\sum\limits_{i=0}^{N-1} (L^{-1})_{0i}P_{2N-1}(x_i). \end{equation*}
+Vektene er da $\omega_i = (L^{-1})_{0i}$, og vi får til slutt
+$$ \int\limits_{-1}^1 f(x) \approx \sum\limits_{i=0}^{N-1} \omega_{i}P_{2N-1}(x_i). $$
+Til slutt vil vi nevne hvordan man transformerer koordinater fra intervallet $x\in[a,b]\to t\in[-1,1]$. Man gjør det ganske enkelt ved
+$$ t = \frac{a-b}{2}x + \frac{b+a}{2}. $$
+For tilfellet $x\in[0,\infty)$ bruker vi,
+$$ \tilde x_i = \tan\para{ \frac{\pi}{4}(1+x_i)}, $$
+$$ \tilde\omega_i = \frac{\pi}{4}\frac{\omega_i}{\cos^2(\tfrac{\pi}2(1+x_i))}. $$
+Biblioteket \verb lib.h  gjør jobben med å regne ut vektene for begge GK-metodene vi bruker.
+
+Vi kan nå se litt på hvordan Monte Carlo-metoder virker! Disse metodene baserer seg på uniformt tilfeldig genererte tall og funksjonsverdiene av de. Siden vi jobber med en uniform fordeling må integrasjonsgrensene være fra $0$ til $1$, det er lett å ordne ved å substituere variable. Vi kan generelt skrive integralet som en forventingsverdi,
 \begin{equation}
-	\int\limits_{-1}^1 P_{2N-1} (x) \dx = \int\limits_{-1}^1 L_N(x)P_{N-1}(x) + Q_{N-1}(x) \dx = \int\limits_{-1}^1  Q_{N-1}(x) \dx
+	I = \mean{f} = \int\limits_0^1 f(x) p(x) \dx,
 \end{equation}
+hvor vi da har at $p(x) = 1$ for $x\in[0,1]$ og null ellers, altså den uniforme distribusjonen. Men vi må huske på at vi jobber numerisk, så integralet blir diskretisert (tilbake) til en sum,
+$$ I = \sum\limits_{i=1}^N f(x_i). $$
+I dette prosjektet skal vi bruke noe som kalles vektingsutvelging\footnote{Eng.: importance sampling}. Det er en teknikk som sørger for at visse deler av integrasjonsintervallet veier tyngre enn andre, det betyr at vi kan bruke mer regnekraft på de områdene av intervallet som faktisk ligger innenfor området til integranden. Vi har integralet,
+$$ I = \int\limits_a^b f(x)\dx, $$
+som vi gjerne vil bruke vektingsutvelging på. Vi finner da en passene sannsynlighetsdistribusjonsfunksjon $p(x)$ som oppfyller,
+$$ \int\limits_a^b p(x)\dx = 1,$$
+samt at den er positiv definitt, integrerbar og at integralet av den er invertibelt. Vi setter $p(x)$ inn i $I$ og får,
+$$ I = \int\limits_a^b p(x) \frac{f(x)}{p(x)}\dx. $$
+Vi er nå interessert i å gjøre i et variableskifte siden tallgeneratoren vår gir oss tall $y\in[0,1]$. Vi får da
+$$ y(x) = \int\limits_a^x p(x')\dd x', $$
+siden vi kan finne $y(x)$, så kan vi også finne $x(y)$, vi kan skrive,
+\begin{equation} I = \int\limits_{\tilde a}^{\tilde b} \frac{f(x(y))}{p(x(y))}\dd y \approx \frac{1}{N}\sum\limits_{i=0}^N \frac{f(x(y_i))}{p(x(y_i))}\dd, \label{varskift}\end{equation}
+hvor vi brukte at $p(x) \dx = \dd y$. Når vi skal implementere dette i programmet vårt, så må ikke glemme at grensene endres!
+
+
+En annen viktig størrelse er variansen til resultatet, det forteller noe om nøyaktigheten til utregningene våre, den er definert som
+$$ \sigma_f^2 = \mean{f^2} - \mean{f}^2.$$
+Men vi er mer interessert i hvordan variansen varierer med antall datapunkter $N$, så vi skriver
+$$ \sigma_N^2 = \frac{\sigma_f^2}{N}. $$
+Ettersom $N$ øker så vil forhåpentligvis $\sigma_N^2$ avta, hvilket betyr at resultatet vårt blir mer nøyaktig.
+
+Vi ser nå litt mer på hvordan integralet blir seende ut for de forskjellige integrasjonsmetodene. Først ut er Gauss-Legendre. Der er vektfunksjonen $W(x) = 1$, så den er triviell å faktorisere ut. Integralet som skal kodes inn blir da enkelt og greit,
+\begin{equation}
+	\int\limits_{-\infty}^\infty \frac{\dd x_1\dd x_2\dd x_3\dd x_4\dd x_5\dd x_6\, e^{-2\alpha(\sqrt{x_1^2+x_2^2+x_3^2}+\sqrt{x_4^2+x_5^2+x_6^2})}}{\sqrt{(x_1-x_4)^2+(x_2-x_5)^2+(x_3-x_6)^2}}. \label{kart_int}
+\end{equation}
+For å finne grensene vi skal sette i programmet så plotter vi simpelthen den eksponentielle funksjonen i integranden for å se hvor fort den faller slik at vi kan bestemme hva som er ``uendelig'' hos oss, vi finner det til å være ved  cirka $x=2$.
+
+Når vi skal bruke Gauss-Laguerre-metoden der integralet er i sfæriske koordinater, så må vi faktorisere ut $W(r_i)=r_i^\beta e^{-r_i}$. Transformasjon fra kartesiske til sfæriske koordinater gir oss,
+\begin{equation}
+	I = \int\dd \gamma \frac{e^{-2\alpha(r_1 + r_2)}r_1^2r_2^2\sin\theta_1\sin\theta_24\pi^2}{r_{12}}, \label{sfaerint}
+\end{equation}
+hvor vi har $\dd\gamma = \dd r_1\dd r_2\dd \theta_1\dd \theta_2\dd \phi_1\dd \phi_2$, $4\pi^2$ er Jacobideterminanten, og
+$$ r_{12} = \sqrt{r_1^2 + r_2^2 + 2r_1r_2(\cos\theta_1\cos\theta_2 + \sin\theta_1\sin\theta_2\cos(\phi_1-\phi_2))}.$$
+Ved å trekke ut $r_i^2e^{-r_i}$ får vi,
+\begin{equation}
+	I = \int\dd \gamma \frac{e^{-(2\alpha-1)(r_1 + r_2)}\sin\theta_1\sin\theta_24\pi^2}{r_{12}}r_1^2r_2^2e^{-r_1-r_2}, \label{sfaerint}
+\end{equation}
+hvor vi da skal sende brøkdelen\footnote{No pun intended.} av integranden til \verb gaulag -funksjonen i \verb lib.h -biblioteket. Den angulære delen av integralet blir integrert med Gauss-Legendre på samme måte som for kartesiske koordinater.
+
+Hvordan tar dette seg så ut når vi skal integrere det med Monte Carlo-metoder? Vi skal først gjøre det rett fram og integrere i kartesiske koordinater. Vi må bruke $z = a - (b-a)x$, der $x\in[0,1]$, da tryller vi på magisk vis tall fra en uniform distribusjon ut over hele integrasjonsintervallet vårt. Mer trenger vi ikke å gjøre med integranden når den skal integreres i kartesiske koordinater. Så langt så vel.
+
+Vi kan imidlertid gjøre integrasjonen på en litt mer elegant måte, vi kan bytte til sfæriske koordinater og bruke den eksponentielle distribusjonen slik at vi vår et resultat som konvergerer raskere mot det analytiske resultatet. Integralet vårt blir i sfæriske koordinater fant i stad, se (\ref{sfaerint})
+Vi ser at vi kan trekke ut en faktor $e^{-r_i}$, $i=1,2$, og dermed bruke den eksponentielle distribusjonen. Variabelskifte av den eksponentielle distribusjonen gir oss $r = -\ln(1-x)$, $x\in[0,1]$. Integranden endrer seg litt når vi gjør prosedyren som i (\ref{varskift}),
+$$ \int\dd\gamma \frac{e^{-(2\alpha-1)(r_1 + r_2)}\sin\theta_1\sin\theta_2r_1^2r_2^24\pi^2}{r_{12}}. $$
+Integrasjonsgrensene for $r_i$ blir så fra 0 til $\infty$ ved at vi bruker $r_i = -\ln(1-x)$ for $x\in[0,1]$. Vi er nå klare til å gå løs på selve programmeringa!
+
+Kort oppsummert: Det vi må gjøre når vi skal integrere med Monte Carlo er å velge antall genererte tall $N$, sørge for at integrasjonsgrensene går fra $0$ til $1$, summere opp alle verdier og så gange med Jacobideterminanten/volumelementet og dele på antall punkter som er brukt.
+
+% Vise hvor ganging av volumelement og deling på N kommer fra
+% Gå gjennom variabelskifte
+% Gå gjennom eksponentiell dist
+% Importance sampling
 
 \section*{Metode}
+Vi kan nå gå mer gjennom algoritmen og gangen i programmet \verb main.cpp . Programmet er delt opp i fire, en for hver integrasjonsmetode. For Gauss-Legendre har vi to funksjoner, en som gjør integrasjonsrutinen og en som regner ut funksjonsverdien for et sett med punkter. Denne måten å organisere programmet på er valgt for enkelt å kunne kjøre bare én integrasjonsmetode av gangen. Inne i funksjonen for Gauss-Legendre-metoden så definerer vi integrasjonsgrensene, og \verb double -objekter til å lagre integrasjonspunktene og vektingsfaktorene. Vi sender så inn dette til funksjonen \verb gauleg , den returnerer to lister som er fylt med integrasjonspunkter og vektingsfaktorer. Vi går så inn i en seksdobbel \verb for -løkke som summerer opp funksjonsverdien ganget med de seks vektingsfaktorene, en for hver dimensjon, og det er hele prosedyren! Det kan bemerkes at det kalles på \verb gauleg  kun en gang siden den seks-doble \verb for -løkka kaller på seks forskjellige verdier fra de samme listene for hver itersjon, på den måten vil alle kombinasjonsmuligheter blir brukt slik at vi dermed integrerer over hele volumet vi har satt.
+
+For Gauss-Laguerre er det derimot mer som må gjøres. På samme måte som i stad definerer vi variable som inneholder integrasjonsgrenser etc., men denne gangen gjør vi ett kall på \verb gauss_laguerre , den gir oss oss integrasjonspunktene og vektingsfaktorene fra Gauss-Laguerre-metoden. Videre gjør vi to kall på \verb gauleg  siden integrasjonsgrensene ikke er like, \emph{i.e.} $\theta\in[0,\pi]$ og $\phi\in[0,2\pi]$. Vi har nå tre sett med integrasjonspunkter og vektfaktorer, vi gjenbruker den seksdoble \verb for -løkka fra i stad og summerer sammen bidragene.
+
+Vi kommer så til Monte Carlo-metodene. Når vi skal bruke rett-fram-metoden så må vi først transformere koordinatene slik at integrasjonsgrensene passer med den uniforme fordelinga og huske på å gange med Jacobideterminanten som blir
+$$ \prod\limits_{i=0}^D (a_i - b_i), $$
+for $D$ dimensjoner. Siden vi her får $a_i=-b_i$, så blir Jacobideterminanten bare volumet vi integrerer over. \verb for -løkka vil for denne metoden være dobbel, en som går over integrasjonspunktene og en som går over dimensjonene og genererer verdier. Etter $N$ runder i løkka så har vi et tall som skal ganges med Jacobideterminanten og deles på $N$, og så har vi verdien av integralet. Vi finner også standardavviket og relativ feil for å se hvor korrekte resultatene er.
+
+Til slutt har vi rosinen i pølsa, en forbedret Monte Carlo-metode der vi bruker sfæriske koordinater. Forskjellen fra forrige metode er heller liten, vi får en ny Jacobideterminant på $4\pi^4$ og nye \verb for -løkker for de forskjellige dimensjonene.
+
+Hele dette programmet er en enhetstest, vi vet verdien av integralet vi skal regne ut, og det er derfor ikke lagt inn noen spesielle funksjoner for å teste programmet. Vi kunne sjekket om RNG-en vår fungerer ved å plotte de genererte tallene, ev. sjekket om de tilfredsstilte den uniforme fordelinga, men siden programmet gir korrekt resultat antar vi det er som en følge av at RNG-en fungerer som den skal.
+
+% Algoritme & kode
+% Noe om enhetstester
 
 \section*{Resultat}
+Programmet har kjørt med fire forskjellige metoder og hver av de med fem eller seks forskjellige antall integrasjonspunkter. Resultatene er listet opp i tabell (\ref{tab:gauleg}) og (\ref{tab:MC})
+
+% Tabell med resultater for forskjellige N
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l l l l l}
+    \toprule
+    $I_{\text{Legendre}}$ & $I_{\text{Laguerre}}$ & $\epsilon_{\text{Legendre}}$ & $\epsilon_{\text{Laguerre}}$ & n \\
+    \midrule
+	0.129834 & 0.181567 & 0.326466 & 0.058093 & 10 \\
+	0.199475 & 0.195887 & 0.034804 & 0.016192 & 15 \\
+	0.177065 & 0.195636 & 0.081449 & 0.014892 & 20 \\
+	0.189110 & 0.195240 & 0.018967 & 0.012837 & 25 \\
+	0.185796 & 0.195070 & 0.036158 & 0.011955 & 30 \\
+	\bottomrule
+  \end{tabular}
+  \caption{Resultat fra kjøringer av begge GK-metodene. Ingen av de er spesielt gode sammenliknet med Monte Carlo-metodene. Når vi hadde ti integrasjonspunkter så betydde det $10^6$ utregninger siden det var en seksdobbel løkke, en lite effektiv måte å angripe problemet på.}
+  \label{tab:gauleg}
+\end{table}
+Vi kan spørre oss hvorfor noen metoder fungerer bedre enn andre. I vårt tilfelle så har vi et seksdimensjonalt integral, det krever veldig mange punkter om man skal regne det ut. Vi integrerer altså over en seksdimensjonal hyperkube med sider $L$ og dimensjon $d$, den inneholder $N=(L/h)^d$ datapunkter, hvor $h$ er steglengden. Feilen på resultatet skalerer da med en faktor $N^{-k/d}$, hvor $k$ er potensen som trunkeres, $\mathcal O(h^k)$. For Monte Carlo-metoder, som baserer seg på statistiske metoder, så vil feilen \emph{alltid(!)} skalere som $\sigma \sim 1/\sqrt N$.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l l l l l}
+    \toprule
+    $I_{\text{brute force}}$ & $I_{\text{spherical}}$ & $\sigma_{\text{bf}}$ & $\sigma_{\text{sph}}$ & n \\
+    \midrule
+	0.093212 & 0.181563 & 137.131 & 0.069448 & $10^3$ \\
+	0.150396 & 0.182732 & 67.442177 & 0.023418 & $10^4$ \\
+	0.222673 & 0.194373 & 27.162678 & 0.006958 & $10^5$ \\
+	0.190191 & 0.192976 & 8.009405 & 0.001937 & $10^6$ \\
+	0.179076 & 0.192717 & 2.021568 & 0.000792 & $10^7$ \\
+	0.192754 & 0.192789 & 0.436883 & 0.000230 & $10^8$ \\
+	\bottomrule
+  \end{tabular}
+  \caption{Resultat fra kjøringer av begge Monte Carlo-metodene med forskjellige $N$. Vi ser at den forebedra metoden virkelig er forbedra, den gir et mer presist resultat for lavere $N$ og konvergerer raskt, mens rett-fram-metoden er virkelig dårlig i starten, men blir litt bedre for veldig store $N$.}
+  \label{tab:MC}
+\end{table}
+Vi ser også litt på tidsbruken til de forskjellige metoden. I tabell (\ref{tab:tid_gk}) og (\ref{tab:tid_MC}) ser vi tidsbruken for hhv. GK og Monte Carlo-metodene. Ikke overraskende ser vi at Monte Carlo gir oss best resultat også med tanke på tidsbruk. Vi trenger bare et halvt minutt på å få et resultat med fire desimalers presisjon.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l l l}
+    \toprule
+	n & $t_{\text{Legendre}}$ & $t_{\text{Laguerre}}$ \\
+	\midrule
+	10 & 0.20 s & 0.16 s \\
+	15 & 1.88 s & 1.77 s \\
+	20 & 9.88 s & 9.98 s \\
+	25 & 38.42 s & 38.14 s \\
+	30 & 115.48 s & 114.97 s\\
+	\bottomrule
+  \end{tabular}
+  \caption{Tidsbruken for de to GK-metodene er ganske lik, dette er ikke så overraskende siden de gjør så å si det samme, eneste forskjellen er at det blir regnet ut vektingsfaktorer og integrasjonspunkt tre ganger i stedet for én, men det er ikke den tidkrevende prosessen i integrasjonen. Det er den seksdoble for-løkka som tar opp tida vår.}
+  \label{tab:tid_gk}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l l l}
+    \toprule
+	n & $t_{\text{MC rett-fram}}$ & $t_{\text{MC}}$ \\
+	\midrule
+	$10^3$ & 0.000306 s & 0.000333 s \\
+	$10^4$ & 0.003002 s & 0.002974 s \\
+	$10^5$ & 0.030057 s & 0.028833 s \\
+	$10^6$ & 0.3038 s & 0.293207 s \\
+	$10^7$ & 3.13475 s & 2.9413 s \\
+	$10^8$ & 31.2377 s & 29.4754 s \\
+	\bottomrule
+  \end{tabular}
+  \caption{Dette er en langt raskere metode enn GK sammenlignet med hvor nøyaktig resultatet blir. Vi trenger ``bare'' et halvt minutt på å få et resultat med fire desimalers presisjon, mens vi på nesten to minutter med GK fikk på det beste to desimalers presisjon.}
+  \label{tab:tid_MC}
+\end{table}
 
 \section*{Numerisk stabilitet og presisjon}
+Vi ser av resultatene at den siste metoden var definitivt den beste. Den hadde et akseptabelt resultat for laveste verdien vi hadde av $N$ og konvergerte raskt mot den analytiske løsningen. For vår største $N$ hadde den det riktige svaret med fire desimalers nøyaktighet.
+
+Programmet er stabilt, men stabilt dårlig for de dårlige metodene. Alle metoder konvergerer mot den samme løsningen, men med forskjellig hastighet og presisjon.
 
 \subsection*{Konklusjon}
-
-
+Vi har i dette prosjektet sett på to ulike metoder å integrere på, den ene brukte ortogonale polynomer til å finne ut hvordan integralet skulle vektes, mens den andre genererte tilfeldige tall mellom 0 og 1 og brukte så en distribusjonsfunksjon til å distribuere disse i en fordeling som passet bedre til integranden. Vi har kjørt for forskjellig antall datapunkter og vist at Monte Carlo-metoder er den beste metoden i vårt tilfelle. Kjøretidene varierte i alt fra et brøkdels sekund til nesten to minutter.
 
 \end{document}
-
-%\begin{figure}[H]
-%	\centering
-%	%\includegraphics[scale = 0.5, trim = 1cm 7cm 1cm 7cm]{omega_05_1_5.pdf}
-%	\caption{Den relative distansen mellom to elektroner for forskjellige verdier av $\omega_r$ ved $n = 400$. Toppunktene til sannsynlighetsfordelingene ligger nærmere null enn da $\omega_r=0.01$, \emph{i.e.} elektronene er nå nærmere hverandre.}
-%	\label{fig:n400}
-%\end{figure}
-
-%\begin{table}[H]
-%  \centering
-%  \begin{tabular}{ l l }
-%    \toprule
-%    $\epsilon$ & $|\Delta\lambda_0|$ \\
-%    \midrule
-%    $10^{-1}$ & $8.8\cdot10^{-4}$ \\
-%    $10^{-2}$ & $4.47\cdot10^{-6}$ \\
-%	$10^{-3}$ & $1.63\cdot10^{-7}$ \\
-%	$10^{-4}$ & $4.63\cdot10^{-10}$ \\
-%	$10^{-5}$ & $1.30\cdot10^{-11}$ \\
-%	$10^{-6}$ & $2.57\cdot10^{-13}$ \\
-%	$10^{-7}$ & $2.04\cdot10^{-13}$ \\
-%	$10^{-8}$ & $2.04\cdot10^{-13}$ \\
-%	\bottomrule
-%  \end{tabular}
-% % \caption{Differanse mellom Armadillos og Jacobis metodes løsning av laveste egenverdi. For $\epsilon < 10^{-7}$ klarer ikke datamaskinen lenger å gi en nøyaktig differanse mellom resultatene siden de er så like. Til tross for at Jacobis metode er en treg metode, så blir den ganske nøyaktig.}
-%%  \label{tab:jmarm}
-%\end{table}
