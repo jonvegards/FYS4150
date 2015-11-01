@@ -1,0 +1,122 @@
+\documentclass[norsk, 10pt]{article}
+\usepackage{babel}          % Ordelingsregler, osv
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}       % Ordentlige tabeller
+\usepackage{url}            % Skrive url-er
+\usepackage{textcomp}       % Den greske bokstaven micro i text-mode
+\usepackage{units}          % Skrive enheter riktig
+\usepackage{float}          % Figurer dukker opp der du ber om
+\usepackage{lipsum}         % Blindtekst
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{caption,subfigure,listings, booktabs}
+\usepackage{tikz,graphicx}
+\usepackage{sectsty}
+
+% Setter fonter
+\usepackage{bbold,gillius}
+\allsectionsfont{\sffamily} % Sans serif på alle overskrifter
+%\renewcommand{\abstractname}{Executive Summary}
+\captionsetup{width=.5\textwidth, textfont={small,it},labelfont={small,sf}}
+\usepackage[sc,osf]{mathpazo} % Palatino
+
+
+% Kodelisting
+\usepackage{verbatim}
+\lstset{language=matlab,breaklines=true,numbers=left} % For hele programmer.
+%\lstinputlisting[language=matlab]{fil.m}
+
+% Layout
+%\usepackage[top=1.2in, bottom=1.7in, left=1.7in, right=1.7in]{geometry}
+\usepackage[top=1.2in, bottom=1.7in, left=.7in, right=.7in]{geometry}
+\frenchspacing % Rett mellomrom etter punktum.
+\linespread{1.1} % Linjeavstand.
+\usepackage[colorlinks=true]{hyperref} % Farge på lenker.
+
+% Egendefinerte kommandoer
+\newcommand{\dt}{\, {\rm d}t\, }
+\newcommand{\dx}{\, {\rm d}x\, }
+\newcommand{\dv}{\, {\rm d}v\, }
+\newcommand{\dr}{\, {\rm d}r\, }
+\newcommand{\dd}{\, {\text d} }
+%\newcommand{\dp}{\ {\rm d}p\ }
+\newcommand{\R}{\mathbb{R}}
+\def\mean#1{\left\langle #1 \right\rangle}
+\renewcommand{\exp}{\mathit{e}}
+%\DeclareMathOperator{\dt}{dt}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\def\para#1{\left( #1 \right)}
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\bra}[1]{\left\langle#1\right|}
+
+%, trim = 1cm 7cm 1cm 7cm % PDF-filer som bilde
+
+\begin{document}
+
+% Forside
+\begin{titlepage}
+\begin{center}
+
+\textsf{\Large FYS4150 - Computational Physics\\[0.5cm]
+\rule{\linewidth}{0.5mm} \\[0.4cm]
+{ \huge \bfseries  PROSJEKT 4}\\[0.10cm]
+\rule{\linewidth}{0.5mm} \\[1.5cm]
+{\Large Isingmodellen, Monte Carlo og parallellisering}}\\[1.5cm]
+\textsc{}\\[1.5cm]
+
+% Av hvem?
+
+\textsf{\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Kandidat 72
+    \end{center}
+\end{minipage}}
+%\begin{minipage}{0.49\textwidth}
+%    \begin{center} \large
+%        Anne-Marthe Hovda\\ \url{annemmho@uio.no} \\[0.8cm]
+%    \end{center}
+%\end{minipage}}
+
+
+\vfill
+
+% Dato nederst
+\textsf{\large{Dato: \today}}
+
+\end{center}
+\end{titlepage}
+
+\abstract{}
+\\ \\
+
+
+\section*{Introduksjon}
+
+\section*{Teori}
+
+\section*{Metode}
+
+\section*{Resultat}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l l l l l}
+    \toprule
+    $I_{\text{Legendre}}$ & $I_{\text{Laguerre}}$ & $\epsilon_{\text{Legendre}}$ & $\epsilon_{\text{Laguerre}}$ & n \\
+    \midrule
+	0.129834 & 0.181567 & 0.326466 & 0.058093 & 10 \\
+	0.199475 & 0.195887 & 0.034804 & 0.016192 & 15 \\
+	0.177065 & 0.195636 & 0.081449 & 0.014892 & 20 \\
+	0.189110 & 0.195240 & 0.018967 & 0.012837 & 25 \\
+	0.185796 & 0.195070 & 0.036158 & 0.011955 & 30 \\
+	\bottomrule
+  \end{tabular}
+  \caption{Resultat fra kjøringer av begge GK-metodene. Ingen av de er spesielt gode sammenliknet med Monte Carlo-metodene. Når vi hadde ti integrasjonspunkter så betydde det $10^6$ utregninger siden det var en seksdobbel løkke, en lite effektiv måte å angripe problemet på.}
+  \label{tab:gauleg}
+\end{table}
+
+\section*{Numerisk stabilitet og presisjon}
+
+\subsection*{Konklusjon}
+
+\end{document}

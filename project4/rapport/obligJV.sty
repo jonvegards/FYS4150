@@ -1,0 +1,64 @@
+\ProvidesFile{obligJV}
+
+\usepackage[norsk]{babel}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsfonts, amssymb, amsthm, slashed}
+\usepackage{caption,subfigure,listings, booktabs}
+\usepackage{tikz,graphicx, color}
+\usepackage{sectsty}
+\usepackage{url}            % Skrive url-er
+\usepackage{units}          % Skrive enheter riktig
+\usepackage{float}          % Figurer dukker opp der du ber om
+\usepackage{dsfont}
+
+% Kodelisting
+\usepackage{verbatim}
+\lstset{language=Python,breaklines=true} % For hele programmer.
+%\lstinputlisting[language=matlab]{fil.m}
+
+% Layout
+\usepackage[top=1.2in, bottom=1.7in, left=1.7in, right=1.7in]{geometry}
+\frenchspacing % Rett mellomrom etter punktum.
+\linespread{1.1} % Linjeavstand.
+\usepackage[colorlinks=true]{hyperref} % Farge på lenker.
+%\usepackage[color, report]{uiosloforside}
+\captionsetup{width=.8\textwidth, textfont={small,it},labelfont={small,sf}}
+
+\usepackage{bbold,gillius}
+\allsectionsfont{\sffamily} % Sans serif på alle overskrifter
+\renewcommand{\abstractname}{Executive Summary}
+
+% Forskjellige fonter
+%\usepackage{cmbright}
+%\usepackage{utopia}
+%\usepackage{uiofont2010}
+\usepackage[sc,osf]{mathpazo} % Palatino
+%\usepackage{charter}
+%\usepackage{euler} % Mattefont
+%\usepackage{mathptmx} % mathptmx gir Times New Roman-font
+\allsectionsfont{\sffamily} % Sans serif på alle overskrifter
+%\subsectionfont{\fontfamily{ptm}\selectfont} % Times New Roman pa subsections
+
+% Egendefinerte kommandoer
+\theoremstyle{definition} \newtheorem{defi}{Definisjon}[subsection]
+\theoremstyle{definition} \newtheorem{teo}{Teorem}[subsection]
+\theoremstyle{definition} \newtheorem*{eks}{Eksempel}
+
+\newcommand{\dt}{\, {\rm d}t\, }
+\newcommand{\dx}{\, {\rm d}x\, }
+\newcommand{\dv}{\, {\rm d}v\, }
+\newcommand{\dr}{\, {\rm d}r\, }
+\newcommand{\dd}{\, {\text d} }
+%\newcommand{\dp}{\ {\rm d}p\ }
+\newcommand{\R}{\mathbb{R}}
+\def\mean#1{\langle #1 \rangle}
+\renewcommand{\exp}{\mathit{e}}
+%\DeclareMathOperator{\dt}{dt}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\def\para#1{\left( #1 \right)}
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\bra}[1]{\left\langle#1\right|}
+
+\author{Jon Vegard Sparre}

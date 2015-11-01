@@ -62,8 +62,8 @@ void metropolis_algo(int **state_matrix, int L_spins, double &energy, double &ma
     for(int row=0;row<L_spins;row++){
         for(int column=0;column<L_spins;column++){
             // Picking random site in lattice
-            int MC_row =    (int) (ran1(&idum)*(double)L_spins);
-            int MC_column = (int) (ran1(&idum)*(double)L_spins);
+			int MC_row =    (int) (ran2(&idum)*(double)L_spins);
+			int MC_column = (int) (ran2(&idum)*(double)L_spins);
             // calculating energy difference if one spin is flipped
             int delta_E = 2*state_matrix[MC_row][MC_column]*
                     (state_matrix[MC_row][neighbour[MC_column][0]] +
@@ -71,7 +71,7 @@ void metropolis_algo(int **state_matrix, int L_spins, double &energy, double &ma
                     state_matrix[MC_row][neighbour[MC_column][1]] +
                     state_matrix[neighbour[MC_row][1]][MC_column]);
             // comparing random number with energy difference
-            if( delta_E <= 0 or ran1(&idum) <= w[delta_E + 8]){
+			if( delta_E <= 0 or ran2(&idum) <= w[delta_E + 8]){
                 accepted += 1;
                 state_matrix[MC_row][MC_column] *= -1;
                 energy += (double) delta_E;
@@ -164,14 +164,14 @@ void RunForDifferentTemperatures(int argc, char* argv[]) {
 	//------------------------------------------------------
 	// Main parameters
 	// No. of MC-values we calculate for
-	double start_temp = 2.0;
+	double start_temp = 2.1;
 	double final_temp = 2.6;
-	double temp_step  = 0.05;
+	double temp_step  = 0.01;
 	double MC = 1000000;
 	int N = (final_temp - start_temp)/temp_step + 1;
-	int L = 40; // Size of lattice 40,60,80
+	int L = 80; // Size of lattice 40,60,80
 	bool random = true; // Starting with a random or non-random state
-	string FileName = "L_60_MC_1000000_DifferentTemps_parallell.m";
+	string FileName = "L_80_MC_1000000_DifferentTemps_parallell_step01.m";
 	//------------------------------------------------------
 	double values[5], total_values[5]; // Array for keeping our results
     double energy=0, magnetization=0;
@@ -221,7 +221,9 @@ void RunForDifferentTemperatures(int argc, char* argv[]) {
         // Setting values to zero
         //temperature+=temp_step;
 		for(int i=0;i<5;i++) values[i] = 0, total_values[i] = 0;
-        for(int delta_E=-8;delta_E<=8;delta_E++) w[delta_E+8] = exp(-delta_E/temperature[q]);
+//        for(int delta_E=-8;delta_E<=8;delta_E++) w[delta_E+8] = exp(-delta_E/temperature[q]);
+		for( int delta_E =-8; delta_E <= 8; delta_E++) w[delta_E+8] = 0;
+		for( int delta_E =-8; delta_E <= 8; delta_E+=4) w[delta_E+8] = exp(-delta_E/temperature[q]);
 
 		//for(int n=0;n<MC; n++){
 		for (int cycles = myloop_begin; cycles <= myloop_end; cycles++){
@@ -261,7 +263,7 @@ void CreateStartingState(int **state_matrix, double L_spins, double energy, doub
         // Filling state matrix with random spins
         for(int row=0;row<L_spins;row++){
             for(int column=0;column<L_spins;column++){
-                if(ran1(&idum) <= 0.5) state_matrix[row][column] = 1.;
+				if(ran2(&idum) <= 0.5) state_matrix[row][column] = 1.;
                 else state_matrix[row][column] = -1;
             }
         }
