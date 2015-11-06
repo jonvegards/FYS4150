@@ -68,6 +68,13 @@ int main(int argc, char* argv[])
         // print results
         output(n_spins, mcs, temperature, average);
     }
+
+    for(int y =0; y < n_spins; y++) {
+        for (int x= 0; x < n_spins; x++){
+            cout << spin_matrix[y][x] << endl;
+        }
+    }
+
     free_matrix(((void **) spin_matrix)); // free memory
     ofile.close();  // close output file
     return 0;
