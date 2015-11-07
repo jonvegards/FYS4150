@@ -10,8 +10,6 @@
 #include "lib.h"
 #include "time.h"
 
-// /usr/local/bin/mpic++
-
 using namespace std;
 
 /* 1. Create a state, compute the difference
@@ -77,8 +75,7 @@ int main(){
 	MC_cycles_no[0] = M;
 	for(int i=1; i<N;i++) MC_cycles_no[i] = M + i*M;
 
-	// We need 10^5 MC-cycles for reaching equilibrium from a random start state when T=2
-
+	// Arrays for keeping results from each thread
 	double HeatCapacity[N];
 	double Susceptibility[N];
 	double MeanMagnetization[N];
@@ -121,11 +118,7 @@ int main(){
 		time_used[q] = ((double) (finish-start)/CLOCKS_PER_SEC);
 
 	}
-	for(int row=0;row<L;row++){
-		for(int column=0;column<L;column++){
-			cout << state_matrix[row][column] << " ";
-		}
-	}
+
 	free_matrix(((void **) state_matrix)); // free memory
 	SaveResultsFromSeveralMCCycles(FileName, HeatCapacity,Susceptibility, MeanMagnetization, MC_cycles_no, N, time_used, accepted_total, probability, AverageEnergy);
 	return 0;
@@ -252,6 +245,7 @@ void ProbabilityForGivenEnergy(int **state_matrix, int L_spins, double &energy, 
 }
 
 void ExpectationValues(double *values, double normalization, double &accepted_total, double &HeatCapacity, double &Susceptibility, double &MeanMagnetization, int L, double &AverageEnergy, double temperature){
+	// Every value is calculated per spin
 	accepted_total = accepted_total/normalization;
 	HeatCapacity = (values[1]/normalization - values[0]*values[0]/(normalization*normalization))/(L*L*temperature*temperature);
 	Susceptibility = (values[3]/normalization - values[4]*values[4]/(normalization*normalization))/(L*L*temperature);

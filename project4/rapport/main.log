@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  7 NOV 2015 12:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.10)  7 NOV 2015 16:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1185,14 +1185,14 @@ e
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(122.85876pt, 368.57747pt, 122.85876pt)
-* v-part:(T,H,B)=(86.72377pt, 585.38745pt, 122.85876pt)
+* v-part:(T,H,B)=(101.17755pt, 592.61488pt, 101.17755pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
 * \textwidth=368.57747pt
-* \textheight=585.38745pt
+* \textheight=592.61488pt
 * \oddsidemargin=50.58878pt
 * \evensidemargin=50.58878pt
-* \topmargin=-22.54622pt
+* \topmargin=-8.09244pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -1294,209 +1294,203 @@ File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 
 {/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <9> not available
-(Font)              Font shape `T1/pplj/b/n' tried instead on input line 89.
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 83.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 85.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 85.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 85.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 85.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 85.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 85.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 87.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
 LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/pplj/b/n' tried instead on input line 92.
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 89.
 LaTeX Font Info:    Font shape `T1/GilliusADF-LF/bx/n' in size <14.4> not avail
 able
 (Font)              Font shape `T1/GilliusADF-LF/b/n' tried instead on input li
-ne 92.
+ne 89.
 LaTeX Font Info:    Font shape `T1/GilliusADF-LF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 92.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 94.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 94.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 94.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 94.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 94.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 94.
+(Font)              scaled to size 14.4pt on input line 89.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.114 $$
-         \uparrow_1\quad\uparrow_2\quad\uparrow_3\quad, $$ [1] [2] [3]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 183.
-
-
-(/usr/local/texlive/2014/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-) [4]
-<b_rel_err_avgEnergy_L2_T1.pdf, id=47, 597.23125pt x 845.1575pt>
+l.107 $$
+         E_i = -J\sum\limits_{\mean{j,k}}^{L} s_js_k, $$ [1]
+LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <10> not available
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 111.
+LaTeX Font Info:    Font shape `T1/GilliusADF-LF/bx/n' in size <10> not availab
+le
+(Font)              Font shape `T1/GilliusADF-LF/b/n' tried instead on input li
+ne 111.
+LaTeX Font Info:    Font shape `T1/GilliusADF-LF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 111.
+ [2] [3] [4]
+[5] <b_rel_err_avgEnergy_L2_T1.pdf, id=56, 597.23125pt x 845.1575pt>
 File: b_rel_err_avgEnergy_L2_T1.pdf Graphic file (type pdf)
 
 <use b_rel_err_avgEnergy_L2_T1.pdf>
-Package pdftex.def Info: b_rel_err_avgEnergy_L2_T1.pdf used on input line 194.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_rel_err_avgEnergy_L2_T1.pdf used on input line 198.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
 LaTeX Font Info:    Font shape `T1/GilliusADF-LF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 195.
- [5]
+(Font)              scaled to size 9.0pt on input line 199.
+
 <b_rel_err_c_v_L2_T1.pdf, id=57, 597.23125pt x 845.1575pt>
 File: b_rel_err_c_v_L2_T1.pdf Graphic file (type pdf)
 
 <use b_rel_err_c_v_L2_T1.pdf>
-Package pdftex.def Info: b_rel_err_c_v_L2_T1.pdf used on input line 201.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_rel_err_c_v_L2_T1.pdf used on input line 205.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
  [6 <./b_rel_err_avgEnergy_L2_T1.pdf>]
-<b_rel_err_mag_L2_T1.pdf, id=94, 597.23125pt x 845.1575pt>
+<b_rel_err_mag_L2_T1.pdf, id=99, 597.23125pt x 845.1575pt>
 File: b_rel_err_mag_L2_T1.pdf Graphic file (type pdf)
 
 <use b_rel_err_mag_L2_T1.pdf>
-Package pdftex.def Info: b_rel_err_mag_L2_T1.pdf used on input line 210.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_rel_err_mag_L2_T1.pdf used on input line 214.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
  [7 <./b_rel_err_c_v_L2_T1.pdf>]
-<b_rel_err_chi_L2_T1.pdf, id=121, 597.23125pt x 845.1575pt>
+<b_rel_err_chi_L2_T1.pdf, id=125, 597.23125pt x 845.1575pt>
 File: b_rel_err_chi_L2_T1.pdf Graphic file (type pdf)
 
 <use b_rel_err_chi_L2_T1.pdf>
-Package pdftex.def Info: b_rel_err_chi_L2_T1.pdf used on input line 217.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_rel_err_chi_L2_T1.pdf used on input line 221.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
  [8 <./b_rel_err_mag_L2_T1.pdf> <./b_rel_err_chi_L2_T1.pdf>] <b_avgEnergy_MC_L2
-_T1.pdf, id=182, 597.23125pt x 845.1575pt>
+_T1.pdf, id=190, 597.23125pt x 845.1575pt>
 File: b_avgEnergy_MC_L2_T1.pdf Graphic file (type pdf)
 
 <use b_avgEnergy_MC_L2_T1.pdf>
-Package pdftex.def Info: b_avgEnergy_MC_L2_T1.pdf used on input line 230.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_avgEnergy_MC_L2_T1.pdf used on input line 234.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
 
-<b_varmekap_MC_L2_T1.pdf, id=183, 597.23125pt x 845.1575pt>
+<b_varmekap_MC_L2_T1.pdf, id=191, 597.23125pt x 845.1575pt>
 File: b_varmekap_MC_L2_T1.pdf Graphic file (type pdf)
 
 <use b_varmekap_MC_L2_T1.pdf>
-Package pdftex.def Info: b_varmekap_MC_L2_T1.pdf used on input line 237.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_varmekap_MC_L2_T1.pdf used on input line 241.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
  [9 <./b_avgEnergy_MC_L2_T1.pdf>]
-<b_chi_MC_L2_T1.pdf, id=213, 597.23125pt x 845.1575pt>
+<b_chi_MC_L2_T1.pdf, id=217, 597.23125pt x 845.1575pt>
 File: b_chi_MC_L2_T1.pdf Graphic file (type pdf)
 
 <use b_chi_MC_L2_T1.pdf>
-Package pdftex.def Info: b_chi_MC_L2_T1.pdf used on input line 244.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [10 <./b_varmekap_MC_L2_T1.pdf>]
-<b_avgEnergy_MC_L2_T24.pdf, id=233, 597.23125pt x 845.1575pt>
+Package pdftex.def Info: b_chi_MC_L2_T1.pdf used on input line 248.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [10 <./b_varmekap_MC_L2_T1.pdf> <./b_chi_MC_L2_T1.pdf>] <b_avgEnergy_MC_L2_T24
+.pdf, id=261, 597.23125pt x 845.1575pt>
 File: b_avgEnergy_MC_L2_T24.pdf Graphic file (type pdf)
 
 <use b_avgEnergy_MC_L2_T24.pdf>
-Package pdftex.def Info: b_avgEnergy_MC_L2_T24.pdf used on input line 255.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [11 <./b_chi_MC_L2_T1.pdf>]
+Package pdftex.def Info: b_avgEnergy_MC_L2_T24.pdf used on input line 259.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+
 <b_varmekap_MC_L2_T24.pdf, id=262, 597.23125pt x 845.1575pt>
 File: b_varmekap_MC_L2_T24.pdf Graphic file (type pdf)
 
 <use b_varmekap_MC_L2_T24.pdf>
-Package pdftex.def Info: b_varmekap_MC_L2_T24.pdf used on input line 262.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
+Package pdftex.def Info: b_varmekap_MC_L2_T24.pdf used on input line 266.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
 
 <b_chi_MC_L2_T24.pdf, id=263, 597.23125pt x 845.1575pt>
 File: b_chi_MC_L2_T24.pdf Graphic file (type pdf)
 
 <use b_chi_MC_L2_T24.pdf>
-Package pdftex.def Info: b_chi_MC_L2_T24.pdf used on input line 269.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [12 <./b_avgEnergy_MC_L2_T24.pdf> <./b_varmekap_MC_L2_T24.pdf>]
-
-LaTeX Warning: Reference `fig:histT1' on page 13 undefined on input line 276.
-
-<histogram_T24_L20.pdf, id=304, 597.23125pt x 845.1575pt>
+Package pdftex.def Info: b_chi_MC_L2_T24.pdf used on input line 273.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [11 <./b_avgEnergy_MC_L2_T24.pdf> <./b_varmekap_MC_L2_T24.pdf>] <histogram_T24
+_L20.pdf, id=306, 597.23125pt x 845.1575pt>
 File: histogram_T24_L20.pdf Graphic file (type pdf)
 
 <use histogram_T24_L20.pdf>
-Package pdftex.def Info: histogram_T24_L20.pdf used on input line 280.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [13 <./b_chi_MC_L2_T24.pdf>]
-<histogram_T1_L20.pdf, id=331, 597.23125pt x 845.1575pt>
+Package pdftex.def Info: histogram_T24_L20.pdf used on input line 286.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [12 <./b_chi_MC_L2_T24.pdf>]
+<histogram_T1_L20.pdf, id=335, 597.23125pt x 845.1575pt>
 File: histogram_T1_L20.pdf Graphic file (type pdf)
 
 <use histogram_T1_L20.pdf>
-Package pdftex.def Info: histogram_T1_L20.pdf used on input line 287.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [14 <./histogram_T24_L20.pdf> <./histogram_T1_L20.pdf>] <chi_difftemp.pdf, id=
-410, 597.23125pt x 845.1575pt>
+Package pdftex.def Info: histogram_T1_L20.pdf used on input line 293.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [13 <./histogram_T24_L20.pdf> <./histogram_T1_L20.pdf>] <chi_difftemp.pdf, id=
+414, 597.23125pt x 845.1575pt>
 File: chi_difftemp.pdf Graphic file (type pdf)
 
 <use chi_difftemp.pdf>
-Package pdftex.def Info: chi_difftemp.pdf used on input line 298.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
-
-
-LaTeX Warning: Reference `' on page 15 undefined on input line 299.
-
-
-LaTeX Warning: Reference `' on page 15 undefined on input line 299.
-
-<cv_difftemp.pdf, id=411, 597.23125pt x 845.1575pt>
+Package pdftex.def Info: chi_difftemp.pdf used on input line 304.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ <cv_difftemp.pdf, id=415, 597.23125pt x 845.1575pt>
 File: cv_difftemp.pdf Graphic file (type pdf)
- <use cv_difftemp.pdf>
-Package pdftex.def Info: cv_difftemp.pdf used on input line 305.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
 
-[15 <./chi_difftemp.pdf>]
-<avg_mag_num_anal.pdf, id=441, 597.23125pt x 845.1575pt>
+<use cv_difftemp.pdf>
+Package pdftex.def Info: cv_difftemp.pdf used on input line 311.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [14 <./chi_difftemp.pdf>]
+<avgenergyLOL.pdf, id=444, 597.23125pt x 845.1575pt>
+File: avgenergyLOL.pdf Graphic file (type pdf)
+ <use avgenergyLOL.pdf>
+Package pdftex.def Info: avgenergyLOL.pdf used on input line 320.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+
+[15 <./cv_difftemp.pdf> <./avgenergyLOL.pdf>]
+<avg_mag_num_anal.pdf, id=484, 597.23125pt x 845.1575pt>
 File: avg_mag_num_anal.pdf Graphic file (type pdf)
 
 <use avg_mag_num_anal.pdf>
-Package pdftex.def Info: avg_mag_num_anal.pdf used on input line 323.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [16 <./cv_difftemp.pdf>]
+Package pdftex.def Info: avg_mag_num_anal.pdf used on input line 337.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
 
-LaTeX Warning: Reference `AccStatesL20T24' on page 17 undefined on input line 3
-28.
-
-<AccStatesL20T1.pdf, id=460, 597.23125pt x 845.1575pt>
+<AccStatesL20T1.pdf, id=487, 597.23125pt x 845.1575pt>
 File: AccStatesL20T1.pdf Graphic file (type pdf)
 
 <use AccStatesL20T1.pdf>
-Package pdftex.def Info: AccStatesL20T1.pdf used on input line 332.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [17 <./avg_mag_num_anal.pdf>]
-<AccStatesL20T24.pdf, id=487, 597.23125pt x 845.1575pt>
+Package pdftex.def Info: AccStatesL20T1.pdf used on input line 346.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [16 <./avg_mag_num_anal.pdf>]
+<AccStatesL20T24.pdf, id=516, 597.23125pt x 845.1575pt>
 File: AccStatesL20T24.pdf Graphic file (type pdf)
 
 <use AccStatesL20T24.pdf>
-Package pdftex.def Info: AccStatesL20T24.pdf used on input line 339.
-(pdftex.def)             Requested size: 324.19795pt x 233.94986pt.
- [18 <./AccStatesL20T1.pdf> <./AccStatesL20T24.pdf>]
+Package pdftex.def Info: AccStatesL20T24.pdf used on input line 353.
+(pdftex.def)             Requested size: 270.16222pt x 194.95624pt.
+ [17 <./AccStatesL20T1.pdf> <./AccStatesL20T24.pdf>]
 LaTeX Font Info:    Font shape `T1/pplj/bx/n' in size <12> not available
-(Font)              Font shape `T1/pplj/b/n' tried instead on input line 363.
+(Font)              Font shape `T1/pplj/b/n' tried instead on input line 360.
 LaTeX Font Info:    Font shape `T1/GilliusADF-LF/bx/n' in size <12> not availab
 le
 (Font)              Font shape `T1/GilliusADF-LF/b/n' tried instead on input li
-ne 363.
+ne 360.
 LaTeX Font Info:    Font shape `T1/GilliusADF-LF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 363.
+(Font)              scaled to size 12.0pt on input line 360.
 
-[19]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 365.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 365.
+[18]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 367.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 367.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 365.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 365.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 367.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 367.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 365.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 367.
  ) 
 Here is how much of TeX's memory you used:
  21303 strings out of 493117
- 379114 string characters out of 6135432
- 545371 words of memory out of 5000000
- 24239 multiletter control sequences out of 15000+600000
- 75898 words of font info for 130 fonts, out of 8000000 for 9000
+ 379252 string characters out of 6135432
+ 546206 words of memory out of 5000000
+ 24240 multiletter control sequences out of 15000+600000
+ 73129 words of font info for 126 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,13n,75p,934b,422s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
-{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
+ 55i,11n,75p,913b,422s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
+exlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/tex
 live/2014/texmf-dist/fonts/enc/dvips/gillius/gls_4bsedw.enc}</usr/local/texlive
 /2014/texmf-dist/fonts/type1/arkandis/gillius/GilliusADF-Bold.pfb></usr/local/t
 exlive/2014/texmf-dist/fonts/type1/arkandis/gillius/GilliusADF-Regular.pfb></us
@@ -1511,10 +1505,10 @@ exmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2014/tex
 mf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2014/texmf-dist
 /fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/
 type1/urw/palatino/uplri8a.pfb>
-Output written on main.pdf (20 pages, 301921 bytes).
+Output written on main.pdf (19 pages, 317972 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 456 compressed objects within 5 object streams
- 45 named destinations out of 1000 (max. 500000)
- 98 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 629 PDF objects out of 1000 (max. 8388607)
+ 479 compressed objects within 5 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 

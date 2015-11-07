@@ -44,8 +44,8 @@ inline int periodic(int i, int dimension, int add) {
 void metropolis_algo(int **state_matrix, int L_spins, double &energy, double &magnetization, double *w, long &idum, int &accepted, int **neighbour);
 void CreateStartingState(int **, double, double , double , long &, bool);
 void ProbabilityForGivenEnergy(int **state_matrix, int L_spins, double &energy, int **neighbour);
-void SavingResultsForDifferentTemperatures(string FileName, double *e_var, double *m_var, double *mean_mag, double *temperatures, int no_of_steps);
-void ExpectationValues(double *values, double normalization, double &accepted_total, double &HeatCapacity, double &Susceptibility, double &MeanMagnetization, int L);
+void SavingResultsForDifferentTemperatures(string FileName, double *e_var, double *m_var, double *mean_mag, double *temperatures, int no_of_steps, double *avg_energy);
+void ExpectationValues(double *values, double normalization, double &accepted_total, double &HeatCapacity, double &Susceptibility, double &MeanMagnetization, int L, double &avg_energy);
 
 
 int main(int argc, char* argv[]){
@@ -61,7 +61,6 @@ int main(int argc, char* argv[]){
     // Try to give values which give a N which is a multiple of 8 (or 4)
     int N = (final_temp - start_temp)/temp_step + 1;
     bool random = true; // Starting with a random or non-random state
-    //string FileName = "L_20_MC_10000_DifferentTemps_parallell_step01_test.m";
 
     //------------------------------------------------------
     //  MPI initializations
@@ -93,27 +92,33 @@ int main(int argc, char* argv[]){
         neighbour[i][1] = periodic(i,L,1);
     }
 
+    // Arrays for keeping results from each thread
     double HeatCapacity[N];
     double Susceptibility[N];
     double MeanMagnetization[N];
     double temperature[N];
     double accepted_total[N];
+    double avg_energy[N];
     for(int i=0;i<N;i++) temperature[i] = start_temp + i*temp_step;
 
     // Allocating memory for state matrix and then filling it
     int**state_matrix;
 
+    // Arrays for containing merged results from the threads
     double tot_HeatCapacity[N];
     double tot_Susceptibility[N];
     double tot_MeanMagnetization[N];
     double tot_temperature[N];
+    double tot_avg_energy[N];
 
     // Setting array elements to zero to avoid fuck ups
-    for(int q=0;q<N;q++) tot_HeatCapacity[q]=0,tot_Susceptibility[q]=0,tot_MeanMagnetization[q]=0,tot_temperature[q]=0;
-    for(int q=0;q<N;q++) HeatCapacity[q]=0,Susceptibility[q]=0,MeanMagnetization[q]=0, accepted_total[q]=0;
+    for(int q=0;q<N;q++) tot_HeatCapacity[q]=0,tot_Susceptibility[q]=0,tot_MeanMagnetization[q]=0,tot_temperature[q]=0, tot_avg_energy[q]=0;
+    for(int q=0;q<N;q++) HeatCapacity[q]=0,Susceptibility[q]=0,MeanMagnetization[q]=0, accepted_total[q]=0, avg_energy[q]=0;
 
+    // Ensuring that each thread get different seed
     long idum = -1 - my_rank;
 
+    // Each thread has its own state matrix
     state_matrix = (int **) matrix(L, L, sizeof(L));
     CreateStartingState(state_matrix, L, energy=0, magnetization=0, idum, random);
 
@@ -124,9 +129,9 @@ int main(int argc, char* argv[]){
         q = cycles;
         // Setting values to zero
         for(int i=0;i<5;i++) values[i] = 0;
+        // Precalculating the different temperature differences
         for( int delta_E =-8; delta_E <= 8; delta_E++) w[delta_E+8] = 0;
         for( int delta_E =-8; delta_E <= 8; delta_E+=4) w[delta_E+8] = exp(-delta_E/temperature[q]);
-
         for(int n=0;n<MC; n++){
             int accepted = 0;
             metropolis_algo(state_matrix, L, energy, magnetization, w, idum, accepted, neighbour);
@@ -137,24 +142,27 @@ int main(int argc, char* argv[]){
             values[4] += fabs(magnetization);
             accepted_total[q] += accepted;
         }
-        ExpectationValues(values, MC, accepted_total[q], HeatCapacity[q], Susceptibility[q], MeanMagnetization[q], L);
+        ExpectationValues(values, MC, accepted_total[q], HeatCapacity[q], Susceptibility[q], MeanMagnetization[q], L, avg_energy[q]);
         if (my_rank == 0){
             cout << "Nå har jeg kommet til: " << temperature[q] << endl;
         }
     }
     free_matrix(((void **) state_matrix)); // free memory
 
+    // Merging results from every thread
     MPI_Reduce(&HeatCapacity, &tot_HeatCapacity, N, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&Susceptibility, &tot_Susceptibility, N, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&MeanMagnetization, &tot_MeanMagnetization, N, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&temperature, &tot_temperature, N, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&avg_energy, &tot_avg_energy, N, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     // End MPI
     MPI_Finalize ();
 
+    // Only one thread should write the file!
     if ( my_rank == 0) {
         for(int q=0;q<N;q++) cout << tot_HeatCapacity[q] << " ";
-        SavingResultsForDifferentTemperatures(filename, tot_HeatCapacity, tot_Susceptibility, tot_MeanMagnetization, temperature, N);
+        SavingResultsForDifferentTemperatures(filename, tot_HeatCapacity, tot_Susceptibility, tot_MeanMagnetization, temperature, N, tot_avg_energy);
     }
 
     return 0;
@@ -227,7 +235,7 @@ void ProbabilityForGivenEnergy(int **state_matrix, int L_spins, double &energy, 
 }
 
 void SavingResultsForDifferentTemperatures(string FileName, double *e_var, double *m_var, double *mean_mag,
-                                           double *temperatures, int no_of_steps){
+                                           double *temperatures, int no_of_steps, double *avg_energy){
     ofstream myfile;
     myfile.open (FileName);
     myfile << "e_var " << "= [";
@@ -254,15 +262,19 @@ void SavingResultsForDifferentTemperatures(string FileName, double *e_var, doubl
     }
     myfile << "];" << endl;
 
-    myfile << "test = e_var./temperatures;" << endl;
-    myfile << "plot(temperatures,test)" << endl;
+    myfile << "avg_energy " << "= [";
+    for (int i=0; i<no_of_steps; i++){
+        myfile << avg_energy[i] << ", ";
+    }
+    myfile << "];" << endl;
 
     myfile.close();
 }
 
-void ExpectationValues(double *values, double normalization, double &accepted_total, double &HeatCapacity, double &Susceptibility, double &MeanMagnetization, int L){
+void ExpectationValues(double *values, double normalization, double &accepted_total, double &HeatCapacity, double &Susceptibility, double &MeanMagnetization, int L, double &avg_energy){
     accepted_total = accepted_total/normalization;
     HeatCapacity = (values[1]/normalization - values[0]*values[0]/(normalization*normalization)) / (L*L);
     Susceptibility = (values[3]/normalization - values[4]*values[4]/(normalization*normalization))/(L*L);
     MeanMagnetization = values[4]/(normalization*L*L);
+    avg_energy = values[0]/(normalization*L*L);
 }
