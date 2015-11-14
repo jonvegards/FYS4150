@@ -84,7 +84,7 @@
 
 Vi bruker resultatene vi får til å estimere den kritiske temperaturen $T_C$ for systemet og sammenlikner det med Onsagers resultat. Vi vil se at Isingmodellen og Metropolisalgoritmen gir en god aproksimasjon til den termodynamiske grensen selv for små gitre.
 
-Prosjektets Git-domene: \url{https://github.com/jonvegards/FYS4150/tree/master/project4}}
+Prosjektets Git-domene: \url{https://github.com/jonvegards/FYS4150/tree/master/project4}}. Det er QT-prosjekter til dette prosjektet, de heter `project4' og `project4\_TemperatureRuns', jeg har laget ett for hver hoveddel av prosjektet.
 
 \section*{Introduksjon}
 % Hva er Isingmodellen
@@ -223,7 +223,6 @@ I fig. (\ref{fig:errcvT1L2}) så vi at den relative feilen var ganske stor i sta
 \label{fig:errchiT1L2}
 \end{figure}
 
-
 \section*{Resultat}
 Vi ser først på resultatene fra ``enhetstestinga'' av programmet. Vi simulerte et gitter med $2\times2$ spinn for temperaturene $T=1$ og $T=2.4$, begge med ordnet og uordnet starttilstander. Resultatene er plottet som verdier per spinn slik at det er enkelt å sammenlikne resultater for flere gitterstørrelser. I figurene (\ref{fig:meanET1}), (\ref{fig:varmekapT1}), og (\ref{fig:chiT1}) ser vi resultatene av kjøringer med 10 millioner MC-sykluser for $T=1$. Vi ser at verdiene konvergerer raskt mot en likvektstilstand og at det ikke er nødvendig med 10 millioner MC-sykluser. Vi kan tillate oss å gå helt ned til én million MC-sykluser når vi skal kjøre for flere temperaturer etter hverandre, som nevnt tidligere vil de påfølgende temperaturstegene ha en kort termaliseringsprosess siden vi kommer til å sette temperatursteget til $\Delta T = 0.01$.
 
@@ -358,9 +357,11 @@ Det er også interessant å se på antall aksepterte tilstander som funksjon av 
 Vi har i denne seksjonen sett hvordan en magnet simulert som et 2D gitter oppfører seg for forskjellige temperaturer. Antall MC-sykluser i kombinasjon med gitterstørrelse er kritisk for hvor raskt programmet gjør utregningene, vi prøvde å kjøre en utregning på et $400\times 400$-gitter med en million MC-sykluser, men det viste seg å ta for lang til til å ta med i denne rapporten, kjøretiden var på over et døgn.  Ser vi på alle figurene der vi har plottet inn to starttilstander, ordnet og uordnet, så ser vi at det hadde lite å si for hvordan systemet utviklet seg.
 
 \subsection*{Konklusjon}
-Dette prosjektet har lært oss en del om hvor fort tidsbruken til et program eskalerer når man driver med matriser og Monte Carlo-metoder. Vi fant også at Onsagers resultater ser ut til å stemme i den termodynamiske grensen, det hadde dog vært artig interessant å gjort ordentlige kjøringer for større gitter enn vi har gjort her. Kjøringene som er gjort i dette prosjektet kunne også vært forbedret, i noen plott her (f.eks. fig. (\ref{fig:avgenergyLOL})). Tiden strakk dessverre ikke til for å rette opp på slike ting.
+Dette prosjektet har lært oss en del om hvor fort tidsbruken til et program eskalerer når man driver med matriser og Monte Carlo-metoder. Vi fant også at Onsagers resultater ser ut til å stemme i den termodynamiske grensen, det hadde dog vært artig interessant å gjort ordentlige kjøringer for større gitter enn vi har gjort her. Kjøringene som er gjort i dette prosjektet kunne også vært forbedret, i noen plott her (f.eks. fig. (\ref{fig:avgenergyLOL})). Tiden strakk dessverre ikke til for å rette opp på slike ting.\footnote{Pga. CERN-ekskursjon 8.11-15.11}
 
 Vi har også sett at Metropolisalgoritmen er en enkel og kraftig algoritme som gir gode resultater selv for veldig små systemer. Et gitter på $L=80$ er veldig smått hvis vi skal sammenlikne det med en fysisk magnet, den består av millionvis av atomer. Eller hvis vi sammenlikner gitrene våre med den termodynamiske grensen og Onsagers resultat, så er det god grunn til å være imponert over presisjonen til algoritmen vi har brukt.
+
+Enhetstestinga av programmet kunne vært bedre. Jeg har ikke skrevet funksjoner som f.eks. enkelt lar oss sjekke om programmet teller riktig når vi skal finne energien til systemet eller om nådd likevektstilstand er den rette. Jeg kunne gjort det ved å ha en testfunksjon som skrev ut analytiske verdier sammen med numeriske, slik at det ble enkelt å sammenlikne. Sammenlikninga er dog gjort i denne besvarelsen!
 
 \subsubsection*{Kommentarer til prosjektet}
 Til slutt vil vi nevne at prosjektet har vært morsomt å jobbe med, men har slukt unødvendig mye tid. Programvaren på labmaskinen bør bli testet ut \emph{før} vi starter på prosjektene slik at vi slipper å bruke masse tid på å lete oss fram til en løsning (som viser seg å være veldig enkel) siden vi ikke alltid er så drevne på QT Creator, MPI og C++.
