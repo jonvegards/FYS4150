@@ -151,7 +151,7 @@ u_t\approx \frac{u(x_i,t_j)-u(x_i,t_j-\Delta t)}{\Delta t} = \frac{u_{i,j}-u_{i,
 \]
 mens $u_{xx}$ er den samme som i stad. Dette skriver vi så sammen til å være
 $$ u_{i,j-1} = u_{i,j} - \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}. $$
-På matriseform får vi da $\hat C = \mathbb 1 - \alpha \hat B$ og dermed $\hat C \hat V_j = V_{j-1} \Rightarrow \hat V_{j+1} = \hat C^{-1}\hat V_{j}$. Vi kan også her bruke vår egenproduserte tridiagonale regnemaskin fra prosjekt 1.
+På matriseform får vi da $\hat C = \mathbb 1 - \alpha \hat B$ og dermed $\hat C \hat V_j = V_{j-1} \Rightarrow \hat V_{j+1} = \hat C^{-1}\hat V_{j}$. Vi kan altså her bruke vår egenproduserte tridiagonale regnemaskin fra prosjekt 1.
 
 Siste metode ut er den implisitte Crank-Nicolson-metoden. \red{Vi har et tidssentrert skjema???}, $(x,t+\Delta t/2)$
  \[
@@ -211,6 +211,24 @@ For Crank-Nicolson blir egenverdiene $\gamma = 1-2\alpha(1 - \cos(i\theta) ) / (
 	&< 4\alpha,
 \end{align*}
 som åpenbart alltid er tilfredsstilt.
+
+\paragraph{Trunkeringsfeil}
+For Crank-Nicolson får vi ved å Taylorutvikle,
+\begin{align}
+u(x+\Delta x, t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\notag 
+\label{_auto3}\\  \nonumber
+&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\ \nonumber
+u(x-\Delta x, t+\Delta t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} - \notag\\  \nonumber
+&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\
+u(x+\Delta x,t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\notag 
+\label{_auto4}\\  \nonumber
+&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\  \nonumber
+u(x-\Delta x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\notag \\  \nonumber
+&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\  \nonumber
+u(x,t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3)\\  \nonumber
+u(x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3)
+\label{eq:deltat}
+\end{align}
 
 % Monte Carlo-metoder
 

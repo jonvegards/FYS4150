@@ -36,7 +36,7 @@ DISTNAME      = project51.0.0
 DISTDIR = /Users/jonvegard/github/FYS4150/build-project5/.tmp/project51.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -stdlib=libc++ -mmacosx-version-min=10.7
-LIBS          = $(SUBLIBS) -L/usr/local/lib -llapack -lblas -larmadillo 
+LIBS          = $(SUBLIBS) -L/usr/local/lib -larmadillo 
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 SED           = sed
@@ -50,12 +50,10 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../project5/main.cpp \
 		../project5/arma_solve.cpp \
-		../project5/num_solve.cpp \
-		../project5/lu_decomposition.cpp 
+		../project5/num_solve.cpp 
 OBJECTS       = main.o \
 		arma_solve.o \
-		num_solve.o \
-		lu_decomposition.o
+		num_solve.o
 DIST          = ../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -190,11 +188,9 @@ DIST          = ../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/lex.prf \
 		../project5/project5.pro arma_solve.h \
-		num_solve.h \
-		lu_decomposition.h ../project5/main.cpp \
+		num_solve.h ../project5/main.cpp \
 		../project5/arma_solve.cpp \
-		../project5/num_solve.cpp \
-		../project5/lu_decomposition.cpp
+		../project5/num_solve.cpp
 QMAKE_TARGET  = project5
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = project5
@@ -1432,10 +1428,7 @@ arma_solve.o: ../project5/arma_solve.cpp /usr/local/include/armadillo \
 		../project5/arma_solve.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o arma_solve.o ../project5/arma_solve.cpp
 
-num_solve.o: ../project5/num_solve.cpp ../project5/num_solve.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o num_solve.o ../project5/num_solve.cpp
-
-lu_decomposition.o: ../project5/lu_decomposition.cpp /usr/local/include/armadillo \
+num_solve.o: ../project5/num_solve.cpp /usr/local/include/armadillo \
 		/usr/local/include/armadillo_bits/config.hpp \
 		/usr/local/include/armadillo_bits/compiler_setup.hpp \
 		/usr/local/include/armadillo_bits/include_atlas.hpp \
@@ -1872,8 +1865,8 @@ lu_decomposition.o: ../project5/lu_decomposition.cpp /usr/local/include/armadill
 		/usr/local/include/armadillo_bits/spglue_times_meat.hpp \
 		/usr/local/include/armadillo_bits/spglue_join_meat.hpp \
 		/usr/local/include/armadillo_bits/compiler_setup_post.hpp \
-		../project5/lu_decomposition.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lu_decomposition.o ../project5/lu_decomposition.cpp
+		../project5/num_solve.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o num_solve.o ../project5/num_solve.cpp
 
 ####### Install
 

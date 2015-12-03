@@ -3,7 +3,10 @@
 
 #include <iostream>
 #include <cmath>
+#include "armadillo"
 
-void num_solve(int, double *, double *, double *, double *, double *);
+using namespace arma;
+
+mat num_solve(int, mat, mat, mat, mat, mat);
 
 #endif // NUM_SOLVE_H

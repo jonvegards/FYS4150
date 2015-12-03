@@ -5,13 +5,11 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     arma_solve.cpp \
-    num_solve.cpp \
-    lu_decomposition.cpp
+    num_solve.cpp
 
 HEADERS += \
     arma_solve.h \
-    num_solve.h \
-    lu_decomposition.h
+    num_solve.h
 QMAKE_MAC_SDK = macosx10.11 # Something wrong with SDK... (idk lol)
 INCLUDEPATH += /usr/local/include
-LIBS += -L/usr/local/lib -llapack -lblas -larmadillo
+LIBS += -L/usr/local/lib -larmadillo

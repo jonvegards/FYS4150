@@ -21,128 +21,146 @@
 using namespace std;
 using namespace arma;
 
-void exact( double *, double *, int );
-void error( double *, double *, double *, int );
-void save_results( double *, double *, double *, double*, int );
-void save_results_arma(mat, mat, int);
-void error_lu( double *, double *, mat , int);
-
 void SkriveUtResultat(mat, int);
+
 void SavingResultForTwoMoments(mat, mat, mat, int);
+void SavingResultForTwoMoments2(mat, mat, mat, int);
+void SavingResultForTwoMoments3(mat, mat, mat, int);
 
 int main()
 {
-    int n = 10; // Program runs w/ n=10,100,1000,10000.
-
-    //--------------------------------------------
-    // Implicit scheme
-    //--------------------------------------------
-    double delta_t = (h*h)/4;
-    double tsteps = 50;
+    int n = 99;
+    double h = 1/((double) n + 1);
+    double delta_t = h*h/2;
+    double tsteps = 10000;
     double alpha = delta_t / (h*h);
+    double alphaNC = (delta_t + delta_t/2) / (h*h); // Alpha-value for Crank-Nicolson
     int M = 2;                        // No. of samples of solution
-    mat v = zeros<mat>(n+2,1);
-    mat vnew = zeros<mat>(n+2,M);
-    mat x = zeros<mat>(n+2,1);
+    int sample1 = 100; int sample2 = 2990;
+    double v_max = 0, v_0 = 1;        // Boundary conditions
 
-    v(n+1) = vnew(n+1) = 0.0;
-    v(0) = 1;
-    x(n+1) = (n+1)*h;
-    for (int i = 1; i < n+1; i++) {
+    mat x = zeros<mat>(n+1,1);
+    for (int i = 1; i <= n; i++) {
         x(i) = i*h;
-        // initial condition
-        v(i) = 0;
-        vnew(i) = 0;
-        // intitialise the new vector unew(i) = 0;
     }
+
+    //--------------------------------------------
+    // Explicit scheme
+    //--------------------------------------------
+    mat v_explicit = zeros<mat>(n+1,M);
+    mat v = zeros<mat>(n+1,1);
+    v(0) = v_0;
+    v(n) = v_max;
 
     // Time integration, for each time-iteration we obtain the new v-vector which we
     // can plot vs. position. We save the v-vector for each 100th round.
     int j = 0; // dummy variable for if-test
     for (int t = 0; t <= tsteps-1; t++) {
-        for (int i = 1; i < n+1; i++) {
+        for (int i = 1; i < n; i++) {
             // Discretized diff eq
             v(i) = alpha * v(i-1) + (1 - 2*alpha) * v(i) + alpha * v(i+1);
         }
         // If-test for saving results in matrix
-        if(t == 1 || t == tsteps-1){
-            for(int k=0;k<=n+1;k++){
-                vnew(k,j) = v(k);
-            }
+        if(t == sample1 || t == sample2){
+            v_explicit.col(j) = v;
             j++;
         }
-
     }
 
-    SavingResultForTwoMoments(vnew.col(0), vnew.col(1), x, n+1);
 
-    //--------------------------------------------
-    // Explicit scheme
-    //--------------------------------------------
-    double x[n+1], h, a[n+1], b[n+1], c[n+1], v[n+2], f[n+1], u_exact[n+1], err[n+1];
+    SavingResultForTwoMoments(v_explicit.col(0), v_explicit.col(1), x, n);
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Initializing arrays etc.
-    // Solving the eq mat(A)*vec(v) = vec(b), where mat(A) has b on main
-    // diagonal, and a and c on 1st upper/lower diagonal. f_i = h*h*f(x_i)
-    /////////////////////////////////////////////////////////////////////////////
+    /*--------------------------------------------
+    * Implicit scheme
+    *
+    * Initializing arrays etc.
+    * Solving the eq mat(A)*vec(v) = vec(b) for vec(v)
+    * where mat(A) has b on main diagonal, and a and c
+    * on 1st upper/lower diagonal.
+    *--------------------------------------------*/
+    mat v_implicit = zeros<mat>(n+1,M);
+    mat f = zeros<mat>(n+1,1);
+    vec a(n+1), b(n+1), c(n+1), v_tri(n+1);
 
     // Imposing boundary conditions
-    v[0] = 1; v[n] = 0; x[0] = 0; x[n+1] = 1;
+    f(0) = v_0;
+    f(n) = v_max;
+    v_tri(0) = v_0;
 
-    u_exact[n] = 0; err[n+1] = 0;
-    a[0] = c[n+1] = 0;
-
-    for (i=1; i <= n; i++){
-        x[i] = i*h;
-        f[i] = 0;
+    double b_val = 1+2*alpha;
+    double val = -alpha;
+    for (int i=1; i <= n; i++){
+        c(i) = val;
+        a(i) = val;
+        b(i) = b_val;
     }
-    for (i=1; i <= n; i++){
-        c[i] = -1.;
-        a[i] = -1.;
-        b[i] = 2.;
+    a(0) = c(n) = a(n) = c(0) = 0;
+
+    int q=0;
+    for (int t = 0; t <= tsteps-1; t++) {
+        v_tri = num_solve(n, a, b, c, v_tri, f);
+        f(0) = v_0;
+        f(n) = 0;
+        f = v_tri;
+        // If-test for saving results in matrix v_implicit
+        if(t == sample1 || t == sample2){
+            v_implicit.col(q) = v_tri;
+            q++;
+        }
     }
 
-    // Solving with our tridiagonal solver
-    num_solve(n, a, b, c, v, f);
+    SavingResultForTwoMoments2(v_implicit.col(0), v_implicit.col(1), x, n);
 
-    /////////////////////////////////////
-    // Initializing matrices
-    /////////////////////////////////////
+    /*--------------------------------------------
+    * Crank-Nicolson scheme
+    *
+    * Initializing arrays etc.
+    * Solving the eq mat(A_explicit)*vec(v_j) = mat(A_implicit)vec(v_{j-1}).
+    * We solve the RHS by using the implicit schem, we
+    * then obtain mat(A_explicit)*vec(v_j) = V_tilde,
+    * which we solve by the explicit scheme.
+    *--------------------------------------------*/
+    mat v_tilde = zeros<mat>(n+1,1);
+    mat v_CN = zeros<mat>(n+1,M);
+    mat v_CNE = zeros<mat>(n+1,1);
+    v_CNE(0) = v_0;
+    v_tilde(0) = v_0;
+    v_tilde(n) = v_max;
 
-    //    mat x_mat = zeros<mat>(n+1,1);
-    //    mat x_mat2 = zeros<mat>(n+1,1);
-    //    mat x2 = zeros<mat>(n+1,1);
-    //    mat x3 = zeros<mat>(n+1,1);
+    b_val = 2+2*alphaNC;
+    val = -alphaNC;
+    for (int i=1; i <= n; i++){
+        c(i) = val;
+        a(i) = val;
+        b(i) = b_val;
+    }
+    a(0) = c(n) = a(n) = c(0) = 0;
 
-    /////////////////////////////////////
-    // Solving with Armadillo
+    // Time integration, for each time-iteration we obtain the new v-vector which we
+    // can plot vs. position.
+    q = 0; // dummy variable for if-test
+    for (int t = 0; t <= tsteps-1; t++) {
+        //v_tilde = ExplicitScheme(n, alpha, v_tilde);
+        for (int i = 1; i < n; i++) {
+            // Discretized diff eq
+            v_CNE(i) = alphaNC * v_tilde(i-1) + (2 - 2*alphaNC) * v_tilde(i) + alphaNC * v_tilde(i+1);
+        }
+        v_tilde = v_CNE;
+        v_tilde(0) = v_0;
+        v_tilde(n) = v_max;
+        v_CNE = num_solve(n, a, b, c, v_CNE, v_tilde);
+        v_CNE(0) = v_0;
+        v_CNE(n) = v_max;
+        v_tilde = v_CNE;
+        // If-test for saving results in matrix v_implicit
+        if(t == sample1 || t == sample2){
+            v_CN.col(q) = v_CNE;
+            q++;
+        }
+    }
 
-    //    for (i=1; i<=n; i++){
-    //        x_mat(i) = i*h;
-    //    }
-    //    x_mat.reshape(n+2,1);
-    //    x_mat(n+1) = 1.;
+    SavingResultForTwoMoments3(v_CN.col(0), v_CN.col(1), x, n);
 
-    //    // Initializing source term-vector
-    //    mat V = zeros<mat>(n+1,1);
-    //    for (i=1; i<=n; i++){
-    //        V(i) = 0;
-    //    }
-
-    //    x2 = arma_solve(n, h, x2, V, alpha);
-
-    /////////////////////////////////////
-
-    // Finding the exact result
-    //exact( x, u_exact, n);
-
-    // Computing the error
-    //error(err, u_exact, v, n);
-
-    // Writing results to file
-    //save_results( x, v, u_exact, err, n);
-    //save_results_arma(v, x, n);
     return 0;
 }
 
@@ -156,7 +174,7 @@ void SkriveUtResultat(mat probability, int N){
 
 void SavingResultForTwoMoments(mat V1, mat V2, mat x,int N){
     FILE *output_file;
-    output_file = fopen("oppgave_d.txt" , "w") ;  // Is there a way to produce several output files with different names?
+    output_file = fopen("oppgave_d_explicit.txt" , "w") ;  // Is there a way to produce several output files with different names?
 
     fprintf(output_file, "   %s    %s    %s\n", "x", "V1", "V2");
     for (int i=0; i<=N; i++){
@@ -166,48 +184,26 @@ void SavingResultForTwoMoments(mat V1, mat V2, mat x,int N){
     fclose (output_file);
 }
 
-void exact( double *x, double *u_exact, int n){
-    int i;
-    // f(x) = 100*exp(-10*x)
-    for (i=1; i<=n; i++){
-        u_exact[i] = 1 - ( 1 - exp(-10) )*x[i] - exp(-10*x[i]);
-    }
-}
-
-void error( double *err, double *u, double *v, int n){
-    int i;
-    double max;
-    // Setting first element to 0.
-    err[0] = 0;
-    for (i=1; i<n; i++){
-        // Calc. error using the given formula
-        err[i] = log10( fabs( (v[i] - u[i]) / u[i] ) );
-        if (fabs(err[i]) > fabs(err[i-1])){    // Picking out max error
-            max = err[i];
-        }
-    }
-    cout << "max error: " << max << endl;      // Printing max value
-}
-
-void save_results( double *x, double *v, double *u, double *err, int n){
+void SavingResultForTwoMoments2(mat V1, mat V2, mat x,int N){
     FILE *output_file;
-    output_file = fopen("oppgave_b_n_100000.txt" , "w") ;  // Is there a way to produce several output files with different names?
-    fprintf(output_file, "   %s    %s    %s    %s \n", "x", "v_numerical", "u", "error");
-    int i;
-    for (i=0; i<=n+1; i++){
-        fprintf(output_file, "%12.5f %12.5f %12.5f %12.5f \n",
-                x[i], v[i], u[i], err[i] );
+    output_file = fopen("oppgave_d_implicit.txt" , "w") ;  // Is there a way to produce several output files with different names?
+
+    fprintf(output_file, "   %s    %s    %s\n", "x", "V1", "V2");
+    for (int i=0; i<=N; i++){
+        fprintf(output_file, "%f %f %f \n",
+                x(i), V1(i), V2(i) );
     }
     fclose (output_file);
 }
 
-void save_results_arma(mat err2, mat x2, int n){
-    int i;
-    ofstream myfile;
-    myfile.open ("arm_solve_10000.txt");
-    myfile << "x_mat" << "     " << "x2" << endl;
-    for (i=0; i<n+1; i++){
-        myfile << err2(i) << "    " << x2(i) << endl;
+void SavingResultForTwoMoments3(mat V1, mat V2, mat x,int N){
+    FILE *output_file;
+    output_file = fopen("oppgave_d_CN.txt" , "w") ;  // Is there a way to produce several output files with different names?
+
+    fprintf(output_file, "   %s    %s    %s\n", "x", "V1", "V2");
+    for (int i=0; i<=N; i++){
+        fprintf(output_file, "%f %f %f \n",
+                x(i), V1(i), V2(i) );
     }
-    myfile.close();
+    fclose (output_file);
 }
