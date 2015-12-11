@@ -362,6 +362,9 @@ Regn ut sannsynlighetsdistribusjonen for hvor ofte hver posisjon mellom synapsek
 
 Siden vi har diskretisert intervallet mellom 0 og 1 i 100 båser, så må vi sjekke om partikkelen klarer å hoppe langt nok når vi har en steglengde som varierer. Dette løser vi ved å sette inn noen flere if-tester i den indre for-løkka, ellers så er algoritmen den samme.
 
+\paragraph{Enhetstesting}
+I dette prosjektet blir hele programmet enhetstestet på det viset at vi sammenlikner den numeriske løsninga med den analytiske.
+
 \section*{Resultat og diskusjon}
 Vi kan endelig se på resultatene! Overraskende nok ser vi i fig. (\ref{fig:analnum}) at Crank-Nicolson ikke er den beste metoden i dette tilfellet. Ut i fra tab. (\ref{tab:trunkering}) så burde CN være den beste metoden. Grunner for at vi ikke fikk det samme resultatet her kan være at vårt valg av tidssteg for Crank-Nicolson ikke stemmer overens med måten vi har implementert algoritmen på, siden kurven legger seg over den analytiske løsningen kan det tenkes at tidsstegene er for lange. Men det er også pussig at den implisitte metoden legger seg så nøyaktig oppå den analytiske løsninga. En annen feilkilde kan være at tidsstegene mellom den analytiske og de numeriske løsningene ikke stemmer helt overens siden vi har brukt Python til å plotte den analytiske løsninga, da kan det ha blitt en liten forskjell underveis. Men igjen, siden CN-metoden legger seg så godt inntil den eksplisitte metoden er det grunn til å tro at det er tidsstegene som er litt for store.
 % Sammenlikne for forskjellige t-verdier

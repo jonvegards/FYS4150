@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string>
 #include <fstream>
-#include "armadillo"    // How do I compile with this included?
+#include "armadillo"
 #include "arma_solve.h"
 #include "num_solve.h"
 #include "lib.h"
@@ -35,7 +35,7 @@ int main()
 {
     int n = 99;
     double h = 1/((double) n + 1);
-    double delta_t = 3*h*h/2;
+    double delta_t = h*h/2;
     double tsteps_tot = 5000;
     double alpha = delta_t / (h*h);
     double alphaNC = (delta_t + delta_t/2) / (h*h); // Alpha-value for Crank-Nicolson
@@ -146,12 +146,13 @@ int main()
     for (int t = 1; t <= tsteps_tot; t++) {
         //v_tilde = ExplicitScheme(n, alpha, v_tilde);
         for (int i = 1; i < n; i++) {
-            // Discretized diff eq
+            // Explicit matrix multiplication
             v_CNE(i) = alphaNC * v_tilde(i-1) + (2 - 2*alphaNC) * v_tilde(i) + alphaNC * v_tilde(i+1);
         }
         v_tilde = v_CNE;
         v_tilde(0) = v_0;
         v_tilde(n) = v_max;
+        // Solving with the tridiagonal solver by using result from explicit calculation
         v_CNE = num_solve(n, a, b, c, v_CNE, v_tilde);
         v_CNE(0) = v_0;
         v_CNE(n) = v_max;
@@ -165,17 +166,11 @@ int main()
 
     SavingResultForTwoMoments3(v_CN.col(0), v_CN.col(1), x, n);
 
-    /* Algorithm for Monte Carlo-simulation
-     *
-     * // Declare a matrix whose column vectors describe the system,
-     * // i.e. the first column has N particles always, then the
-     * // next column contain particles that has diffused one step
-     * // and so on.
-     * }
+    /* MONTE CARLO SIMULATION
      */
 
-    int max_trials= 1e6;
-    int tsteps = 200;
+    int max_trials= 1e6; // Number of particles
+    int tsteps = 200;    // how long should the simulation go
     double move_probability = 0.5;
     //MC_simulation(tsteps, max_trials, delta_t, move_probability, n);
     //MC_simulation_gaussian(tsteps, max_trials, delta_t, move_probability, n);
@@ -186,7 +181,7 @@ int main()
 void SavingResultForTwoMoments(mat V1, mat V2, mat x,int N){
     // Function for writing results from explicit method
     FILE *output_file;
-    output_file = fopen("oppgave_d_explicit_alfa.txt" , "w") ;  // Is there a way to produce several output files with different names?
+    output_file = fopen("oppgave_d_explicit.txt" , "w") ;  // Is there a way to produce several output files with different names?
 
     fprintf(output_file, "   %s    %s    %s\n", "x", "V1", "V2");
     for (int i=0; i<=N; i++){
@@ -199,7 +194,7 @@ void SavingResultForTwoMoments(mat V1, mat V2, mat x,int N){
 void SavingResultForTwoMoments2(mat V1, mat V2, mat x,int N){
     // Function for writing results from implicit method
     FILE *output_file;
-    output_file = fopen("oppgave_d_implicit_alfa.txt" , "w") ;  // Is there a way to produce several output files with different names?
+    output_file = fopen("oppgave_d_implicit.txt" , "w") ;  // Is there a way to produce several output files with different names?
 
     fprintf(output_file, "   %s    %s    %s\n", "x", "V1", "V2");
     for (int i=0; i<=N; i++){
@@ -212,7 +207,7 @@ void SavingResultForTwoMoments2(mat V1, mat V2, mat x,int N){
 void SavingResultForTwoMoments3(mat V1, mat V2, mat x,int N){
     // Function for writing results from Crank-Nicolson method
     FILE *output_file;
-    output_file = fopen("oppgave_d_CN_alfa.txt" , "w") ;  // Is there a way to produce several output files with different names?
+    output_file = fopen("oppgave_d_CN.txt" , "w") ;  // Is there a way to produce several output files with different names?
 
     fprintf(output_file, "   %s    %s    %s\n", "x", "V1", "V2");
     for (int i=0; i<=N; i++){
