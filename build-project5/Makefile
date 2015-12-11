@@ -50,10 +50,12 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../project5/main.cpp \
 		../project5/arma_solve.cpp \
-		../project5/num_solve.cpp 
+		../project5/num_solve.cpp \
+		../project5/lib.cpp 
 OBJECTS       = main.o \
 		arma_solve.o \
-		num_solve.o
+		num_solve.o \
+		lib.o
 DIST          = ../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -188,9 +190,11 @@ DIST          = ../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.5/clang_64/mkspecs/features/lex.prf \
 		../project5/project5.pro arma_solve.h \
-		num_solve.h ../project5/main.cpp \
+		num_solve.h \
+		lib.h ../project5/main.cpp \
 		../project5/arma_solve.cpp \
-		../project5/num_solve.cpp
+		../project5/num_solve.cpp \
+		../project5/lib.cpp
 QMAKE_TARGET  = project5
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = project5
@@ -1867,6 +1871,9 @@ num_solve.o: ../project5/num_solve.cpp /usr/local/include/armadillo \
 		/usr/local/include/armadillo_bits/compiler_setup_post.hpp \
 		../project5/num_solve.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o num_solve.o ../project5/num_solve.cpp
+
+lib.o: ../project5/lib.cpp ../project5/lib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lib.o ../project5/lib.cpp
 
 ####### Install
 

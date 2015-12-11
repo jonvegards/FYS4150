@@ -1,0 +1,51 @@
+\ProvidesFile{obligJV}
+
+\usepackage[norsk]{babel}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{graphicx,caption,subfigure,listings}
+\usepackage{tikz}
+\author{}
+\date{}
+\setcounter{section}{1}
+
+% Kodelisting
+\usepackage{verbatim}
+\lstset{language=Python,breaklines=true} % For hele programmer
+% \lstinputlisting[language=matlab]{fil.m}
+
+% Layout
+\usepackage[top=.2in, bottom=.2in, left=.2in, right=.2in]{geometry}
+\linespread{1.2} % Linjeavstand
+\usepackage[compact]{titlesec} % Minimerer mellomrom over/under titler
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+
+%\usepackage[color, report]{uiosloforside}
+
+%\usepackage{mathptmx,sectsty} % mathptmx gir Times New Roman-font
+%\allsectionsfont{\sffamily} % Sans serif på alle overskrifter
+%\subsubsectionfont{\fontfamily{ptm}\selectfont}
+
+%\usepackage{multicol} % Lar deg ha flere kolonner for et begrenset område.
+%\begin{multicols}{2}
+	% your stuff goes here
+%\end{multicols}
+
+% Egendefinerte kommandoer
+\theoremstyle{definition} \newtheorem{defi}{Definisjon}[subsection]
+\theoremstyle{definition} \newtheorem{teo}{Teorem}[subsection]
+\theoremstyle{definition} \newtheorem*{eks}{Eksempel}
+
+\newcommand{\dt}{\ {\rm d}t\ }
+\newcommand{\dx}{\ {\rm d}x\ }
+\newcommand{\dv}{\ {\rm d}v\ }
+\newcommand{\dd}{\ {\text d} }
+%\newcommand{\dp}{\ {\rm d}p\ }
+\newcommand{\R}{\mathbb{R}}
+\def\mean#1{\left< #1 \right>}
+%\renewcommand{\exp}{\mathit{e}}
+\newcommand{\mb}[1]{\mathbf{#1}}

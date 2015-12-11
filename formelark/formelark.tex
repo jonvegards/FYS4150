@@ -1,0 +1,184 @@
+\documentclass[12pt,a4paper,twocolumn]{article}
+\usepackage{formelarkJV}
+\title{Formidabelark FYS4150}
+% Hvordan lage formelark i 4150
+% 1. Sjekk tidligere eksamensoppgaver og skriv ned relevante _temaer_
+% 2. Finn temaene i slides el.l.
+% 3. Skriv ned hovedlinjer/idéer
+% 4. Skriv algoritmer/formler
+% 5. Rydd opp
+% 6. Gjenta
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+\subsection{Eksamen 2014}
+\begin{flushleft} % Unngår like lange linjer -> jevne mellomrom.
+\textsc{ALGORITMER ER VIKTIGE}
+\textbf{Oppgave 1} Egenverdier, ``similaritytransformations'', diskretisering av diff.likn., Jacobis metode/algoritme, Householders algoritme.\\
+\textbf{Oppgave 2}PDE+linalg, diffusjonslikn., eksplisitt/implisitt, trunkeringsfeil, tridiagonal løser, FLOPS\\
+\textbf{Oppgave 3} ODE, omskrivning til et sett koblede likn., Eulers algoritme(???), feilestimat, Runge-Kutta, geometrisk tolkning av RK, enhetstesting
+
+\subsection{Eksamen 2013}
+\textbf{Oppgave 1} ODE, andreordens til to førsteordens koblede likn., Eulers algoritme, Runge-Kutta med feilestimat, geometrisk tolkning av RK.\\
+\textbf{Oppgave 2} PDE, diffusjon, diskretiser, eksplisitt/implisitt, trunkeringsfeil, tridiagonal løser, FLOPS \\
+\textbf{Oppgave 3} Numerisk integrasjon, Gaussisk kvadratur, Legendre-polynomer, Laguerre-pol., MC-metoder, brute force og importance sampling.
+
+\subsection{Eksamen 2012}
+\textbf{Oppgave 1} Linalg, Gaussisk eliminasjon, LU dekomp., diskretisering, FLOPS, enhetstesting \\
+\textbf{Oppgave 2} Metropolisalgoritmen, antakelser for den, enhetstesting,, markovkjeder,
+
+\subsection{Eksamen 2011}
+\textbf{Oppgave 1} ODE, omskriving til to koblede, Eulers algoritme, Runge-Kutta, feilestimat \\
+\textbf{Oppgave 2} Numerisk integrasjon, trapesregelen, newton-cotes, gaussisk kvadratur, legendre-polynom, laguerre-polynom, MC-integrasjon, importance sampling.\\
+\textbf{Oppgave 3} Linalg., egenverdier, similarity transforms, diskretisering, jacobis metode, 
+
+\subsection{Lineær algebra og sånn} % (fold)
+\label{sub:linalg}
+\textbf{Diskretisering} av $-\frac{d^2u(x)}{dx^2} = f(x,u(x))$. Bruk def. av derivert, det gir. $u^{''}_i \approx  \frac{u_{i+1} -2u_i +u_{i-i}}{h^2}.$ Kan skrives som tridiagonal matrise
+\begin{equation*}
+\mathbf{A} = \frac{1}{h^2}\left(\begin{array}{cccccc}
+                          2 & -1 &  &   &  & \\
+                          -1 & 2 & -1 & & & \\
+                           & \dots   & \dots &\dots   &\dots & \\
+                           &   &  &-1  &2& -1 \\
+                           &    &  &   &-1 & 2 \\
+                      \end{array} \right)	
+\end{equation*}
+Gir likninga $\mathbf{A}\mathbf{u} = \mathbf{f}(\mathbf{u}).$ Som vi kan skrive som $a_iu_{i-1}+b_iu_i+c_iu_{i+1} = f_i,$. Først forover substitusjon
+\begin{verbatim}
+	   btemp = b[1];
+   u[1] = f[1]/btemp;
+   for(i=2 ; i <= n ; i++) {
+      temp[i] = c[i-1]/btemp;
+      btemp = b[i]-a[i]*temp[i];
+      u[i] = (f[i] - a[i]*u[i-1])/btemp;
+\end{verbatim}
+deretter bakover substitusjon
+\begin{verbatim}
+	for(i=n-1 ; i >= 1 ; i--) {
+      u[i] -= temp[i+1]*u[i+1];
+\end{verbatim}
+\textbf{FLOPS} for de forskjellige metodene
+\begin{itemize}
+	\item Radredusiering $2n^3/n$
+	\item LU-dekomp. $2n^3/3$
+	\item Tridiagonal løser $8n$ 
+	\item QR $4n^3/3$
+\end{itemize}
+\textbf{LU-dekomponering} Likninga $\mathbf{Ax}=\mathbf{w}$, kan skrives som $\mathbf{A} \mathbf{x} \equiv \mathbf{L} \mathbf{U} \mathbf{x} =\mathbf{w}$. Dette kan regnes i to steg $\mathbf{L} \mathbf{y} = \mathbf{w};\, \mathbf{Ux}=\mathbf{y}$, hvor vi har $\mathbf{y}=\mathbf{Ux}=\mathbf{L^{-1}w}$.\\
+\textbf{Jacobis metode} Likninga $\hat{A}\mathbf{x}=\mathbf{b}$ løses ved å bruke $\mathbf{x}^{(k+1)}= \hat{D}^{-1}(\mathbf{b}-(\hat{L}+\hat{U})\mathbf{x}^{(k)})$, hvor $D$ er en diagonal matrise og $L$ og $U$ er nedre og øvre triangulære matriser, $\mathbf{x}^{(k)})$ er et gjett på løsninga. Hvis matrisa $A$ er positiv definitt eller dominant på diagonalen kan man vise at denne metoden alltid vil konvergere. 
+\textbf{Egenverdier og `similarity'transformering} Man kan finne egenverdiene av $A$ ved å bruke $\mathbf{B}= \mathbf{S}^T \mathbf{A}\mathbf{S},\, \hspace{1cm}  \mathbf{S}^T\mathbf{S}=\mathbf{S}^{-1}\mathbf{S} =\mathbf{I}$. Gjør man det mange nok ganger ender man opp med $\mathbf{S}_N^T\dots \mathbf{S}_1^T\mathbf{A}\mathbf{S}_1\dots \mathbf{S}_N=\mathbf{D}$, hvor $D$ har egenverdiene til $A$ på diagonalen. Egenverdiene endres ikke av denne transformasjonen: $\mathbf{A}\mathbf{x}=\lambda\mathbf{x} \Rightarrow (\mathbf{S}^T\mathbf{A}\mathbf{S})(\mathbf{S}^T\mathbf{x})=\lambda\mathbf{S}^T\mathbf{x}$, men vi ser at egenvektorene endres! $\to$ må rotere egenvektormatrisa motsatt vei for å få de ``ekte'' egenvektorene (prosjekt 1?).\\
+\textbf(Jacobis metode for egenverdier) Vi setter
+$$ \mathbf{S}=
+ \left( 
+   \begin{array}{cccccccc}
+   1  &    0  & \dots &   0        &    0  & \dots & 0 &   0       \\
+   0  &    1  & \dots &   0        &    0  & \dots & 0 &   0       \\
+\dots & \dots & \dots & \dots      & \dots & \dots & 0 & \dots     \\ 
+   0  &    0  & \dots & \cos\theta  &    0  & \dots & 0 & \sin\theta \\
+   0  &    0  & \dots &   0        &    1  & \dots & 0 &   0       \\
+\dots & \dots & \dots & \dots      & \dots & \dots & 1 & \dots     \\
+   0  &    0  & \dots &  -\sin\theta        &    0  & \dots & 0 &   \cos\theta   
+   \end{array}
+ \right) $$
+ Denne matrisa roterer vår matrise $A$ slik at ett av de ikkediagonale elementene i $A$ blir satt til null. Vi velger alltid det største elemtentet til å være lik null slik at metoden konvergerer raskest mulig. Må ha en while-test og if-tester for å sjekke at metoden konvergerer og stanse den når vi er nærme nok en diagonal matrise. ULEMPE: uvisst hvor mange iterasjoner man trenger.\\
+ \textbf{Householders algoritme} er bedre enn Jacobis metode! Starter med $\mathbf{S}=\mathbf{S}_1\mathbf{S}_2\dots\mathbf{S}_{n-2},$ der $S$ er en ortogonal matrise. Man lar den virke på hver side av $A$ og vi ender opp med $$\mathbf{S}^{T} \mathbf{A} \mathbf{S} = 
+    \left( \begin{array}{ccccccc} a_{11} & e_1 & 0   & 0    & \dots  &0     & 0 \\
+                                e_1 & a'_{22} & e_2 & 0    & \dots  &0     &0 \\
+                                0   & e_2 & a''_{33} & e_3  &0       &\dots & 0\\
+                                \dots  & \dots & \dots & \dots  &\dots      &\dots & \dots\\
+                                0   & \dots & \dots & \dots  &\dots       &a^{(n-1)}_{n-2} & e_{n-1}\\
+                                0   & \dots & \dots & \dots  &\dots       &e_{n-1} & a^{(n-1)}_{nn}
+
+             \end{array} \right) .$$
+Vi skriver rotasjonsmatrisa som
+$$\mathbf{S_{1}} = \left( \begin{array}{cc} 1 & \mathbf{0^{T}} \\
+\mathbf{0}& \mathbf{P} \end{array} \right),$$
+der $\mathbf{P}=\mathbf{I}-2\mathbf{u}\mathbf{u}^T$. $\mathbf u$ er en vektor vi må finne.
+$$\mathbf{S}_1^T\mathbf{A}\mathbf{S}_1 =  \left( \begin{array}{cc} a_{11} & (\mathbf{Pv})^T \\
+                              \mathbf{Pv}& \mathbf{A}' \end{array} \right) ,$$
+\begin{equation}
+\mathbf{Pv} = \mathbf{v} -2\mathbf{u}( \mathbf{u}^T\mathbf{v})= k \mathbf{e},
+\end{equation}
+Som vi kan skrive som $\mathbf{v} - k\mathbf{e} = 2\mathbf{u}( \mathbf{u}^T\mathbf{v})$, opphøyer vi dette i andre får vi $2( \mathbf{u}^T\mathbf{v})^2=(v^2\pm a_{21}v)$, som så settes inn i
+$$\mathbf{u}=\frac{\mathbf{v}-k\mathbf{e}}{2( \mathbf{u}^T\mathbf{v})}.$$
+Dette settes så inn i $P$ og vi kan rotere ferdig. Denne prosessen gjentas $(n-1)$ ganger for en $n\times n$-matrise. <3
+%Lineær algebra og sånn (end)
+
+\subsection{ODE} % (fold)
+\label{sub:ode}
+\textbf{Omskrivning} av ODE. Newtons 2. lov (fjærsystem): $m\ddot x = -kx$. Setter $x(t) \equiv y^{(1)}(t)$ og $v(t) \equiv y^{(2)}(t)$. Det gir oss
+$$ m\dot y^{(1)}(t) = - ky^{(1)}(t) \quad \dot y^{(1)}(t)=y^{(2)}(t). $$
+
+% subsection ode (end)
+
+\subsection{PDE} % (fold)
+\label{sub:pde}
+\textbf{DIFFUSJONSlikninga 1D} $\nabla^2 u(x,t) =\frac{\partial u(x,t)}{\partial t}$ kan løses på flere måter. Først \textbf{ekpsplisitt} metode, vi bruker forward Euler og den ender opp som en matrisemultiplikasjon. Vi diskretiserer og vår
+\begin{equation*}
+\frac{u_{i,j+1}-u_{i,j}}{\Delta t}=\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{\Delta x^2}.
+\end{equation*}
+som gir oss $u_{i,j+1}= \alpha u_{i-1,j}+(1-2\alpha)u_{i,j}+\alpha u_{i+1,j}$. Som essensielt er $V_{j+1} = \mathbf{A}V_{j}$. Utdrag av kode:
+\begin{verbatim}
+	u(0) = unew(0) = u(n) = unew(n) = 0.0;
+    for (int i = 1; i < n; i++) {
+      x =  i*step;
+      //  initial condition
+      u(i) =  func(x);
+      //  intitialise the new vector 
+      unew(i) = 0;
+    }
+   // Time integration
+   for (int t = 1; t <= tsteps; t++) {
+      for (int i = 1; i < n; i++) {
+         // Discretized diff eq
+         unew(i) = alpha * u(i-1) + (1 - 2*alpha) * u(i) + alpha * u(i+1);
+      }
+\end{verbatim}
+Stabilitetsbetingelse: $\Delta t/\Delta x^2 \le 1/2$ finner vi fra spektralradien $\rho(\mathbf{A}) = \hspace{0.1cm}\mathrm{max}\left\{|\lambda|:\mathrm{det}(\mathbf{A}-\lambda\hat{I})=0\right\}.$ For den \textbf{implisitte} metoden bruker vi backward Euler,
+\begin{equation*}
+u_t\approx \frac{u(x_i,t_j)-u(x_i,t_j-\Delta t)}{\Delta t},
+\end{equation*}
+og ender opp med $u_{i,j-1}= -\alpha u_{i-1,j}+(1-2\alpha)u_{i,j}-\alpha u_{i+1,j}$, \emph{i.e.} $\mathbf{A}V_{j} = V_{j-1}$. Denne løses med den tridiagonale løseren vår. Stabil for alle tids- og posisjonssteg. Til slutt har vi \textbf{Crank-Nicolson}
+\begin{equation}
+\label{eq:cranknicolson}
+  \frac{\theta}{\Delta x^2}\left(u_{i-1,j}-2u_{i,j}+u_{i+1,j}\right)+
+  \frac{1-\theta}{\Delta x^2}\left(u_{i+1,j-1}-2u_{i,j-1}+u_{i-1,j-1}\right)=
+  \frac{1}{\Delta t}\left(u_{i,j}-u_{i,j-1}\right),
+\end{equation}
+Vi ser at vi kan skrive $\left(2\hat{I}+\alpha\hat{B}\right)V_{j}=\left(2\hat{I}-\alpha\hat{B}\right)V_{j-1}$. Altså først gjøre den eksplisitte metoden, deretter bruke resultatet derfra til å løse en tridiagonal likning. NB: Husk at vi må ha $\alpha = (\Delta t + \Delta t/2) / \Delta x^2$.
+
+TRUNKERINGSFEILdflønbfd.
+% subsection pde (end)
+
+\subsection{Monte Carlo-metoder} % (fold)
+\label{sub:monte_carlo_metoder}
+\textbf{Varians} $\sigma^2_X =  \langle x^2 \rangle - \langle x\rangle^2$. Standardavviket går som $\sigma \sim 1/\sqrt N$. Feil for tradisjonelle metoder hvor man int. over en $d$-dim. hyperkube med sider $L$ (inneh. $N = (L/h)^d$int.punkter) går som $N^{-k/d}$. MC er uavh. av dimensjonen til int. SUPERBRA.
+\textbf{Numerisk integrasjon} Endrer grenser ved å bruke $y=a+(b-a)x$. Vi velger oss en PDF $p(x)$ som vi putter inn i integralet.
+$$I=\int_a^b F(x) dx =\int_a^b p(x)\frac{F(x)}{p(x)} dx=\int_{\tilde{a}}^{\tilde{b}}\frac{F(x(y))}{p(x(y))} dy.$$
+Hvor vi har $dy/dx=p(x)$ og integralet  kan så skrives
+$$ I\approx  \frac{1}{N}\sum_{i=1}^N\frac{F(x(y_i))}{p(x(y_i))},$$
+hvor $y_i\in[0,1]$
+% subsection monte_carlo_metoder (end)
+
+\subsection{Numerisk integrasjon} % (fold)
+\label{sub:numerisk_integrasjon}
+\textbf{Newton-Cotes} inneh. trapes-, rektangel- og Simpsons metode. Kalles også ``equal step-method.'' Filosofi: diskretisere int.intervall med $N$ punkter for en polynomisk integrand med dim. maks $N-1$. Man tilnærmer integranden med et polynom.
+\textbf{Gaussisk kvadratur} %hvordan finne integrasjonspunkter og vekter
+Grunnidé for alle integrasjonsmetoder:
+\begin{equation*} 
+   I=\int_a^bf(x)dx \approx \sum_{i=1}^N\omega_if(x_i),  
+\end{equation*}
+GK går ut på å velge en ortogonal basis av polynomer og dermed et sett integrasjonspunkter som vektes forskjellig. Kan skrive integranden $f(x)$ som produkt av vektfunksjonen og en glatt funksjon, $W(x)g(x)$.
+\textbf{Legendre-polynom} REferer til Rottmann
+\textbf{Trapesmetoden}
+
+% subsection numerisk_integrasjon (end)
+
+\textsc{\large Husk å skrive alt du gjør i oppgaven!}
+
+\end{flushleft}
+
+\end{document}

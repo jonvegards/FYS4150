@@ -12,6 +12,7 @@
 \usepackage{caption,subfigure,listings, booktabs}
 \usepackage{tikz,graphicx}
 \usepackage{sectsty}
+\usepackage{cite}
 
 % Setter fonter
 \usepackage{bbold,gillius}
@@ -115,11 +116,25 @@ Tidsdelen av løsninga finner vi ved å løse,
  \Rightarrow \mathcal T(t) = Ce^{-\lambda^2 t}.
 \end{align*}
 Dette gir oss
-$$ u(x,t) = A'\para{\sin\para{\lambda x} + B\cos(\lambda x)}e^{-\lambda^2 t} + 1 - x, $$
-hvor vi slo sammen de to integreringskonstantene fra den romlige og tidsavhengige løsninga, til $A'$. Initialbetingelsene er $u(x=d=1,\text{alle } t) = 0$, $u(x=0,t > 0) = u_0 = 1$ som gir oss
-$$ u(x,t) = A'\sin\para{\frac{2\pi x}{d}}e^{-\lambda^2 t} + 1 - x. $$
+$$ u(x,t) = A\para{\sin\para{\lambda x} + B\cos(\lambda x)}e^{-\lambda^2 t} + 1 - x, $$
+Initialbetingelsene er $u(x=d=1,\text{alle } t) = 0$, $u(x=0,t > 0) = u_0 = 1$ som gir oss
+$$ u(x,t) = A_n\sin\para{\frac{\pi x}{d}}e^{-\lambda^2 t} + 1 - x. $$
 Denne løsninga har mange moduser, slik at vi må skrive den som en sum av alle modene,
-$$ u(x,t) = \sum\limits_{n=1}^{\infty}\para{A'\sin\para{\frac{2\pi nx}{d}}}e^{-\lambda^2 t} + 1 - x. \qed$$
+$$ u(x,t) = \sum\limits_{n=1}^{\infty}A_n\sin\para{\frac{\pi nx}{d}}e^{-(\pi n)^2 t} + 1 - x.$$
+Det gjenstår å finne koeffisientene $A_n$, den finner vi fra initialbetingelsen $u(x,0) = 0$,
+$$ 0 = 1 - x + \sum\limits_{n=1}^{\infty} A_n\sin\para{\frac{\pi nx}{d}}, $$
+vi ser at dette minner oss om Fourieranalyse og at vi derfor kan finne $A_n$ som en Fourierkoeffisientene til en funksjon $f(x)$,
+$$ A_n = \frac{2}{d}\int\limits_0^d f(x)\sin\para{\frac{n\pi x}{d}}\dx. $$
+Dette gir oss at $f(x) = x - 1$ og vi får integralet
+\begin{align*}
+A_n 	&= 2\int\limits_0^1 (x-1)\sin\para{n\pi x}\dx \\
+	&= 2\int\limits_0^1x\sin\para{n\pi x}\dx - 2\int\limits_0^1\sin\para{n\pi x}\dx \\
+	&= 2\para{ \frac{-\cos(n\pi x)x}{n\pi}\Big|_{x=0}^1 + \int\limits_0^1 \frac{\cos\para{n\pi x}}{n\pi}\dx} - \frac{4}{\pi n}\\
+	&= \frac{2}{n\pi} - \frac{4}{\pi n} \\
+	&= -\frac{2}{\pi n}.
+\end{align*}
+Vår endelige analytiske løsning blir da,
+$$ u(x,t) = 1 - x - 2\sum\limits_{n=1}^{\infty}\frac{\sin\para{\pi nx}}{\pi n}e^{-(\pi n)^2 t}. $$
 
 % Se på de tre metodene
 \paragraph{De tre metodene}
@@ -132,7 +147,7 @@ og
 u_{xx}\approx \frac{u(x_i+\Delta x,t_j)-2u(x_i,t_j)+u(x_i-\Delta x,t_j)}{\Delta x^2} = \frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{h^2},
 \]
 hvor vi har diskretisert tid og rom, $i,j = 0,1,\ldots$ Vi husker hvordan diffusjonslikninga ser ut og innser at vi kan skrive
-$$ u_{i,j+1} = u_{i,j} + \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}, $$
+\begin{equation} u_{i,j+1} = u_{i,j} + \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}},\label{eq:eksplisitt} \end{equation}
 hvor $\alpha = \Delta t /h^2$. Vi kan så definere en vektor som inneholder alle funksjonsverdiene til $u$,
 $$ V_j^T = [u_{0,j},\ldots,u_{n,j}]. $$
 Denne vektoren trenger noen venner, nemlig matriser som sier hvordan vi skal behandle funksjonsverdiene. Vi setter $\hat A \equiv \mathbb 1 + \alpha \hat B$, hvor vi har,
@@ -150,7 +165,9 @@ Vi kan så se på implisitt bakover-Euler-metoden. Til forskjell fra den eksplis
 u_t\approx \frac{u(x_i,t_j)-u(x_i,t_j-\Delta t)}{\Delta t} = \frac{u_{i,j}-u_{i,j-1}}{\Delta t},
 \]
 mens $u_{xx}$ er den samme som i stad. Dette skriver vi så sammen til å være
-$$ u_{i,j-1} = u_{i,j} - \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}. $$
+\begin{equation}
+u_{i,j-1} = u_{i,j} - \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}. \label{eq:implisitt}
+\end{equation}
 På matriseform får vi da $\hat C = \mathbb 1 - \alpha \hat B$ og dermed $\hat C \hat V_j = V_{j-1} \Rightarrow \hat V_{j+1} = \hat C^{-1}\hat V_{j}$. Vi kan altså her bruke vår egenproduserte tridiagonale regnemaskin fra prosjekt 1.
 
 Siste metode ut er den implisitte Crank-Nicolson-metoden. \red{Vi har et tidssentrert skjema???}, $(x,t+\Delta t/2)$
@@ -164,10 +181,10 @@ u_{xx}&\approx \frac{1}{2}\left(\frac{u(x_i+\Delta x,t_j)-2u(x_i,t_j)+u(x_i-\Del
 & = \frac{1}{2}\left(\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{\Delta x^2}+\frac{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}}{\Delta x^2} \right).
 \end{align*}
 Vi setter dette så sammen og får,
-\begin{align*}
-& 2u_{i,j+1}-2u_{i,j} = \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}+\alpha\para{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}} \\
-& 2u_{i,j+1} - \alpha\para{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}} = 2u_{i,j} + \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}},
-\end{align*}
+\begin{align}
+& 2u_{i,j+1}-2u_{i,j} = \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}+\alpha\para{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}} \nonumber\\
+& 2u_{i,j+1} - \alpha\para{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}} = 2u_{i,j} + \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}, \label{eq:CNmetode}
+\end{align}
 Vi kjenner igjen høyre- og venstresidene som det vi fikk fra de henholdvis eksplisitte og implisitte Euler-metodene, slik at vi kan skrive
 $$ (2\mathbb 1 + \alpha \hat B)\hat V_j = (2\mathbb 1 - \alpha \hat B)\hat V_{j-1},$$
 hvor faktoren 2 kommer fra den halve vi ganget $u_{xx}$ med. For å løse dette skriver vi
@@ -213,58 +230,182 @@ For Crank-Nicolson blir egenverdiene $\gamma = 1-2\alpha(1 - \cos(i\theta) ) / (
 som åpenbart alltid er tilfredsstilt.
 
 \paragraph{Trunkeringsfeil}
-For Crank-Nicolson får vi ved å Taylorutvikle,
+Vi finner trunkeringsfeilen ved å sette inn Taylorutvikle faktorene i uttrykkene som tilnærmer de tids- og posisjonsderiverte for de forskjellige metodene. Vi gjentar først hvordan de tilnærmede deriverte er, deretter Taylorutvikler vi alle de forskjellige leddene og setter så inn i uttrykkene våre.
+\paragraph{Eksplisitt metode}
+\begin{equation}
+u_t\approx \frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}\label{eq:tideksplisitt}
+\end{equation}
+\begin{equation}
+u_{xx}\approx \frac{u(x+\Delta x,t)-2u(x,t)+u(x-\Delta x,t)}{\Delta x^2}, \label{eq:xeksplisitt}
+\end{equation}
+
+\paragraph{Implisitt metode}
+Som nevnt tidligere er det kun forskjell på den tidsderiverte, vi bruker her det foregående punktet for å finne den tidsderiverte,
+\begin{equation}
+u_t\approx \frac{u(x,t)-u(x,t-\Delta t)}{\Delta t} \label{eq:implisitt}
+\end{equation}
+\paragraph{Crank-Nicolson} bruker (\ref{eq:CNmetode})
+\begin{equation}
+u_t\approx \frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}
+\end{equation}
 \begin{align}
-u(x+\Delta x, t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\notag 
-\label{_auto3}\\  \nonumber
-&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\ \nonumber
-u(x-\Delta x, t+\Delta t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} - \notag\\  \nonumber
-&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\
-u(x+\Delta x,t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\notag 
-\label{_auto4}\\  \nonumber
-&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\  \nonumber
-u(x-\Delta x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\notag \\  \nonumber
-&\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)\\  \nonumber
-u(x,t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3)\\  \nonumber
-u(x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3)
-\label{eq:deltat}
+u_{xx}&\approx \frac{1}{2}\left(\frac{u(x+\Delta x,t)-2u(x,t)+u(x-\Delta x,t)}{\Delta x^2}+\right. \nonumber\\
+&\left. \frac{u(x+\Delta x,t+\Delta t)-2u(x,t+\Delta t)+u(x-\Delta x,t+\Delta t)}{\Delta x^2} \right)  \label{eq:crank}
 \end{align}
+
+Vi har nå en del ledd å Taylorutvikle, heldigvis kan vi se på \cite{mhj} og finne en del av utviklingene der. Vi ser på utviklingene for de eksplisitte og implisitte metodene først, da utvikler vi om $t+\Delta t$ og $x + \Delta x$.
+% Taylor for eksplisitt og implisitt
+\begin{align}
+u(x+\Delta x,t)&=u(x,t)+\frac{\partial u(x,t)}{\partial x} \Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2}\Delta x^2+\mathcal{O}(\Delta x^3),\label{eq:taydeltaxpluss} \\
+u(x-\Delta x,t)&=u(x,t)-\frac{\partial u(x,t)}{\partial x}\Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2} \Delta x^2+\mathcal{O}(\Delta x^3), \label{eq:taydeltaxminus} \\
+u(x,t+\Delta t)&=u(x,t)+\frac{\partial u(x,t)}{\partial t}\Delta t+  \mathcal{O}(\Delta t^2), \label{eq:taydeltatpluss} \\
+u(x,t-\Delta t)&=u(x,t)-\frac{\partial u(x,t)}{\partial t}\Delta t+  \mathcal{O}(\Delta t^2). \label{eq:taydeltatminus}
+\end{align}
+Når vi skal utvikle for Crank Nicolson så må vi huske på å ta hensyn til det halve tidssteget, altså å utviklet om $t' = t + \Delta t/2$.
+\begin{align}
+u(x+\Delta x, t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\nonumber \\ 
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3) \label{eq:deltaxdeltatpluss} \\
+%
+u(x-\Delta x, t+\Delta t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\\  \nonumber
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3) \label{eq:deltaxmindeltatpluss} \\
+%
+u(x+\Delta x,t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\\  \nonumber
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3) \label{eq:deltaxplussCN}\\ 
+%
+u(x-\Delta x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2 \\  \nonumber
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3) \label{eq:deltaxminCN} \\
+%
+u(x,t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3) \label{eq:deltatplussCN}\\
+%
+u(x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3) \label{eq:uxtCN}
+\end{align}
+Vi er klare til å sette inn! Vi tar den posisjonsderiverte først siden den er lik for eksplisitt og implisitt.
+\begin{align}
+u_{xx} &\approx \left(u(x,t)+\frac{\partial u(x,t)}{\partial x} \Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2}\Delta x^2+\mathcal{O}(\Delta x^3) - 2 u(x,t)\right. \nonumber\\
+& \left.+ u(x,t)-\frac{\partial u(x,t)}{\partial x}\Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2} \Delta x^2+\mathcal{O}(\Delta x^3)\right)\frac{1}{\Delta x^2}\nonumber \\
+&=\frac{\partial^2 u(x,t)}{\partial x^2} +\mathcal{O}(\Delta x^2). \label{eq:trunkxx}
+\end{align}
+Vi fortsetter med den tidsderiverte for eksplisitt metode,
+\begin{align}
+u_t &\approx \left(u(x,t)+\frac{\partial u(x,t)}{\partial t}\Delta t - u(x,t) +  \mathcal{O}(\Delta t^2) \right)\frac{1}{\Delta t} \nonumber\\
+&=\frac{\partial u(x,t)}{\partial t}+ \mathcal{O}(\Delta t). \label{eq:trunkteksplisitt}
+\end{align}
+For en implisitte metoden får vi
+\begin{align}
+u_t &\approx \left(u(x,t) - u(x,t) + \frac{\partial u(x,t)}{\partial t}\Delta t  + \mathcal{O}(\Delta t^2) \right)\frac{1}{\Delta t} \nonumber\\
+&=\frac{\partial u(x,t)}{\partial t}+ \mathcal{O}(\Delta t). \label{eq:trunktimplisitt} 
+\end{align}
+Til slutt skal vi sette inn for Crank-Nicolson. Vi setter inn i venstresida av (\ref{eq:CNmetode}),
+\begin{align*}
+&2\left(u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right) \\
+& - \alpha\left[u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\right. \\ 
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\\
+&-2\left( u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2   \right) \\
+&+ u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\\  
+&\left.+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\right] + \mathcal{O}(\Delta t^3)\\
+%
+&= 2\left(u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right) \\
+& - \alpha\left[\frac{\partial^2 u(x,t')}{\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{\partial t^2}\frac{\Delta t^2}{4} \right]+ \mathcal{O}(\Delta t^3),
+\end{align*}
+videre får vi høyresida,
+\begin{align*}
+&2\left(u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right) \\
+&+\alpha\left[ u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\right.\\ 
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)   \\
+&-2\left(u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 \right) \\
+&u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2 \\
+&\left.+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\right]
+\end{align*}
+
 
 % Monte Carlo-metoder
 
 \section*{Metode}
 % Skrive ned algoritmer vi bruker
+\paragraph{Eksplisitt, implisitt og Crank-Nicolson}
+I (\ref{eq:eksplisitt}) og (\ref{eq:implisitt}) så har vi i grunnen alt vi trenger for å kunne implementere alle tre metodene. Den eksplisitte metoden er en regn matrisemultiplikasjon som trenger én for-løkke, mens for den implisitte metoden kan vi bruke den tridiagonale løseren vi brukte i prosjekt 1, vi har dog reimplementert den for å luke ut insekter som satt i fra det prosjektet. Crank-Nicolson-metoden bruker de to foregående metodene i kombinasjon med halve tidssteg. Rent algoritmisk kan vi skrive det som følger.
+\begin{itemize}
+\item
+Generer starttilstand etc.
+\item
+Regn ut matrisemultiplikasjonen med den eksplisitte metoden.
+\item
+Bruk resultatet fra forrige punkt til å sende inn i den tridiagonale løseren.
+\item
+Gjenta for så mange tidssteg du vil.
+\end{itemize}
+
+\paragraph{Monte Carlo-metoden}
+Vi kan også simulere diffusjon ved hjelp av Monte Carlo-simuleringer. Prinsippet er ganske enkelt, vi lar hver partikkel som skal over den synaptiske kløfta være representert av en virrevandrer og sjekker hvor langt den kommer på et visst antall tidssteg. I dette prosjektet skal vi følge \cite{farnell} ved å bruke en steglengde på $\sqrt{2D\Delta t}$, hvor $D$ er diffusjonskonstanten som vi har satt til å være 1. Vi skal også sjekke om det har noe å si om vi endrer steglengden til å være gaussisk fordelt om 1 med standardavvik 0.
+
+Algoritmen vår vil basere seg på en virrevandring, slik som i \cite{mhj},
+\begin{itemize}
+\item 
+Generer initialbetingelser
+\item 
+Løkke over tid og vandrere
+\item
+Gjør en MC-test for å bestemme om vandreren skal gå fram- eller bakover
+\item
+Oppdater posisjonsverdier
+\item
+Gjenta for alle partikler for et antall tidssteg
+\item
+Regn ut sannsynlighetsdistribusjonen for hvor ofte hver posisjon mellom synapsekantene ble besøkt av en vandrer
+\end{itemize}
 
 \section*{Numerisk stabilitet og presisjon}
 % Se på trunkeringsfeil og stabilitet
 For å forstå mer av hvordan programmet vårt oppfører seg og hvor presise resultat det gir, så kan vi se på trunkeringsfeil og hvordan valg av tids- og lengdesteg virker inn på resultatene. Vi finner først trunkeringsfeilene for eksplisitt- og implisitt-Euler-metode, samt Crank-Nicolson. For å gjøre det så må vi Taylorutvikle $u(x-\Delta x, t)$, $u(x+\Delta x, t)$ og $u(x, t+\Delta t)$, sette sammen uttrykkene slik at vi får formlene for metodene vi bruker, og så lese av trunkeringsfeilen i leddet med $\mathcal O(sth)$
 
 \begin{align}
-u(x+\Delta x,t)&=u(x,t)+\frac{\partial u(x,t)}{\partial x} \Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2}\Delta x^2+\mathcal{O}(\Delta x^3),
-\label{_auto1}\\ \nonumber
+u(x+\Delta x,t)&=u(x,t)+\frac{\partial u(x,t)}{\partial x} \Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2}\Delta x^2+\mathcal{O}(\Delta x^3),\\ \nonumber
 u(x-\Delta x,t)&=u(x,t)-\frac{\partial u(x,t)}{\partial x}\Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2} \Delta x^2+\mathcal{O}(\Delta x^3),\\ \nonumber
 u(x,t+\Delta t)&=u(x,t)+\frac{\partial u(x,t)}{\partial t}\Delta t+  \mathcal{O}(\Delta t^2).
-\label{eq:deltat0}
 \end{align}
 
 
-% Hvordan skal vi velge tidssteg og lengdesteg?
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale = 0.5, trim = 1cm 8cm 1cm 8cm]{}
-\caption{}
-\label{fig:}
-\end{figure}
-
+% Hvordan skal vi velge tidssteg og lengdesteg
 
 \section*{Resultat}
 % Sammenlikne for forskjellige t-verdier
+\begin{figure}[H]
+\centerline{\includegraphics[scale = 0.5]{oppgave_d.eps}}
+\caption{Det ser ut til at den implisitte metoden fungerer best. Det er litt overraskende, siden Crank-Nicolson burde ``tatt det beste'' fra to verdener, i tillegg til at den har et tidssentrert skjema. En mulig feil her kan være at tidsstegene brukt i den analytiske løsninga og den numeriske ikke stemmer overens.}
+\label{fig:analnum}
+\end{figure}
+
+\begin{figure}[H]
+\centerline{\includegraphics[scale = 0.5]{MC_walk.eps}}
+\caption{}
+\label{fig:analMC}
+\end{figure}
 
 % Sammenlikne MC og de andre metodene
 
 \subsection*{Konklusjon}
 
 \subsubsection*{Kommentarer til prosjektet}
+\begin{thebibliography}{9}
+%\cite{farnell}
+\bibitem{farnell}
+L.~Farnell,~W.G.~Gibson,
+``Monte Carlo simulation of diffusion in a spatially nonhomogeneous medium: A biased random walk on an asymmetrical lattice,''
+Journ.\ of Comp.\ Phys.,\ {\bf208}, (2005), 253-265, ISSN 0021-9991, \url{http://www.sciencedirect.com/science/article/pii/S0021999105001087}
+
+%\cite{mhj}
+\bibitem{mhj}
+M.~H.~Jensen,
+``Random walks, Brownian motion and the Metropolis algorithm,''
+\url{http://compphysics.github.io/ComputationalPhysics1/doc/pub/rw/html/rw.html}, 
+
+%\cite{mhj}
+\bibitem{mhjpde}
+M.~H.~Jensen,
+``Partial differential equations,''
+\url{http://compphysics.github.io/ComputationalPhysics1/doc/pub/pde/html/pde.html}, 
+
+
+\end{thebibliography}  
 
 \end{document}
