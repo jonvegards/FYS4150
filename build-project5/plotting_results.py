@@ -28,7 +28,7 @@ V1_implicit = []
 V2_implicit = []
 
 # Fetching data from first calculation
-with open('oppgave_d_explicit.txt') as oppgave_d:
+with open('oppgave_d_explicit_alfa.txt') as oppgave_d:
 	next(oppgave_d)
 	for line in oppgave_d:
 		x.append(float(line.split()[0]))
@@ -40,7 +40,7 @@ explicit1 = []
 explicit2 = []
 
 # Fetching data from first calculation
-with open('oppgave_d_implicit.txt') as oppgave_b:
+with open('oppgave_d_implicit_alfa.txt') as oppgave_b:
 	next(oppgave_b)
 	for line in oppgave_b:
 		x_exp.append(float(line.split()[0]))
@@ -52,7 +52,7 @@ CN1 = []
 CN2 = []
 
 # Fetching data from first calculation
-with open('oppgave_d_CN.txt') as oppgave_b:
+with open('oppgave_d_CN_alfa.txt') as oppgave_b:
 	next(oppgave_b)
 	for line in oppgave_b:
 		xCN.append(float(line.split()[0]))
@@ -66,7 +66,7 @@ plt.legend(['Eksplisitt','Eksplisitt','Implisitt','Implisitt','Crank-Nicolson','
 plt.title(ur"Løsninger av diffusjonslikninga, n=99, $\Delta x = 1/10$, $\Delta t = \Delta x^2/2$",fontsize=15)
 plt.xlabel(ur'Position $x$',fontsize=16)
 plt.ylabel(ur'Diffusion $u(x,t)$',fontsize=16)
-plt.savefig('oppgave_d.eps')
+plt.savefig('oppgave_d_alfa.eps')
 
 #plt.figure(2)
 #plt.plot(xanal, analytical0,xanal, analytical05,xanal, analytical1)

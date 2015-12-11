@@ -83,7 +83,9 @@
 \end{center}
 \end{titlepage}
 
-\abstract{}
+\abstract{I dette prosjektet løser vi diffusjonslikninga med forover og bakover Euler, Crank-Nicolson og ved Monte Carlo-simulering. Metodene gir alle til en viss grad korrekt svar,  den enkleste metoden å implementere er MC-metoden. Vi studerer også trunkeringsfeil for de forskjellige metodene og ser om de stemmer overens med resultatene, noe de ikke gjør her. En diskusjon av feilene blir også gjort.}
+
+Kode for prosjektet er tilgjengelig  på GitHub-domenet: \url{}
 
 \section*{Introduksjon}
 Overgangen mellom to nerveceller kalles en synapse. For at det skal kunne overføres signaler fra den ene cella til den andre så må ``noe'' diffundere gjennom synapsen, dette ``noe'' er signalmolekyler som kalles nevrotransmittere. Disse molekylene kommer i en blobb som vil koble seg på den presynaptiske membranen,  og så slippe molekylene fri slik at de kan diffundere over den synaptiske kløfta og komme fram til den postsynaptiske membranen der de vil bli tatt i mot av reseptorer som bringer signalet videre i cella.
@@ -94,11 +96,11 @@ Hvor vi da har antatt visse ting om systemet vårt: den synaptiske kløfta er je
 
 Vi skal løse denne likninga både analytisk og numerisk slik at vi kan teste programmet på høvelig vis og sammenlikne de ulike metodene. De tre numeriske metodene som testes ut er ekplisitt forover-Euler, implisitt bakover-Euler, og Crank-Nicholson-metoden. Resultatene fra disse metodene vil testes for forskjellige parametre og vi vil finne ut hvilken som gir best resultat.
 
-Systemet beskrevet ovenfor kan også simuleres med Monte Carlo-metoder og tilfeldig gange. Vi vil bruke en algoritme som baserer seg på at nevrotransmitterne kan hoppe fram og tilbake og så sammenlikne resultatene fra denne metoden med de fra diffusjonslikningssimuleringa.
+Systemet beskrevet ovenfor kan også simuleres med Monte Carlo-metoder og tilfeldig gange. Vi vil bruke en algoritme som baserer seg på at nevrotransmitterne kan hoppe fram og tilbake som virrevandrere og så sammenlikne resultatene fra denne metoden med de fra diffusjonslikningssimuleringa.
 
 \section*{Teori}
 % Løse systemet analytisk
-Å løse systemet analytisk er essensielt for å kunne sjekke at våre numeriske resultater stemmer. Vi setter diffusjonskonstanten lik 1 slik at vi får en dimensjonsløslikning. Diffusjonslikninga er en separabel likning, slik at vi kan skrive den
+Å løse systemet analytisk er essensielt for å kunne sjekke at våre numeriske resultater stemmer. Vi setter diffusjonskonstanten $D$ lik 1 slik at vi får en dimensjonsløs likning. Diffusjonslikninga er en separabel likning, slik at vi kan skrive den
 \begin{align*}
 \mathcal T(t) \frac{\partial^2\mathcal X(x)}{\partial x^2} &= \mathcal X(x) \frac{\partial \mathcal T(t)}{\partial t} \\
 \Rightarrow \frac{1}{\mathcal X(x)} \frac{\partial^2\mathcal X(x)}{\partial x^2} = -\lambda^2 &\quad \frac{1}{\mathcal T(t)} \frac{\partial\mathcal T(t)}{\partial t} = -\lambda^2,
@@ -170,20 +172,20 @@ u_{i,j-1} = u_{i,j} - \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}. \label{eq:impli
 \end{equation}
 På matriseform får vi da $\hat C = \mathbb 1 - \alpha \hat B$ og dermed $\hat C \hat V_j = V_{j-1} \Rightarrow \hat V_{j+1} = \hat C^{-1}\hat V_{j}$. Vi kan altså her bruke vår egenproduserte tridiagonale regnemaskin fra prosjekt 1.
 
-Siste metode ut er den implisitte Crank-Nicolson-metoden. \red{Vi har et tidssentrert skjema???}, $(x,t+\Delta t/2)$
- \[
-u_t\approx \frac{u(x_i,t_j+\Delta t)-u(x_i,t_j)}{\Delta t} = \frac{u_{i,j+1}-u_{i,j}}{\Delta t}.
-\]
+Siste metode ut er den implisitte Crank-Nicolson-metoden. Vi har et tidssentrert skjema, $(x,t+\Delta t/2)$
+ \begin{equation}
+u_t\approx \frac{u(x_i,t_j)-u(x_i,t_j-\Delta t)}{\Delta t} = \frac{u_{i,j}-u_{i,j-1}}{\Delta t}.\label{eq:CNtid}
+ \end{equation}
 Den andreordens deriverte ser nå slik ut,
-\begin{align*}
-u_{xx}&\approx \frac{1}{2}\left(\frac{u(x_i+\Delta x,t_j)-2u(x_i,t_j)+u(x_i-\Delta x,t_j)}{\Delta x^2}+\right.\\
-&\left. \frac{u(x_i+\Delta x,t_j+\Delta t)-2u(x_i,t_j+\Delta t)+u(x_i-\Delta x,t_j+\Delta t)}{\Delta x^2} \right) \\
-& = \frac{1}{2}\left(\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{\Delta x^2}+\frac{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}}{\Delta x^2} \right).
-\end{align*}
+\begin{align}
+u_{xx}&\approx \frac{1}{2}\left(\frac{u(x_i+\Delta x,t_j)-2u(x_i,t_j)+u(x_i-\Delta x,t_j)}{\Delta x^2}+\right.\nonumber\\
+&\left. \frac{u(x_i+\Delta x,t_j-\Delta t)-2u(x_i,t_j-\Delta t)+u(x_i-\Delta x,t_j-\Delta t)}{\Delta x^2} \right)\nonumber \\
+& = \frac{1}{2}\left(\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{\Delta x^2}+\frac{u_{i+1,j-1}-2u_{i,j-1}+u_{i-1,j-1}}{\Delta x^2} \right).\label{eq:CNpos}
+\end{align}
 Vi setter dette så sammen og får,
 \begin{align}
-& 2u_{i,j+1}-2u_{i,j} = \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}+\alpha\para{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}} \nonumber\\
-& 2u_{i,j+1} - \alpha\para{u_{i+1,j+1}-2u_{i,j+1}+u_{i-1,j+1}} = 2u_{i,j} + \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}, \label{eq:CNmetode}
+& 2u_{i,j}-2u_{i,j-1} = \alpha\para{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}+\alpha\para{u_{i+1,j-1}-2u_{i,j-1}+u_{i-1,j-1}} \nonumber\\
+& (2 -2\alpha)u_{i,j-1}+ \alpha u_{i+1,j-1}+\alpha u_{i-1,j-1} = (2+2\alpha) u_{i,j} - \alpha u_{i+1,j}-\alpha u_{i-1,j}, \label{eq:CNmetode}
 \end{align}
 Vi kjenner igjen høyre- og venstresidene som det vi fikk fra de henholdvis eksplisitte og implisitte Euler-metodene, slik at vi kan skrive
 $$ (2\mathbb 1 + \alpha \hat B)\hat V_j = (2\mathbb 1 - \alpha \hat B)\hat V_{j-1},$$
@@ -230,28 +232,20 @@ For Crank-Nicolson blir egenverdiene $\gamma = 1-2\alpha(1 - \cos(i\theta) ) / (
 som åpenbart alltid er tilfredsstilt.
 
 \paragraph{Trunkeringsfeil}
-Vi finner trunkeringsfeilen ved å sette inn Taylorutvikle faktorene i uttrykkene som tilnærmer de tids- og posisjonsderiverte for de forskjellige metodene. Vi gjentar først hvordan de tilnærmede deriverte er, deretter Taylorutvikler vi alle de forskjellige leddene og setter så inn i uttrykkene våre.
-\paragraph{Eksplisitt metode}
+Vi finner trunkeringsfeilen ved å sette inn Taylorutvikle faktorene i uttrykkene som tilnærmer de tids- og posisjonsderiverte for de forskjellige metodene. Vi gjentar først hvordan de tilnærmede deriverte er, deretter Taylorutvikler vi alle de forskjellige leddene og setter så inn i uttrykkene våre.\\
+\textbf{Eksplisitt metode}
 \begin{equation}
 u_t\approx \frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}\label{eq:tideksplisitt}
 \end{equation}
 \begin{equation}
 u_{xx}\approx \frac{u(x+\Delta x,t)-2u(x,t)+u(x-\Delta x,t)}{\Delta x^2}, \label{eq:xeksplisitt}
 \end{equation}
-
-\paragraph{Implisitt metode}
+\textbf{Implisitt metode}
 Som nevnt tidligere er det kun forskjell på den tidsderiverte, vi bruker her det foregående punktet for å finne den tidsderiverte,
 \begin{equation}
-u_t\approx \frac{u(x,t)-u(x,t-\Delta t)}{\Delta t} \label{eq:implisitt}
+u_t\approx \frac{u(x,t)-u(x,t-\Delta t)}{\Delta t} \label{eq:implisitt},
 \end{equation}
-\paragraph{Crank-Nicolson} bruker (\ref{eq:CNmetode})
-\begin{equation}
-u_t\approx \frac{u(x,t+\Delta t)-u(x,t)}{\Delta t}
-\end{equation}
-\begin{align}
-u_{xx}&\approx \frac{1}{2}\left(\frac{u(x+\Delta x,t)-2u(x,t)+u(x-\Delta x,t)}{\Delta x^2}+\right. \nonumber\\
-&\left. \frac{u(x+\Delta x,t+\Delta t)-2u(x,t+\Delta t)+u(x-\Delta x,t+\Delta t)}{\Delta x^2} \right)  \label{eq:crank}
-\end{align}
+\textbf{Crank-Nicolson} bruker (\ref{eq:CNtid}) og (\ref{eq:CNpos}).
 
 Vi har nå en del ledd å Taylorutvikle, heldigvis kan vi se på \cite{mhj} og finne en del av utviklingene der. Vi ser på utviklingene for de eksplisitte og implisitte metodene først, da utvikler vi om $t+\Delta t$ og $x + \Delta x$.
 % Taylor for eksplisitt og implisitt
@@ -275,7 +269,7 @@ u(x+\Delta x,t)&=u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\part
 u(x-\Delta x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2 \\  \nonumber
 &+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3) \label{eq:deltaxminCN} \\
 %
-u(x,t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3) \label{eq:deltatplussCN}\\
+u(x,t+\Delta t)&=u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} + \mathcal{O}(\Delta t^3) \\
 %
 u(x,t)&=u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 + \mathcal{O}(\Delta t^3) \label{eq:uxtCN}
 \end{align}
@@ -295,28 +289,40 @@ For en implisitte metoden får vi
 u_t &\approx \left(u(x,t) - u(x,t) + \frac{\partial u(x,t)}{\partial t}\Delta t  + \mathcal{O}(\Delta t^2) \right)\frac{1}{\Delta t} \nonumber\\
 &=\frac{\partial u(x,t)}{\partial t}+ \mathcal{O}(\Delta t). \label{eq:trunktimplisitt} 
 \end{align}
-Til slutt skal vi sette inn for Crank-Nicolson. Vi setter inn i venstresida av (\ref{eq:CNmetode}),
+Til slutt skal vi sette inn for Crank-Nicolson. Vi setter inn i (\ref{eq:CNtid}),
 \begin{align*}
-&2\left(u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right) \\
-& - \alpha\left[u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\right. \\ 
-&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\\
-&-2\left( u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2   \right) \\
-&+ u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\\  
-&\left.+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\right] + \mathcal{O}(\Delta t^3)\\
-%
-&= 2\left(u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta_t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right) \\
-& - \alpha\left[\frac{\partial^2 u(x,t')}{\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{\partial t^2}\frac{\Delta t^2}{4} \right]+ \mathcal{O}(\Delta t^3),
-\end{align*}
-videre får vi høyresida,
-\begin{align*}
-&2\left(u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right) \\
-&+\alpha\left[ u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\right.\\ 
-&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x+ \mathcal{O}(\Delta t^3)   \\
-&-2\left(u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}+\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 \right) \\
-&u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2 \\
-&\left.+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\right]
+\frac{u_{i,j+1}-u_{i,j}}{\Delta t} &= \left(u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2 - u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2} \right. \\
+&\left.-\frac{\partial ^2 u(x,t')}{2\partial t^2}\Delta t^2\right)\frac{1}{\Delta t} + \mathcal{O}(\Delta t^2) \\
+&= \frac{\partial u(x,t')}{\partial t}+ \mathcal{O}(\Delta t^2).
 \end{align*}
 
+Vi setter så inn i (\ref{eq:CNpos})
+\begin{align*}
+&\frac{1}{2}\left(\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{\Delta x^2}+\frac{u_{i+1,j-1}-2u_{i,j-1}+u_{i-1,j-1}}{\Delta x^2} \right) \\
+&= \frac 1{2\Delta x^2}\left[u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\right.\nonumber \\ 
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x - 2\left(  u(x,t')+\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2} +\frac{\partial ^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} \right) \\
+&+ u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x+\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2\\  \nonumber
+&+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x + u(x,t')+\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} \\
+&+\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} -\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x -2\left(u(x,t')-\frac{\partial u(x,t')}{\partial t}\frac{\Delta t}{2}\right.\\
+&\left.+\frac{\partial ^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} \right)+u(x,t')-\frac{\partial u(x,t')}{\partial x}\Delta x-\frac{\partial u(x,t')}{\partial t} \frac{\Delta t}{2} +\frac{\partial^2 u(x,t')}{2\partial x^2}\Delta x^2 \\  \nonumber
+&\left.+\frac{\partial^2 u(x,t')}{2\partial t^2}\frac{\Delta t^2}{4} +\frac{\partial^2 u(x,t')}{\partial x\partial t}\frac{\Delta t}{2} \Delta x\right] + \mathcal O(\Delta x^2) \\
+&= \frac{\partial^2 u(x,t')}{2\partial x^2} + \mathcal O(\Delta x^2).
+\end{align*}
+Oppsummert kan vi sette resultatene våre i tabell (\ref{tab:trunkering})
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l l l }
+    \toprule
+    Metode & Trunkering & Stabilitetskrav \\
+    \midrule
+	Eksplisitt & $\mathcal{O}(\Delta x^2)$ og $\mathcal{O}(\Delta t)$ & $\Delta t \leq \Delta x^2/2$ \\
+	Implisitt & $\mathcal{O}(\Delta x^2)$ og $\mathcal{O}(\Delta t)$ & $\forall \quad\Delta t$ og $\Delta x^2$ \\
+	Crank-Nicolson & $\mathcal{O}(\Delta x^2)$ og $\mathcal{O}(\Delta t^2)$ & $\forall \quad\Delta t$ og $\Delta x^2$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Vi ser her trunkeringsfeil og stabilitetskrav for de tre forskjellige metodene. Vi noterer oss at Crank-Nicolson ser ut til å være den beste metoden.}
+  \label{tab:trunkering}
+\end{table}
 
 % Monte Carlo-metoder
 
@@ -354,38 +360,38 @@ Gjenta for alle partikler for et antall tidssteg
 Regn ut sannsynlighetsdistribusjonen for hvor ofte hver posisjon mellom synapsekantene ble besøkt av en vandrer
 \end{itemize}
 
-\section*{Numerisk stabilitet og presisjon}
-% Se på trunkeringsfeil og stabilitet
-For å forstå mer av hvordan programmet vårt oppfører seg og hvor presise resultat det gir, så kan vi se på trunkeringsfeil og hvordan valg av tids- og lengdesteg virker inn på resultatene. Vi finner først trunkeringsfeilene for eksplisitt- og implisitt-Euler-metode, samt Crank-Nicolson. For å gjøre det så må vi Taylorutvikle $u(x-\Delta x, t)$, $u(x+\Delta x, t)$ og $u(x, t+\Delta t)$, sette sammen uttrykkene slik at vi får formlene for metodene vi bruker, og så lese av trunkeringsfeilen i leddet med $\mathcal O(sth)$
+Siden vi har diskretisert intervallet mellom 0 og 1 i 100 båser, så må vi sjekke om partikkelen klarer å hoppe langt nok når vi har en steglengde som varierer. Dette løser vi ved å sette inn noen flere if-tester i den indre for-løkka, ellers så er algoritmen den samme.
 
-\begin{align}
-u(x+\Delta x,t)&=u(x,t)+\frac{\partial u(x,t)}{\partial x} \Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2}\Delta x^2+\mathcal{O}(\Delta x^3),\\ \nonumber
-u(x-\Delta x,t)&=u(x,t)-\frac{\partial u(x,t)}{\partial x}\Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2} \Delta x^2+\mathcal{O}(\Delta x^3),\\ \nonumber
-u(x,t+\Delta t)&=u(x,t)+\frac{\partial u(x,t)}{\partial t}\Delta t+  \mathcal{O}(\Delta t^2).
-\end{align}
-
-
-% Hvordan skal vi velge tidssteg og lengdesteg
-
-\section*{Resultat}
+\section*{Resultat og diskusjon}
+Vi kan endelig se på resultatene! Overraskende nok ser vi i fig. (\ref{fig:analnum}) at Crank-Nicolson ikke er den beste metoden i dette tilfellet. Ut i fra tab. (\ref{tab:trunkering}) så burde CN være den beste metoden. Grunner for at vi ikke fikk det samme resultatet her kan være at vårt valg av tidssteg for Crank-Nicolson ikke stemmer overens med måten vi har implementert algoritmen på, siden kurven legger seg over den analytiske løsningen kan det tenkes at tidsstegene er for lange. Men det er også pussig at den implisitte metoden legger seg så nøyaktig oppå den analytiske løsninga. En annen feilkilde kan være at tidsstegene mellom den analytiske og de numeriske løsningene ikke stemmer helt overens siden vi har brukt Python til å plotte den analytiske løsninga, da kan det ha blitt en liten forskjell underveis. Men igjen, siden CN-metoden legger seg så godt inntil den eksplisitte metoden er det grunn til å tro at det er tidsstegene som er litt for store.
 % Sammenlikne for forskjellige t-verdier
 \begin{figure}[H]
 \centerline{\includegraphics[scale = 0.5]{oppgave_d.eps}}
 \caption{Det ser ut til at den implisitte metoden fungerer best. Det er litt overraskende, siden Crank-Nicolson burde ``tatt det beste'' fra to verdener, i tillegg til at den har et tidssentrert skjema. En mulig feil her kan være at tidsstegene brukt i den analytiske løsninga og den numeriske ikke stemmer overens.}
 \label{fig:analnum}
 \end{figure}
+Videre har vi den MC-simulerte løsninga. Her har vi foretatt en virrevandring med $10^7$ partikler over like lang tid som for de andre metodene. Vi ser i fig. (\ref{fig:analMC}) de to MC-metodene plottet sammen med den analytiske løsninga. Det første vi noterer oss er at når steglengdene er gaussiske så må vi la simuleringa gå for en lenger tid siden partiklene ikke alltid klarer å hoppe langt nok for å komme i neste bås. Det andre vi noterer oss er at den numeriske løsninga legger seg pent oppå den analytiske løsninga, igjen kan vi tenke på fig. (\ref{fig:analnum}) og vurdere hvorvidt steglengden til CN-metoden er for lang eller ei, siden MC-løsninga legger seg så fint oppå den analytiske kan vi nok konkludere med at CN-metoden går for litt langt.
 
+Men siden vi så at MC-simuleringa må kjøre lenger ved en gaussisk varierende steglengde kan vi også prøve å ta hensyn til at den varierer, \emph{i.e.} akkumelere opp hoppene, slik at to hopp kan være nok til at vi kan oppdatere posisjonsvektorene  i programmet.
 \begin{figure}[H]
 \centerline{\includegraphics[scale = 0.5]{MC_walk.eps}}
-\caption{}
+\caption{Monte Carlo-simulering der steglengden er fast og gaussisk varierende. Vi ser at siden partiklene ikke alltid klarer å hoppe langt nok at simuleringa må kjøre lenger for å oppnå samme resultat som ved fast steglengde.}
 \label{fig:analMC}
 \end{figure}
-
-% Sammenlikne MC og de andre metodene
-
+Som en siste figur viser vi hva som skjer vi setter $\Delta t = 3h^2/2$, som ikke tilfredsstiller stabilitetskravet til den eksplisitte metoden.
+\begin{figure}[H]
+\centerline{\includegraphics[scale = 0.5]{oppgave_d_alfa.eps}}
+\caption{Vi ser at stabilitetskravet ikke er noe humbug! Når $\Delta t = 3h^2/2$ så divergerer løsninga til ad undas.}
+\label{fig:alfa}
+\end{figure}
 \subsection*{Konklusjon}
+I dette prosjektet så har vi sett på fire måter å løse samme problem på. Vi har sett at Crank-Nicolson var en litt skuffende metode her, men hadde vi hatt mer tid til rådighet kunne vi dykket dypere i koden og prøvd å rette opp feilen. Vår konklusjon på at den ikke fungerte tilfredsstillende er at steglengden ikke stemmer helt. Videre simulerte vi systemet med Monte Carlo-metoder, det fungerte utmerket med en fast steglengde. En feil som kan ha blitt gjort i dette programmet er at steglengden vi brukte kanskje ikke stemte helt overens med det \cite{farnell} brukte siden vi skar gjennom og delte opp den synaptiske kløfta i 100 båser, men antakeligvis ville ikke det hatt mye å si.
+
+Til slutt kan vi nevne at når steglengden varierer gaussisk så burde vi tatt hensyn til at to små hopp kan være nok til at partikkelen kommer seg til neste bås, da ville denne metoden antakeligvis vært ganske nærme den med fast steglengde. Når vi ikke tar hensyn til det slik vi har det i denne rapporten, så vil det naturligvis ta lenger tid for systemet å nå likevekt når ikke hvert forsøk på å hoppe gjør at partikkelen hopper fram eller tilbake.
 
 \subsubsection*{Kommentarer til prosjektet}
+Dette prosjektet kom på et ubeleilig tidspunkt og det var derfor ikke tid til å rette opp feilene som har blitt kommentert underveis i rapporten. Utenom det så har det vært et bra prosjekt.
+
 \begin{thebibliography}{9}
 %\cite{farnell}
 \bibitem{farnell}
