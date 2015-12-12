@@ -190,6 +190,8 @@ INPUT /usr/local/texlive/2014/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 INPUT /usr/local/texlive/2014/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 INPUT /usr/local/texlive/2014/texmf-dist/tex/latex/titlesec/titlesec.sty
 INPUT /usr/local/texlive/2014/texmf-dist/tex/latex/titlesec/titlesec.sty
+INPUT /usr/local/texlive/2014/texmf-dist/tex/latex/booktabs/booktabs.sty
+INPUT /usr/local/texlive/2014/texmf-dist/tex/latex/booktabs/booktabs.sty
 INPUT formelark.aux
 INPUT formelark.aux
 OUTPUT formelark.aux
