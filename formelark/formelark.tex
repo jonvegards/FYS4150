@@ -37,7 +37,7 @@
 
 \subsection{Lineær algebra og sånn} % (fold)
 \label{sub:linalg}
-\textbf{Diskretisering} av $-\frac{d^2u(x)}{dx^2} = f(x,u(x))$. Bruk def. av derivert, det gir. $u^{''}_i \approx  \frac{u_{i+1} -2u_i +u_{i-i}}{h^2}.$ Kan skrives som tridiagonal matrise
+\textbf{Diskretisering} av $-\frac{d^2u(x)}{dx^2} = f(x,u(x))$. Bruk def. av derivert, det gir. $u^{''}_i \approx  (u_{i+1} -2u_i +u_{i-i})/h^2.$ Kan skrives som tridiagonal matrise
 \begin{equation*}
 \mathbf{A} = \frac{1}{h^2}\left(\begin{array}{cccccc}
                           2 & -1 &  &   &  & \\
@@ -61,6 +61,7 @@ deretter bakover substitusjon
 	for(i=n-1 ; i >= 1 ; i--) {
       u[i] -= temp[i+1]*u[i+1];
 \end{verbatim}
+Lurt å plotte feil fra denne metoden som $\epsilon_i = \log(|v_i-u_i|/|u_i|)$, hvor $u_i$ er den analytiske løsninga i punkt $i$.
 \textbf{FLOPS} for de forskjellige metodene
 \begin{itemize}
 	\item Radredusiering $2n^3/n$
@@ -78,7 +79,7 @@ deretter bakover substitusjon
   \item Fortsett til maks element i $A\leq\epsilon$
 \end{itemize}
 \textbf{Egenverdier og `similarity'transformering} Man kan finne egenverdiene av $A$ ved å bruke $\mathbf{B}= \mathbf{S}^T \mathbf{A}\mathbf{S},\, \hspace{1cm}  \mathbf{S}^T\mathbf{S}=\mathbf{S}^{-1}\mathbf{S} =\mathbf{I}$. Gjør man det mange nok ganger ender man opp med $\mathbf{S}_N^T\dots \mathbf{S}_1^T\mathbf{A}\mathbf{S}_1\dots \mathbf{S}_N=\mathbf{D}$, hvor $D$ har egenverdiene til $A$ på diagonalen. Egenverdiene endres ikke av denne transformasjonen: $\mathbf{A}\mathbf{x}=\lambda\mathbf{x} \Rightarrow (\mathbf{S}^T\mathbf{A}\mathbf{S})(\mathbf{S}^T\mathbf{x})=\lambda\mathbf{S}^T\mathbf{x}$, men vi ser at egenvektorene endres! $\to$ må rotere egenvektormatrisa motsatt vei for å få de ``ekte'' egenvektorene (prosjekt 1?).\\
-\textbf(Jacobis metode for egenverdier) Vi setter
+(Jacobis metode for egenverdier) Vi setter
 $$ \mathbf{S}=
  \left( 
    \begin{array}{cccccccc}
@@ -91,7 +92,8 @@ $$ \mathbf{S}=
    0  &    0  & \dots &  -\sin\theta        &    0  & \dots & 0 &   \cos\theta   
    \end{array}
  \right) $$
- Denne matrisa roterer vår matrise $A$ slik at ett av de ikkediagonale elementene i $A$ blir satt til null. Vi velger alltid det største elemtentet til å være lik null slik at metoden konvergerer raskest mulig. Må ha en while-test og if-tester for å sjekke at metoden konvergerer og stanse den når vi er nærme nok en diagonal matrise. ULEMPE: uvisst hvor mange iterasjoner man trenger.\\
+ Algoritmisk: 1. Velg toleranse $\epsilon\sim 10^{-8}$. 2. Lag en while-løkke som går så lenge max$(a_{ij}^2)\geq\epsilon$ for $i\neq j$. 3. Bruk det største ikke-diag. elementet $|a_{kl}| =$max$|a_{ij}|$ ($i\neq j$) til å regne ut $\tau=(a_{ll}-a_{kk})/2a_{kl}$, hvor $\tan\theta = -\tau \pm\sqrt{1+\tau^2}$. Velg den løsninga som gir minste rotasjon for å forhindre at andre elementer blir forskjøvet langt fra null. 4. Gjennomfør likhetstransformasjonen $\bf{B}=\bf{S}(k,l,\theta)^T\bf{AB}(k,l,\theta)$, kan gjøres på en lur måte. 5. Fortsett til max$(a_{ij}^2)\leq\epsilon$.\\
+ Krever $3n^2-5n^2$ rotasjoner som hver krever $4n$ operasjoner $\to 12n^3-15n^3$ FLOPS. ULEMPE: uvisst hvor mange iterasjoner man trenger.\\
  \textbf{Householders algoritme} er bedre enn Jacobis metode! Starter med $\mathbf{S}=\mathbf{S}_1\mathbf{S}_2\dots\mathbf{S}_{n-2},$ der $S$ er en ortogonal matrise. Man lar den virke på hver side av $A$ og vi ender opp med $$\mathbf{S}^{T} \mathbf{A} \mathbf{S} = 
     \left( \begin{array}{ccccccc} a_{11} & e_1 & 0   & 0    & \dots  &0     & 0 \\
                                 e_1 & a'_{22} & e_2 & 0    & \dots  &0     &0 \\
@@ -106,13 +108,17 @@ $$\mathbf{S_{1}} = \left( \begin{array}{cc} 1 & \mathbf{0^{T}} \\
 \mathbf{0}& \mathbf{P} \end{array} \right),$$
 der $\mathbf{P}=\mathbf{I}-2\mathbf{u}\mathbf{u}^T$. $\mathbf u$ er en vektor vi må finne.
 $$\mathbf{S}_1^T\mathbf{A}\mathbf{S}_1 =  \left( \begin{array}{cc} a_{11} & (\mathbf{Pv})^T \\
-                              \mathbf{Pv}& \mathbf{A}' \end{array} \right) ,$$
+\mathbf{Pv}& \mathbf{A}' \end{array} \right).$$
+$\mathbf v$ er vektoren med elementene i første rad og kolonne i $A$. Vi må også ha at $(\mathbf{Pv})^T = (k,0,\ldots)$. Vi har også bruk for
+$$(\mathbf{Pv})^T\mathbf{Pv} = k^{2} = \mathbf{v}^T\mathbf{v}=|v|^2 = \sum_{i=2}^{n}a_{i1}^2,$$
+som gir oss at $k=\pm v$.
 \begin{equation}
 \mathbf{Pv} = \mathbf{v} -2\mathbf{u}( \mathbf{u}^T\mathbf{v})= k \mathbf{e},
 \end{equation}
-Som vi kan skrive som $\mathbf{v} - k\mathbf{e} = 2\mathbf{u}( \mathbf{u}^T\mathbf{v})$, opphøyer vi dette i andre får vi $2( \mathbf{u}^T\mathbf{v})^2=(v^2\pm a_{21}v)$, som så settes inn i
+Som vi kan skrive som $\mathbf{v} - k\mathbf{e} = 2\mathbf{u}( \mathbf{u}^T\mathbf{v})$, opphøyer vi dette i andre får vi $2( \mathbf{u}^T\mathbf{v})^2=(v^2\pm a_{21}v)$, (NB: velg fortegnet som gir størst verdi for å unngå numerisk tap) som så settes inn i
 $$\mathbf{u}=\frac{\mathbf{v}-k\mathbf{e}}{2( \mathbf{u}^T\mathbf{v})}.$$
 Dette settes så inn i $P$ og vi kan rotere ferdig. Denne prosessen gjentas $(n-1)$ ganger for en $n\times n$-matrise. <3\\
+\textbf{Lanczos algoritme} brukes på symmetriske egenverdiproblemer. Vi har matrisa $A$. Algoritmen genererer en sekvens med reelle tridiagonale matriser $T_k$ med dim. $k\times k$ ($k\leq n$), s.a. ekstremalegenverdiene til $T_k$ blir bedre og bedre estimater av egenverdiene til $A$. Metoden bruker en likhetstransf. $T = Q^TAQ$.
 \textbf{Splineinterpolasjon} er en metode for å interpolere mellom datapunkter. Mest brukt er kubiske spliner, altså polynomer av grad tre som binder sammen datapunktene. Har man et intervall $[x_0,x_n]$ med datapunkter å interpolere så har vi $n$ polynomer av typen $s_i(x) = a_{i0} + a_{i1}x + a_{i2}x^2 + a_{i3}x^3$. Antar at de deriverte er kontinuerlige, s.a. $s'_{i-1}(x_i) = s_i'(x_i)$ og $s''_{i-1}(x_i) = s_i''(x_i)$, dette gir oss $4n$ koeff. å finne og $4n-2$ likn. å løse. Vi setter $s''_i(x_i) \equiv f_i$ og $s''_i(x_{i+1}) \equiv f_{i+1}$, trekker vi en rett linje mellom $f_i$ og $f_{i+1}$ så får vi uttrykket
 $$s_i''(x) = \frac{f_i}{x_{i+1}-x_i}(x_{i+1}-x)+\frac{f_{i+1}}{x_{i+1}-x_i}(x-x_i),$$
 som kan integreres to ganger, da får vi et tredjeordens polynom hvor vi kan finne integrasjonskonstantene ved å bruke $s_i(x_i)=y_i$ og $s_i(x_{i+1})=y_{i+1}$, uttrykket vi ender opp med kan så skrives om ved å bruke kontinuitetsbetingelsene og vi vil ende opp med en tridiagonal matrise som vi kan løse. Voilà, vi har interpolert.\\
@@ -128,9 +134,21 @@ $$ m\dot y^{(2)}(t) = - ky^{(1)}(t) \quad \dot y^{(1)}(t)=y^{(2)}(t). $$
 $$  \int_{t_i}^{t_{i+1}} f(t,y) dt \approx hf(t_{i+1/2},y_{i+1/2}) +O(h^3) $$
 som gir $y_{i+1}=y_i + hf(t_{i+1/2},y_{i+1/2}) +O(h^3)$. Vi vet ikke $y_{i+1/2}$, den er
 $$ y_{(i+1/2)}=y_i + \frac{h}{2}\frac{dy}{dt} = y(t_i) + \frac{h}{2}f(t_i,y_i) $$
-Vi ender opp med $k_1=hf(t_i,y_i)$ og $k_2=hf(t_{i+1/2},y_i+k_1/2)$ som gir $y_{i+i}\approx y_i + k_2 +O(h^3)$. Man regner m.a.o. et par mellomsteg for å oppnå et bedre estimat. Fjerde ordens RK bruker $k_1=hf(t_i,y_i),\, k_2=hf(t_i+h/2,y_i+k_1/2),\,k_3=hf(t_i+h/2,y_i+k_2/2),\,k_4=hf(t_i+h,y_i+k_3)$ som gir $y_{i+1}=y_i +\frac{1}{6}\left( k_1 +2k_2+2k_3+k_4\right).$ Feil: $O(h^4)$. Geometrisk tolkning: fire funksjonsevaluasjoner, en i hver ende og to på midtpunktet.\\
-\textbf{Predictor-corrector} Betrakt $dy/dt = f(t,y)$ 1.Regn ut stigninga ved $t_i$, \emph{i.e.} $k_1 = f(t_i,y_i)$. 2. Anslå løsning: $y_{i+1}\approx y(t_i)+hk_1$ (Eulers metode). 3. Bruk anslaget til å regne ut stigninga ved $t_{i+1}$, $k_2=f(t_{i+1},y_{i+1})$. 4. Korriger anslaget for løsning $y_{i+1}\approx y(t_i) + (k_1+k_2)h/2$.
-
+Vi ender opp med $k_1=hf(t_i,y_i)$ og $k_2=hf(t_{i+1/2},y_i+k_1/2)$ som gir $y_{i+i}\approx y_i + k_2 +O(h^3)$. Man regner m.a.o. et par mellomsteg for å oppnå et bedre estimat. Fjerde ordens RK bruker $k_1=hf(t_i,y_i),\, k_2=hf(t_i+h/2,y_i+k_1/2),\,k_3=hf(t_i+h/2,y_i+k_2/2),\,k_4=hf(t_i+h,y_i+k_3)$ som gir $y_{i+1}=y_i +\frac{1}{6}\left( k_1 +2k_2+2k_3+k_4\right).$ Feil: $O(h^4)$. Geometrisk tolkning: $k_1$ beregner stigninga i $t_i$, $k_2$ beregner stigninga i $t_{i+1/2}$, $k_3$ beregner stigninga i $t_{i+1/2}$ ved hjelp av $k_2$, $k_4$ gjør et anslag på stigninga i $t_{i+1}$.\\
+\textbf{Adaptive metoder} steglengden varier ettersom hvor mye funksjonen endrer seg, man sjekker om estimert verdi er innafor en viss toleranse og man avgjør så om steglengden skal øke eller avta i neste iterasjon.
+\textbf{Predictor-corrector} Betrakt $dy/dt = f(t,y)$ 1.Regn ut stigninga ved $t_i$, \emph{i.e.} $k_1 = f(t_i,y_i)$. 2. Anslå løsning: $y_{i+1}\approx y(t_i)+hk_1$ (Eulers metode). 3. Bruk anslaget til å regne ut stigninga ved $t_{i+1}$, $k_2=f(t_{i+1},y_{i+1})$. 4. Korriger anslaget for løsning $y_{i+1}\approx y(t_i) + (k_1+k_2)h/2$.\\
+\textbf{Løse pendelsystem}
+\begin{itemize}
+  \item Choose the initial position and speed, with the most common choice \( v(t=0)=0 \) and some fixed value for the position.
+ \item Choose the method you wish to employ in solving the problem.
+ \item Subdivide the time interval \( [t_i,t_f]  \) into a grid with step size $h=(t_f-t_i)/N, $ where \( N \) is the number of mesh points.
+ \item Calculate now the total energy given by $E_0=\frac{1}{2}kx(t=0)^2=\frac{1}{2}k.$
+ \item The Runge-Kutta method is used to obtain \( x_{i+1} \) and \( v_{i+1} \) starting from the previous values \( x_i \) and \( v_i \).
+ \item When we have computed \( x(v)_{i+1} \) we upgrade  \( t_{i+1}=t_i+h \).
+ \item This iterative  process continues till we reach the maximum time \( t_f \).
+ \item The results are checked against the exact solution. Furthermore, one has to check the stability of the numerical solution against the chosen number of mesh points \( N \).
+\end{itemize}
+\textbf{\textsc{Hvordan sjekke feil når man løser ODE}} Man kan sjekke forskjell i energi til systemet mellom numerisk og analytisk løsning, den vil øke ettersom tida går, spesielt ved dårlig oppløsning.
 % subsection ode (end)
 
 \subsection{PDE} % (fold)
@@ -168,7 +186,16 @@ og ender opp med $u_{i,j-1}= -\alpha u_{i-1,j}+(1-2\alpha)u_{i,j}-\alpha u_{i+1,
   &\frac{1}{\Delta t}\left(u_{i,j}-u_{i,j-1}\right),
 \end{align*}
 velger vi $\theta=1/2$ får vi CN-metoden. Vi ser at vi kan skrive $\left(2\hat{I}+\alpha\hat{B}\right)V_{j}=\left(2\hat{I}-\alpha\hat{B}\right)V_{j-1}$. Altså først gjøre den eksplisitte metoden, deretter bruke resultatet derfra til å løse en tridiagonal likning. NB: Husk at vi må ha $\alpha = (\Delta t + \Delta t/2) / \Delta x^2$.\\
-TRUNKERINGSFEIL: verdt å merke seg at det halve tidssteget man bruker i CN gjør at trunkeringsfeilen i tid er forskjellig fra den implisitte metoden.
+TRUNKERINGSFEIL: verdt å merke seg at det halve tidssteget man bruker i CN gjør at trunkeringsfeilen i tid er forskjellig fra den implisitte metoden. For å finne de bruker vi
+\begin{align}
+u(x+\Delta x,t)&=u(x,t)+\frac{\partial u(x,t)}{\partial x} \Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2}\Delta x^2\nonumber\\
+&+\mathcal{O}(\Delta x^3),\label{eq:taydeltaxpluss} \\
+u(x-\Delta x,t)&=u(x,t)-\frac{\partial u(x,t)}{\partial x}\Delta x+\frac{\partial^2 u(x,t)}{2\partial x^2} \Delta x^2\nonumber\\
+&+\mathcal{O}(\Delta x^3), \label{eq:taydeltaxminus} \\
+u(x,t+\Delta t)&=u(x,t)+\frac{\partial u(x,t)}{\partial t}\Delta t+  \mathcal{O}(\Delta t^2), \label{eq:taydeltatpluss} \\
+u(x,t-\Delta t)&=u(x,t)-\frac{\partial u(x,t)}{\partial t}\Delta t+  \mathcal{O}(\Delta t^2), \label{eq:taydeltatminus}
+\end{align}
+og setter dette inn i de forskjellige metodene. Ta tid og posisjon hver for seg.
 \begin{table}[H]
   \centering
   \begin{tabular}{ l l l }
@@ -188,7 +215,7 @@ TRUNKERINGSFEIL: verdt å merke seg at det halve tidssteget man bruker i CN gjø
 \subsection{Monte Carlo-metoder} % (fold)
 \label{sub:monte_carlo_metoder}
 \textbf{Tilfeldige tall} genereres av en funksjon som baserer seg på modulodivisjon, \emph{i.e.} man deler et tall på et annet og svaret er resten. Kalles Linear congruential relations og ser ut som dette $N_i=(aN_{i-1}+c)$MOD$M$, men tallet som returneres er $x_i = N_i/M$ for å sikre at det er mellom 0 og 1. $M$ er perioden til funksjonen og bør være så stort som mulig, $N_0$ er såkornet. $a$ og $c$ velges på en ``lur måte''.
-\textbf{Varians} $\sigma^2_X =  \langle x^2 \rangle - \langle x\rangle^2$. Standardavviket går som $\sigma \sim 1/\sqrt N$. Feil for tradisjonelle metoder hvor man int. over en $d$-dim. hyperkube med sider $L$ (inneh. $N = (L/h)^d$int.punkter) går som $N^{-k/d}$. MC er uavh. av dimensjonen til int. SUPERBRA.\\
+\textbf{Varians} $\sigma^2_X =  \langle x^2 \rangle - \langle x\rangle^2$. Standardavviket går som $\sigma \sim 1/\sqrt N$. Feil for tradisjonelle metoder hvor man int. over en $d$-dim. hyperkube med sider $L$ (inneh. $N = (L/h)^d$int.punkter) går som $N^{-k/d}$. MC er uavh. av dimensjonen til int. SUPERBRA. Vi liker å se på variansen som funksjon av ant. datapunkter ved numerisk integrasjon: $\sigma_N^2 = \sigma_X^2/N$.\\
 \textbf{Numerisk integrasjon} Endrer grenser ved å bruke $y=a+(b-a)x$. Vi velger oss en PDF $p(x)$ som vi putter inn i integralet.
 $$I=\int_a^b F(x) dx =\int_a^b p(x)\frac{F(x)}{p(x)} dx=\int_{\tilde{a}}^{\tilde{b}}\frac{F(x(y))}{p(x(y))} dy.$$
 Hvor vi har $dy/dx=p(x)$ og integralet  kan så skrives
@@ -207,7 +234,7 @@ Grunnidé for alle integrasjonsmetoder:
 \begin{equation*} 
    I=\int_a^bf(x)dx \approx \sum_{i=1}^N\omega_if(x_i),  
 \end{equation*}
-GK går ut på å velge en ortogonal basis av polynomer og et sett integrasjonspunkter som vektes forskjellig. Kan skrive integranden $f(x)$ som produkt av vektfunksjonen og en glatt funksjon, $W(x)g(x)$. Integrasjonspkt. er nullpkt. til de valgte ortogonale punktene av grad $N$. Vektene finner vi fra en invers matrise. Vi rep. integranden med et polynom av grad $2N-1$ siden vi har $2N$ likn., $N$ for int.pkt. og $N$ for vektene. 
+GK går ut på å velge en ortogonal basis av polynomer og et sett integrasjonspunkter som vektes forskjellig. Kan skrive integranden $f(x)$ som produkt av vektfunksjonen og en glatt funksjon, $W(x)g(x)$. Integrasjonspkt. er nullpkt. til de valgte ortogonale punktene av grad $N$. Vektene finner vi fra en invers matrise. Vi rep. integranden med et polynom av grad $2N-1$ siden vi har $2N$ likn., $N$ for int.pkt. og $N$ for vektene.\\
 \begin{table}[H]
   \centering
   \begin{tabular}{ l l l }
@@ -218,8 +245,8 @@ GK går ut på å velge en ortogonal basis av polynomer og et sett integrasjonsp
     $W(x)=1/\sqrt{1-x^2}$&$x\in[-1,1]$&Chebyshev\\
   \end{tabular}
 \end{table}
-\textbf{Trapesmetoden}\\
-\textbf{Rektangelmetoden} $I=\int_a^bf(x) dx \approx  h\sum_{i=1}^N f(x_{i-1/2})$ \\
+\textbf{Trapesmetoden} 1. Velg ant. int.pkt. og fikser steglengden, 2. Regn ut $f(a)$ og $f(b)$, og gang disse mde $h/2$. 3. Loop over $n=1\to n-1$, summer opp $f(a+h)+f(a+2h)+\ldots+f(b-h)$. 4. Gang hele summen med $h$ og legg til det du regnet ut i 2.\\
+\textbf{Rektangelmetoden} $I=\int_a^bf(x) dx \approx  h\sum_{i=1}^N f(x_{i-1/2})$, m.a.o. man diskretiserer funksjonen i $N$ rektangler, evaluerer funksjonen i midtpunktet i hvert rektangel og ganger med steglengden $h$.\\
 \textbf{Bytte av intervall} $t = (b-a)x/2 + (b+a)/2$, husk å regne ut d$t$.\\
 % subsection numerisk_integrasjon (end)
 
@@ -234,7 +261,15 @@ GK går ut på å velge en ortogonal basis av polynomer og et sett integrasjonsp
   \item Oppdater forventningsverdier \emph{etc.}
   \item Gjenta til likevekt er nådd, en MC-iterasjon er gjort ved en summasjon over alle spinnene.
 \end{itemize}
-For å finne når likevekt er nådd så kan man regne ut korrelasjonsfunksjonen for f.eks. magnetiseringa. Hvis det er likevekt så vil kun være fluktuasjoner som gjør at magnetiseringa endrer seg og det er ingen korrelasjon.
+For å finne når likevekt er nådd så kan man regne ut korrelasjonsfunksjonen for f.eks. magnetiseringa. Hvis det er likevekt så vil kun være fluktuasjoner som gjør at magnetiseringa endrer seg og det er ingen korrelasjon.\\
+\textbf{Susceptibilitet m.m.} $\chi = (\mean{M^2} - \mean M^2)/(k_B T)$, varmekap. $C_V = (\mean{E^2} - \mean E^2)/(k_b T^2)$. Kan være lurt å dele disse kvantitetene på antall spinn så man kan sammenligne verdiene for forskjellige gitterstørrelser.
+\begin{equation*}
+\sigma_E^2=\langle E^2 \rangle-\langle E \rangle^2=
+         \frac{1}{Z}\sum_{i=1}^M E_i^2e^{-\beta E_i}-
+          \left(\frac{1}{Z}\sum_{i=1}^M E_ie^{-\beta E_i}\right)^2.
+\end{equation*}
+$\mean E = -\partial \ln Z /\partial \beta$. $C_V = (\partial^2 \ln Z/\partial\beta^2)/(k_b T^2)$.\\
+\textbf{Partisjonsfunksjon for 2D-Isingmodell} $Z = 2\exp(8\beta J) + 2\exp(-8\beta J) + 12\exp(-\beta\cdot0) = 4\cosh(8\beta J) + 12$.\\
 \textbf{Markovkjeder} har tre viktige egenskaper i dens overgansmatrise: avhenger kun av avstanden mellom to punkter $i-j$ i rommet (homogenitet), isotropisk siden den ikke endres når man går fra $(i,j)$ til $(-i,-j)$, homogen i tid siden den kun avhenger av start- og sluttiden.\\
 \textbf{Detaljert balanse} er et krav man innfører for å unngå sykliske løsninger, \emph{i.e.} at den gjentar seg selv, det er $W(j\to i)w_j=W(i\to j)w_j$. Vi kan skrive om dette ved å bruke overgangssannsynligheten $T$ og aksepteringssanns. $A$, $(T_{j\to i}A_{j\to i})/(T_{i\to j}A_{i\to j}) = w_i/w_j$, Bruker vi så Boltzmanndistribusjonen, $w_i = \exp(-\beta E_i)/Z$, så får vi $w_i/w_j = \exp(\beta(E_j-E_i))$. Systemet vårt når en Boltzmanndistribuert likevekt. Hurra.
 % subsection statistisk_fysikk (end)

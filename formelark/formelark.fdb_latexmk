@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1449940185 "formelark.tex" "formelark.pdf" "formelark" 1449940186
+["pdflatex"] 1450021436 "formelark.tex" "formelark.pdf" "formelark" 1450021438
   "/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
@@ -14,6 +14,7 @@
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/jknappen/ec/ecrm2074.tfm" 1136768653 3584 8e2870ec7aa9776f59654942b0923f51 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm" 1136768653 3072 8b5a64dc91775463bc95e2d818524028 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/jknappen/ec/ectt1200.tfm" 1136768653 1536 487c9b46984a816c7ed238d0674595c7 ""
+  "/usr/local/texlive/2014/texmf-dist/fonts/tfm/jknappen/ec/ecxc1200.tfm" 1136768653 3072 7297cd85ca68cda594939a8b966f71bb ""
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2014/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -55,6 +56,7 @@
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb" 1215737283 131290 ea265c7de37664eae04a6f91a1f7a51f ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb" 1215737283 198221 ca5aa71411090ef358a6cc78b7458365 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb" 1215737283 167085 68de377d2744a68a88fa40a1f610615a ""
+  "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfxc1200.pfb" 1215737283 114082 d23b7179894d32b33f02777491c898e5 ""
   "/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/babel-norsk/norsk.ldf" 1367878962 7454 81c33988aa9f2f7c4a604d2527fdb33c ""
   "/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.def" 1395780385 49536 e1475dd245ff2196764ba5b91ac63714 ""
@@ -182,12 +184,12 @@
   "/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1401025944 1445653 26a0aacf3d70032b1ec192e8c7792117 ""
   "/usr/local/texlive/2014/texmf-var/web2c/pdftex/pdflatex.fmt" 1412952666 3832013 d006c1852b00759000a3f4bd7b0e7611 ""
   "/usr/local/texlive/2014/texmf.cnf" 1401025936 577 a59edbde8d3a8c549d0eeaab1739e2ff ""
-  "formelark.aux" 1449940186 1576 3fd0c22351bb3d3e9a8e55ab8f5d3a8a ""
-  "formelark.tex" 1449940184 19429 eee2cbe90c91eae547a34b6209d7d46e ""
-  "formelark.toc" 1449940186 668 207bc0089e0f75abfe44b90ad234367e ""
+  "formelark.aux" 1450021437 1724 a1b6eb9c30cdbba7d3cd2849db05f8b4 ""
+  "formelark.tex" 1450021436 23974 292ca1c636ecf626c4c4aebc85731823 ""
+  "formelark.toc" 1450021437 668 15c1d165af566a6fe45886ef1332bfd3 ""
   "formelarkJV.sty" 1417541824 1587 3d194ab31686c470501f7b4c6009d97a ""
   (generated)
   "formelark.toc"
+  "formelark.aux"
   "formelark.log"
   "formelark.pdf"
-  "formelark.aux"
