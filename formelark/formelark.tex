@@ -9,49 +9,28 @@
 % 4. Skriv algoritmer/formler
 % 5. Rydd opp
 % 6. Gjenta
-
-
 \begin{document}
 \maketitle
 \tableofcontents
-\subsection{Eksamen 2014}
 \begin{flushleft} % Unngår like lange linjer -> jevne mellomrom.
-\textsc{ALGORITMER ER VIKTIGE}
-\textbf{Oppgave 1} Egenverdier, ``similaritytransformations'', diskretisering av diff.likn., Jacobis metode/algoritme, Householders algoritme.\\
-\textbf{Oppgave 2}PDE+linalg, diffusjonslikn., eksplisitt/implisitt, trunkeringsfeil, tridiagonal løser, FLOPS\\
-\textbf{Oppgave 3} ODE, omskrivning til et sett koblede likn., Eulers algoritme(???), feilestimat, Runge-Kutta, geometrisk tolkning av RK, enhetstesting
-
-\subsection{Eksamen 2013}
-\textbf{Oppgave 1} ODE, andreordens til to førsteordens koblede likn., Eulers algoritme, Runge-Kutta med feilestimat, geometrisk tolkning av RK.\\
-\textbf{Oppgave 2} PDE, diffusjon, diskretiser, eksplisitt/implisitt, trunkeringsfeil, tridiagonal løser, FLOPS \\
-\textbf{Oppgave 3} Numerisk integrasjon, Gaussisk kvadratur, Legendre-polynomer, Laguerre-pol., MC-metoder, brute force og importance sampling.
-
-\subsection{Eksamen 2012}
-\textbf{Oppgave 1} Linalg, Gaussisk eliminasjon, LU dekomp., diskretisering, FLOPS, enhetstesting \\
-\textbf{Oppgave 2} Metropolisalgoritmen, antakelser for den, enhetstesting,, markovkjeder,
-
-\subsection{Eksamen 2011}
-\textbf{Oppgave 1} ODE, omskriving til to koblede, Eulers algoritme, Runge-Kutta, feilestimat \\
-\textbf{Oppgave 2} Numerisk integrasjon, trapesregelen, newton-cotes, gaussisk kvadratur, legendre-polynom, laguerre-polynom, MC-integrasjon, importance sampling.\\
-\textbf{Oppgave 3} Linalg., egenverdier, similarity transforms, diskretisering, jacobis metode, 
-
+Hei
 \subsection{Lineær algebra og sånn} % (fold)
 \label{sub:linalg}
 \textbf{Diskretisering} av $-\frac{d^2u(x)}{dx^2} = f(x,u(x))$. Bruk def. av derivert, det gir. $u^{''}_i \approx  (u_{i+1} -2u_i +u_{i-i})/h^2.$ Kan skrives som tridiagonal matrise
 \begin{equation*}
 \mathbf{A} = \frac{1}{h^2}\left(\begin{array}{cccccc}
-                          2 & -1 &  &   &  & \\
-                          -1 & 2 & -1 & & & \\
-                           & \dots   & \dots &\dots   &\dots & \\
-                           &   &  &-1  &2& -1 \\
-                           &    &  &   &-1 & 2 \\
-                      \end{array} \right)	
+2 & -1 &  &   &  & \\
+-1 & 2 & -1 & & & \\
+& \dots   & \dots &\dots   &\dots & \\
+&   &  &-1  &2& -1 \\
+&    &  &   &-1 & 2 \\
+\end{array} \right)	
 \end{equation*}
-Gir likninga $\mathbf{A}\mathbf{u} = \mathbf{f}(\mathbf{u}).$ Som vi kan skrive som $a_iu_{i-1}+b_iu_i+c_iu_{i+1} = f_i,$. Først forover substitusjon
+Gir likninga $\mathbf{A}\mathbf{u} = \mathbf{f}(\mathbf{u}).$ Som vi kan skrive som $a_iu_{i-1}+b_iu_i+c_iu_{i+1} = f_i,$. Først forover substitusjon,
 \begin{verbatim}
-	   btemp = b[1];
-   u[1] = f[1]/btemp;
-   for(i=2 ; i <= n ; i++) {
+	  btemp = b[1];
+    u[1] = f[1]/btemp;
+    for(i=2 ; i <= n ; i++) {
       temp[i] = c[i-1]/btemp;
       btemp = b[i]-a[i]*temp[i];
       u[i] = (f[i] - a[i]*u[i-1])/btemp;
@@ -93,7 +72,7 @@ $$ \mathbf{S}=
    \end{array}
  \right) $$
  Algoritmisk: 1. Velg toleranse $\epsilon\sim 10^{-8}$. 2. Lag en while-løkke som går så lenge max$(a_{ij}^2)\geq\epsilon$ for $i\neq j$. 3. Bruk det største ikke-diag. elementet $|a_{kl}| =$max$|a_{ij}|$ ($i\neq j$) til å regne ut $\tau=(a_{ll}-a_{kk})/2a_{kl}$, hvor $\tan\theta = -\tau \pm\sqrt{1+\tau^2}$. Velg den løsninga som gir minste rotasjon for å forhindre at andre elementer blir forskjøvet langt fra null. 4. Gjennomfør likhetstransformasjonen $\bf{B}=\bf{S}(k,l,\theta)^T\bf{AB}(k,l,\theta)$, kan gjøres på en lur måte. 5. Fortsett til max$(a_{ij}^2)\leq\epsilon$.\\
- Krever $3n^2-5n^2$ rotasjoner som hver krever $4n$ operasjoner $\to 12n^3-15n^3$ FLOPS. ULEMPE: uvisst hvor mange iterasjoner man trenger.\\
+ Krever $3n^2-5n^2$ rotasjoner som hver krever $4n$ operasjoner $\to 12n^3-15n^3$ FLOPS. ULEMPE: uvisst hvor mange iterasjoner man trenger. Fröbeniusnormen er alltid bevart ved ortogonale transformasjoner, dette sikrer konvergens for denne metoden.\\
  \textbf{Householders algoritme} er bedre enn Jacobis metode! Starter med $\mathbf{S}=\mathbf{S}_1\mathbf{S}_2\dots\mathbf{S}_{n-2},$ der $S$ er en ortogonal matrise. Man lar den virke på hver side av $A$ og vi ender opp med $$\mathbf{S}^{T} \mathbf{A} \mathbf{S} = 
     \left( \begin{array}{ccccccc} a_{11} & e_1 & 0   & 0    & \dots  &0     & 0 \\
                                 e_1 & a'_{22} & e_2 & 0    & \dots  &0     &0 \\
@@ -139,7 +118,7 @@ Vi ender opp med $k_1=hf(t_i,y_i)$ og $k_2=hf(t_{i+1/2},y_i+k_1/2)$ som gir $y_{
 \textbf{Predictor-corrector} Betrakt $dy/dt = f(t,y)$ 1.Regn ut stigninga ved $t_i$, \emph{i.e.} $k_1 = f(t_i,y_i)$. 2. Anslå løsning: $y_{i+1}\approx y(t_i)+hk_1$ (Eulers metode). 3. Bruk anslaget til å regne ut stigninga ved $t_{i+1}$, $k_2=f(t_{i+1},y_{i+1})$. 4. Korriger anslaget for løsning $y_{i+1}\approx y(t_i) + (k_1+k_2)h/2$.\\
 \textbf{Løse pendelsystem}
 \begin{itemize}
-  \item Choose the initial position and speed, with the most common choice \( v(t=0)=0 \) and some fixed value for the position.
+ \item Choose the initial position and speed, with the most common choice \( v(t=0)=0 \) and some fixed value for the position.
  \item Choose the method you wish to employ in solving the problem.
  \item Subdivide the time interval \( [t_i,t_f]  \) into a grid with step size $h=(t_f-t_i)/N, $ where \( N \) is the number of mesh points.
  \item Calculate now the total energy given by $E_0=\frac{1}{2}kx(t=0)^2=\frac{1}{2}k.$
@@ -247,7 +226,24 @@ GK går ut på å velge en ortogonal basis av polynomer og et sett integrasjonsp
 \end{table}
 \textbf{Trapesmetoden} 1. Velg ant. int.pkt. og fikser steglengden, 2. Regn ut $f(a)$ og $f(b)$, og gang disse mde $h/2$. 3. Loop over $n=1\to n-1$, summer opp $f(a+h)+f(a+2h)+\ldots+f(b-h)$. 4. Gang hele summen med $h$ og legg til det du regnet ut i 2.\\
 \textbf{Rektangelmetoden} $I=\int_a^bf(x) dx \approx  h\sum_{i=1}^N f(x_{i-1/2})$, m.a.o. man diskretiserer funksjonen i $N$ rektangler, evaluerer funksjonen i midtpunktet i hvert rektangel og ganger med steglengden $h$.\\
+\textbf{Simpsons metode} $\int_{-h}^{+h}f(x)dx=\frac{h}{3}\left(f_h + 4f_0 + f_{-h}\right)+O(h^5),$\\
 \textbf{Bytte av intervall} $t = (b-a)x/2 + (b+a)/2$, husk å regne ut d$t$.\\
+\textbf{Verlet-metoden} finner den ved å Taylorutvikle et kobla likningssett.
+\begin{align*} 
+x(t+h)&=x(t)+hx^1(t)+(h^2/2)x^2(t)+O(h^3) \\
+x_{i+1}&= 2x_i-x_{i-1}+h^2x^{(2)}_i+O(h^4)
+\end{align*}
+Trunkeringsfeil i fjerde potens siden alle odde ledd kansellerer. Finner hastigheten ved
+\begin{align*}
+  x^1(t)&= \frac{x_{i+1}-x_{i-1}}{2h} + O(h^2)
+\end{align*}
+Dette utgjør Verlet. Skriver man om Taylorutviklinga får man LEapfrog, bl.a. ved å bruke halve tidssteg.
+\begin{align*}
+  x(t+h) &= x(t)+h(x^1(t)+(h/2)x^2(t))+O(h^3) \\
+  x(t+h/2) &= (x^1(t)+(h/2)x^2(t))+O(h^2) \\
+   x(t+h) &= x(t)+h+x^1(t+h/2)+O(h^3)\\
+   \Rightarrow x^1(t+h) &= x^1(t+h/2) + (h/2)x^2(t+h)+O(h^2)
+\end{align*}
 % subsection numerisk_integrasjon (end)
 
 \subsection{Statistisk fysikk} % (fold)
@@ -271,10 +267,48 @@ For å finne når likevekt er nådd så kan man regne ut korrelasjonsfunksjonen 
 $\mean E = -\partial \ln Z /\partial \beta$. $C_V = (\partial^2 \ln Z/\partial\beta^2)/(k_b T^2)$.\\
 \textbf{Partisjonsfunksjon for 2D-Isingmodell} $Z = 2\exp(8\beta J) + 2\exp(-8\beta J) + 12\exp(-\beta\cdot0) = 4\cosh(8\beta J) + 12$.\\
 \textbf{Markovkjeder} har tre viktige egenskaper i dens overgansmatrise: avhenger kun av avstanden mellom to punkter $i-j$ i rommet (homogenitet), isotropisk siden den ikke endres når man går fra $(i,j)$ til $(-i,-j)$, homogen i tid siden den kun avhenger av start- og sluttiden.\\
-\textbf{Detaljert balanse} er et krav man innfører for å unngå sykliske løsninger, \emph{i.e.} at den gjentar seg selv, det er $W(j\to i)w_j=W(i\to j)w_j$. Vi kan skrive om dette ved å bruke overgangssannsynligheten $T$ og aksepteringssanns. $A$, $(T_{j\to i}A_{j\to i})/(T_{i\to j}A_{i\to j}) = w_i/w_j$, Bruker vi så Boltzmanndistribusjonen, $w_i = \exp(-\beta E_i)/Z$, så får vi $w_i/w_j = \exp(\beta(E_j-E_i))$. Systemet vårt når en Boltzmanndistribuert likevekt. Hurra.
+\textbf{Detaljert balanse} er et krav man innfører for å unngå sykliske løsninger, \emph{i.e.} at den gjentar seg selv, det er $W(j\to i)w_j=W(i\to j)w_j$. Vi kan skrive om dette ved å bruke overgangssannsynligheten $T$ og aksepteringssanns. $A$, $(T_{j\to i}A_{j\to i})/(T_{i\to j}A_{i\to j}) = w_i/w_j$, Bruker vi så Boltzmanndistribusjonen, $w_i = \exp(-\beta E_i)/Z$, så får vi $w_i/w_j = \exp(\beta(E_j-E_i))$. Systemet vårt når en Boltzmanndistribuert likevekt. Hurra.\\
 % subsection statistisk_fysikk (end)
+\textbf{Spektralradie}
+Først eksplisitt forover-Euler, da har vi $\hat A = \mathbf{1} + \alpha \hat B$. Egenverdiene til identitetsmatrisa er 1, mens vi for $\hat B$ bør faktisk regne det ut så vi er helt sikre (selv om vi vet at en \emph{reell} tridiagonal matrise er positiv definitt). Vi kan skrive
+$$ b_{i,j} = 2\delta_{i,j} - \delta_{i+1,j} - \delta_{i-1,j}. $$
+Egenverdilikninga er gitt som
+$$ \hat B \hat v = \lambda \hat v $$
+\begin{align*}
+  \Rightarrow (\hat B \hat v)_i &= \lambda_i \hat v_i \\
+  &= \sum\limits_{j=1}^{n}(2\delta_{i,j} - \delta_{i+1,j} - \delta_{i-1,j})v_j \\
+  &= 2v_{i} - v_{i+1} - v_{i-1} = \lambda_i v_i.
+\end{align*}
+Vi kan så velge en basis, $\sin(\beta\theta)$, å uttrykke egenvektorene i slik at vi får
+$$ 2\sin(i\theta) - \sin(i+1\theta) - \sin(i-1\theta) = \lambda_i \sin(i\theta). $$
+Bruker vi så identiteten $\sin(x+y) + \sin(x-y) = 2\cos(x)\sin(y)$ så kan vi forenkle uttrykket over til,
+\begin{align*}
+2(1 - \cos(i\theta) )\sin(i\theta) &= \lambda_i \sin(i\theta) \\
+\lambda_i &= 2(1 - \cos(i\theta) ).
+\end{align*}
+Egenverdiene for $\hat A$ blir da $\Gamma = 1-2\alpha(1 - \cos(i\theta) )$
+$$ \Rightarrow -1 < 1-2\alpha(1 - \cos(i\theta) ) < 1 \Rightarrow \alpha < \frac{1}{2}, $$
+hvilket impliserer at vi har kravet,
+$$ \frac{\Delta t}{\Delta x^2} < \frac{1}{2}, $$
+som betyr at vi ikke kan velge tids- og lengdesteg som vi vil og fremdeles få et konvergerende resultat.
 \textsc{\large Husk å skrive alt du gjør i oppgaven!}
-
 \end{flushleft}
-
 \end{document}
+% \textsc{ALGORITMER ER VIKTIGE}
+% \textbf{Oppgave 1} Egenverdier, ``similaritytransformations'', diskretisering av diff.likn., Jacobis metode/algoritme, Householders algoritme.\\
+% \textbf{Oppgave 2}PDE+linalg, diffusjonslikn., eksplisitt/implisitt, trunkeringsfeil, tridiagonal løser, FLOPS\\
+% \textbf{Oppgave 3} ODE, omskrivning til et sett koblede likn., Eulers algoritme(???), feilestimat, Runge-Kutta, geometrisk tolkning av RK, enhetstesting
+
+% \subsection{Eksamen 2013}
+% \textbf{Oppgave 1} ODE, andreordens til to førsteordens koblede likn., Eulers algoritme, Runge-Kutta med feilestimat, geometrisk tolkning av RK.\\
+% \textbf{Oppgave 2} PDE, diffusjon, diskretiser, eksplisitt/implisitt, trunkeringsfeil, tridiagonal løser, FLOPS \\
+% \textbf{Oppgave 3} Numerisk integrasjon, Gaussisk kvadratur, Legendre-polynomer, Laguerre-pol., MC-metoder, brute force og importance sampling.
+
+% \subsection{Eksamen 2012}
+% \textbf{Oppgave 1} Linalg, Gaussisk eliminasjon, LU dekomp., diskretisering, FLOPS, enhetstesting \\
+% \textbf{Oppgave 2} Metropolisalgoritmen, antakelser for den, enhetstesting,, markovkjeder,
+
+% \subsection{Eksamen 2011}
+% \textbf{Oppgave 1} ODE, omskriving til to koblede, Eulers algoritme, Runge-Kutta, feilestimat \\
+% \textbf{Oppgave 2} Numerisk integrasjon, trapesregelen, newton-cotes, gaussisk kvadratur, legendre-polynom, laguerre-polynom, MC-integrasjon, importance sampling.\\
+% \textbf{Oppgave 3} Linalg., egenverdier, similarity transforms, diskretisering, jacobis metode, 

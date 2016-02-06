@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1450021436 "formelark.tex" "formelark.pdf" "formelark" 1450021438
+["pdflatex"] 1450098397 "formelark.tex" "formelark.pdf" "formelark" 1450098398
   "/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
@@ -50,7 +50,6 @@
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb" 1215737283 140176 d4962f948b4cc0adf4d3dde77a128c95 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb" 1215737283 135942 859a90cad7494a1e79c94baf546d7de5 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb" 1215737283 139826 9213617a7cb78635fc326b859c0b2273 ""
-  "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb" 1215737283 108594 1a08a22405bc37650b977f219cc3597d ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfcc1440.pfb" 1215737283 110032 35e0196b03e20c9bc327f34ecd2026f9 ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb" 1215737283 136101 f533469f523533d38317ab5729d00c8a ""
   "/usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb" 1215737283 131290 ea265c7de37664eae04a6f91a1f7a51f ""
@@ -184,12 +183,12 @@
   "/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1401025944 1445653 26a0aacf3d70032b1ec192e8c7792117 ""
   "/usr/local/texlive/2014/texmf-var/web2c/pdftex/pdflatex.fmt" 1412952666 3832013 d006c1852b00759000a3f4bd7b0e7611 ""
   "/usr/local/texlive/2014/texmf.cnf" 1401025936 577 a59edbde8d3a8c549d0eeaab1739e2ff ""
-  "formelark.aux" 1450021437 1724 a1b6eb9c30cdbba7d3cd2849db05f8b4 ""
-  "formelark.tex" 1450021436 23974 292ca1c636ecf626c4c4aebc85731823 ""
-  "formelark.toc" 1450021437 668 15c1d165af566a6fe45886ef1332bfd3 ""
+  "formelark.aux" 1450098398 1406 b33c27f7c63c26fe762c84739d1b744a ""
+  "formelark.tex" 1450098397 26151 288f7d28d8a1db33267f6e819e5a846c ""
+  "formelark.toc" 1450098398 423 f70a36dc4d2ad049da14233331a21e03 ""
   "formelarkJV.sty" 1417541824 1587 3d194ab31686c470501f7b4c6009d97a ""
   (generated)
-  "formelark.toc"
-  "formelark.aux"
-  "formelark.log"
   "formelark.pdf"
+  "formelark.aux"
+  "formelark.toc"
+  "formelark.log"
